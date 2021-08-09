@@ -11,6 +11,7 @@
     "format": "prettier --write .",
     "lint": "yarn api:lint",
     "prepare": "husky install",
+    "test": "yarn api:test",
     "api:test": "yarn workspace api test",
     "api:lint": "eslint --fix --ext .jsx,.js,.tsx,.ts ./api/",
     "api:dev": "yarn workspace api watch && yarn workspace api dev",
