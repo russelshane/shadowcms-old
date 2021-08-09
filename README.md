@@ -1,10 +1,11 @@
 <br />
 <br />
-<a href="https://shadowcms.com"><p align="center">
-<img height=100 src="https://ik.imagekit.io/drs/shadowcms/logo1_UQn8lD-11Pq.svg"/>
-
-</p></a>
 <br />
+<a href="https://shadowcms.com">
+  <p align="center">
+   <img height=100 src="https://ik.imagekit.io/drs/shadowcms/logo1_UQn8lD-11Pq.svg"/>
+  </p>
+</a>
 <br />
 <p align="center">
   <strong>The Exclusive Content Management System for Newsrooms 🚀</strong>
