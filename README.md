@@ -1,7 +1,11 @@
+<br />
+<br />
 <a href="https://shadowcms.com"><p align="center">
 <img height=100 src="https://ik.imagekit.io/drs/shadowcms/logo1_UQn8lD-11Pq.svg"/>
 
 </p></a>
+<br />
+<br />
 <p align="center">
   <strong>The Exclusive Content Management System for Newsrooms 🚀</strong>
 </p>
@@ -10,8 +14,9 @@
 ![Twitter URL](https://img.shields.io/twitter/url?label=Tweet%20%40shadowcms&style=social&url=https%3A%2F%2Fshields.io%2Ftwitter%2Fshadowcms)
 
 </div>
-
+<br />
 <hr />
+<br />
 
 ## About
 
