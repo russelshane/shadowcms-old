@@ -1,7 +1,9 @@
-/*
-  Server Guide/Information GraphQL Resolver
-  ShadowCMS
-*/
+/**
+ * GraphQL resolver for giving guide and information
+ * about the C.M.S.
+ *
+ * @author ShadowCMS
+ */
 
 import { Resolver, Query } from "type-graphql";
 

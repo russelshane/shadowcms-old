@@ -1,8 +1,9 @@
-/*
-  REST API route and function for creating new
-  article (upon pressing on create button)
-  ShadowCMS
-*/
+/**
+ * REST API route and function for creating new
+ * article (upon pressing create button)
+ *
+ * @author ShadowCMS
+ */
 
 import dayjs from "dayjs";
 import { Request, Response } from "express";
@@ -26,5 +27,7 @@ export const CreateNewArticleRoute = async (req: Request, res: Response) => {
   });
 
   /* Return OK to User */
-  return res.status(200).json({ message: `Successfully created new article ${slug}` });
+  return res
+    .status(200)
+    .json({ message: `Successfully created new article ${slug}` });
 };

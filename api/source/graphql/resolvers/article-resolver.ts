@@ -21,7 +21,15 @@ export class ArticleResolver {
   /* Getting a single article by publish_url field */
   @Query(() => Articles)
   getArticleByPublishURL(@Ctx("publish_url") publish_url: string) {
-    const article = Article.find().where({ publish_url: publish_url }).limit(1);
+    const article = Article.findOne({ publish_url: publish_url });
+
+    return article;
+  }
+
+  /* Getting a single article by C.M.S. slug */
+  @Query(() => Articles)
+  getArticleBySlug(@Ctx("slug") slug: string) {
+    const article = Article.findOne({ slug: slug });
 
     return article;
   }
