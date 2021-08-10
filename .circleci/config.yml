@@ -27,7 +27,7 @@ jobs:
           pkg-manager: yarn
       - run:
           name: ESLint, Jest, Supertest, Compile TS Code
-          command: yarn format && yarn lint && yarn test && yarn compile
+          command: yarn format && yarn lint && yarn test && yarn api:build
 
 workflows:
   # Below is the definition of your workflow.
