@@ -10,7 +10,7 @@ orbs:
 
 jobs:
   # Below is the definition of your job to build and test your app, you can rename and customize it as you want.
-  dev-build:
+  staging:
     # These next lines define a Docker executor: https://circleci.com/docs/2.0/executor-types/
     # You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
     # A list of available CircleCI Docker Convenience Images are available here: https://circleci.com/developer/images/image/cimg/node
@@ -26,12 +26,12 @@ jobs:
       - node/install-packages:
           pkg-manager: yarn
       - run:
-          name: eslint + prettier formatting, run build tests
-          command: yarn format && yarn lint && yarn test
+          name: ESLint, Jest, Supertest, Compile TS Code
+          command: yarn format && yarn lint && yarn test && yarn compile
 
 workflows:
   # Below is the definition of your workflow.
   # CircleCI will run this workflow on every commit.
   staging:
     jobs:
-      - dev-build
+      - staging
