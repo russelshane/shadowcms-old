@@ -14,6 +14,7 @@ import { ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-co
 
 /* GraphQL Resolvers */
 import { GuideResolver } from "./graphql/resolvers/guide-resolver";
+import { ArticleResolver } from "./graphql/resolvers/article-resolver";
 
 /* REST API Routes */
 import { GuideRoute } from "./routes/guide-route";
@@ -47,7 +48,7 @@ const launch = async () => {
   const graphql = await new ApolloServer({
     introspection: true,
     schema: await buildSchema({
-      resolvers: [GuideResolver],
+      resolvers: [GuideResolver, ArticleResolver],
       validate: false,
     }),
     plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],

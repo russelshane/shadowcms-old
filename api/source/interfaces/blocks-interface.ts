@@ -3,7 +3,7 @@
   ShadowCMS
 */
 
-interface BlockData {
+export interface BlockData {
   url?: string;
   text?: string;
   level?: number;

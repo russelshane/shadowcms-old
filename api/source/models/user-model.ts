@@ -1,7 +1,9 @@
-/*
-  User Model
-  ShadowCMS
-*/
+/**
+ * User MongoDB model and GraphQL object type,
+ * all fields are nullable.
+ *
+ * @author ShadowCMS
+ */
 
 import { getModelForClass, prop as Property } from "@typegoose/typegoose";
 
