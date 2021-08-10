@@ -5,8 +5,12 @@
  * @author ShadowCMS
  */
 
+import {
+  getModelForClass,
+  modelOptions,
+  prop as Property,
+} from "@typegoose/typegoose";
 import { ObjectType, Field } from "type-graphql";
-import { getModelForClass, modelOptions, prop as Property } from "@typegoose/typegoose";
 import { MultimediaModel as Multimedia, MultimediaModel } from "./multimedia-model";
 import { ArticleMetadata } from "../interfaces/metadata-interface";
 import { ArticleHeader } from "../interfaces/header-interface";
@@ -14,6 +18,8 @@ import { ArticleContents } from "../interfaces/contents-interface";
 import { ArticleHeaderObject } from "../graphql/objects/article-header";
 import { ArticleMetadataObject } from "../graphql/objects/article-metadata";
 import { ArticleContentsObject } from "../graphql/objects/article-contents";
+import { SectionsObject } from "../graphql/objects/sections";
+import { Section } from "../interfaces/section-interface";
 
 @ObjectType()
 @modelOptions({ schemaOptions: { collection: "articles" } })
@@ -45,6 +51,10 @@ export class Articles {
   @Property({ required: false })
   @Field(() => ArticleContentsObject, { nullable: true })
   contents?: ArticleContents;
+
+  @Property({ required: false })
+  @Field(() => SectionsObject, { nullable: true })
+  sections?: Section;
 
   @Property({ required: false })
   @Field(() => String, { nullable: true })
