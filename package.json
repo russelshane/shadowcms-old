@@ -1,8 +1,8 @@
 {
   "name": "shadow",
-  "version": "3.0.4",
+  "version": "3.1.15",
   "private": true,
-  "description": "The Exclusive Content Management System for Newsrooms",
+  "description": "Shadow: The Exclusive Content Management System for Newsrooms",
   "workspaces": [
     "api"
   ],
