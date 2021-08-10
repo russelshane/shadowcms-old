@@ -12,7 +12,6 @@
 </p>
 <div align="center">
 
-[![Build Status](https://travis-ci.com/shadowcms/shadow.svg?branch=staging)](https://travis-ci.com/shadowcms/shadow)
 [![CircleCI](https://circleci.com/gh/shadowcms/shadow/tree/staging.svg?style=shield)](https://circleci.com/gh/shadowcms/shadow/tree/staging)
 ![Twitter URL](https://img.shields.io/twitter/url?label=Tweet%20%40shadowcms&style=social&url=https%3A%2F%2Fshields.io%2Ftwitter%2Fshadowcms)
 
@@ -23,9 +22,10 @@
 
 ## About
 
-Shadow CMS (formerly named Shadow Newsroom System) is a content management system that is
-mainly focused on serving newspapers. The functionality and features of the C.M.S. is
-unique to itself and highly customizable for the specific needs of a newsroom.
+Shadow CMS (formerly named Shadow Newsroom System) is a content management system
+that is mainly focused on serving newspapers. The functionality and features of the
+C.M.S. is unique to itself and highly customizable for the specific needs of a
+newsroom.
 
 ## Features
 
@@ -40,8 +40,8 @@ unique to itself and highly customizable for the specific needs of a newsroom.
 
 ## Contributions
 
-Anyone can contribute code, although we focus on people who are part of the Shadow CMS
-team. You can PR the staging branch. <br /> <br />
+Anyone can contribute code, although we focus on people who are part of the Shadow
+CMS team. You can PR the staging branch. <br /> <br />
 
 <hr />
 <br />
