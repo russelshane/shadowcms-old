@@ -12,15 +12,19 @@
 </p>
 <div align="center">
 
-[![build](https://github.com/shadowcms/shadow/actions/workflows/tests.yml/badge.svg)](https://github.com/shadowcms/shadow/actions/workflows/tests.yml)
-[![CircleCI](https://circleci.com/gh/shadowcms/shadow/tree/staging.svg?style=shield)](https://circleci.com/gh/shadowcms/shadow/tree/staging)
-[![CodeQL](https://github.com/shadowcms/shadow/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/shadowcms/shadow/actions/workflows/codeql-analysis.yml)
+[![build](https://github.com/shadowcms/shadow/actions/workflows/tests.yml/badge.svg)](https://github.com/shadowcms/client/actions/workflows/tests.yml)
+[![CircleCI](https://circleci.com/gh/shadowcms/shadow/tree/staging.svg?style=shield)](https://circleci.com/gh/shadowcms/client/tree/staging)
+[![CodeQL](https://github.com/shadowcms/client/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/shadowcms/shadow/actions/workflows/codeql-analysis.yml)
 ![Twitter URL](https://img.shields.io/twitter/url?label=Tweet%20%40shadowcms&style=social&url=https%3A%2F%2Fshields.io%2Ftwitter%2Fshadowcms)
 
 </div>
 <br />
 <hr />
 <br />
+
+# ShadowCMS Client
+
+This is the reusable client frontend of ShadowCMS.
 
 ## About
 
