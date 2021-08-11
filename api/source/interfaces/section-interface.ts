@@ -10,5 +10,7 @@ export interface Section {
   label?: string;
   slug?: string;
   description?: string;
-  subsections?: SubSection[];
+
+  /* Subsections are not included in section model */
+  subsections?: SubSection;
 }

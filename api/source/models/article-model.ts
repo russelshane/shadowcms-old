@@ -20,6 +20,8 @@ import { ArticleMetadataObject } from "../graphql/objects/article-metadata";
 import { ArticleContentsObject } from "../graphql/objects/article-contents";
 import { SectionsObject } from "../graphql/objects/sections";
 import { Section } from "../interfaces/section-interface";
+import { TopicsObject } from "../graphql/objects/topics";
+import { Topic } from "../interfaces/topic-interface";
 
 @ObjectType()
 @modelOptions({ schemaOptions: { collection: "articles" } })
@@ -55,6 +57,10 @@ export class Articles {
   @Property({ required: false })
   @Field(() => SectionsObject, { nullable: true })
   sections?: Section;
+
+  @Property({ required: false })
+  @Field(() => TopicsObject, { nullable: true })
+  topics?: Topic;
 
   @Property({ required: false })
   @Field(() => String, { nullable: true })

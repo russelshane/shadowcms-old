@@ -25,12 +25,4 @@ export class ArticleResolver {
 
     return article;
   }
-
-  /* Getting a single article by C.M.S. slug */
-  @Query(() => Articles)
-  getArticleBySlug(@Ctx("slug") slug: string) {
-    const article = Article.findOne({ slug: slug });
-
-    return article;
-  }
 }

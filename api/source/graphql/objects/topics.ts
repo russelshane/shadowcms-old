@@ -1,5 +1,5 @@
 /**
- * GraphQL object type for newsroom subsections
+ * GraphQL object type for newsroom topics
  *
  * @author ShadowCMS
  */
@@ -7,7 +7,7 @@
 import { ObjectType, Field } from "type-graphql";
 
 @ObjectType()
-export class SubSectionsObject {
+export class TopicsObject {
   @Field(() => String)
   slug: string;
 
@@ -16,7 +16,4 @@ export class SubSectionsObject {
 
   @Field(() => String)
   description: string;
-
-  @Field(() => String)
-  parent: string;
 }

@@ -11,15 +11,16 @@ import { SubSectionsObject } from "./subsections";
 
 @ObjectType()
 export class SectionsObject {
-  @Field(() => SubSectionsObject, { nullable: true })
-  subsections?: [SubSection];
-
-  @Field(() => String, { nullable: true })
+  @Field(() => String)
   label: string;
 
-  @Field(() => String, { nullable: true })
+  @Field(() => String)
   slug: string;
 
-  @Field(() => String, { nullable: true })
+  @Field(() => String)
   description: string;
+
+  /* Subsections are not included in sections model */
+  @Field(() => SubSectionsObject, { nullable: true })
+  subsections?: SubSection;
 }

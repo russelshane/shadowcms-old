@@ -7,11 +7,21 @@
 
 import dayjs from "dayjs";
 import { Request, Response } from "express";
-import Article from "../../models/article-model";
+import Article, { Articles } from "../../models/article-model";
 
 export const CreateNewArticleRoute = async (req: Request, res: Response) => {
   /* Get body contents of request */
-  const { slug } = req.body;
+  const {
+    slug,
+    metadata,
+    header,
+    multimedia,
+    contents,
+    sections,
+    topics,
+    corrections,
+    notes,
+  }: Articles = req.body;
 
   /* Initialize current date for initial createdAt and updatedAt */
   const date = dayjs().format("YYYY-MM-DDTHH:mm:ss");
@@ -21,9 +31,14 @@ export const CreateNewArticleRoute = async (req: Request, res: Response) => {
     slug: slug,
     created_at: date,
     updated_at: date,
-    metadata: {
-      status: "in-progress",
-    },
+    header,
+    metadata,
+    sections,
+    topics,
+    multimedia,
+    contents,
+    corrections,
+    notes,
   });
 
   /* Return OK to User */
