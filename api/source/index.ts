@@ -31,6 +31,7 @@ import { GetOneNewsroomSectionRoute } from "./routes/sections/getOneSection";
 import { CreateNewTopicRoute } from "./routes/topics/createNewTopic";
 import { UpdateTopicRoute } from "./routes/topics/updateTopic";
 import { GetNewsroomTopicsRoute } from "./routes/topics/getAllTopics";
+import { GetUserMentionsRoute } from "./routes/mentions-route";
 
 const launch = async () => {
   /* Initialize environment configuration and secrets */
@@ -81,6 +82,7 @@ const launch = async () => {
   api.post("/api/v8/subsections/update/", UpdateSubSectionRoute);
   api.post("/api/v8/topics/create/", CreateNewTopicRoute);
   api.post("/api/v8/topics/update/", UpdateTopicRoute);
+  api.get("/api/v8/mentions/", GetUserMentionsRoute);
   api.get("/api/v8/sections/by/slug/:slug/", GetOneNewsroomSectionRoute);
   api.get("/api/v8/topics/", GetNewsroomTopicsRoute);
   api.get("/api/v8/subsections/", GetNewsroomSubSectionsRoute);
