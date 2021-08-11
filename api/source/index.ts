@@ -1,7 +1,8 @@
-/*
-  Main API
-  ShadowCMS
-*/
+/**
+ * Main Rest API with GraphQL Layer
+ *
+ * @author ShadowCMS
+ */
 
 import "reflect-metadata";
 import cors from "cors";
@@ -32,6 +33,9 @@ import { CreateNewTopicRoute } from "./routes/topics/createNewTopic";
 import { UpdateTopicRoute } from "./routes/topics/updateTopic";
 import { GetNewsroomTopicsRoute } from "./routes/topics/getAllTopics";
 import { GetUserMentionsRoute } from "./routes/mentions-route";
+import { ArticlesBySubSectionRoute } from "./routes/articles/articlesBySubSection";
+import { ArticlesByTopicRoute } from "./routes/articles/articlesByTopic";
+import { ArticlesBySectionRoute } from "./routes/articles/articlesBySection";
 
 const launch = async () => {
   /* Initialize environment configuration and secrets */
@@ -89,6 +93,9 @@ const launch = async () => {
   api.get("/api/v8/sections/", GetNewsroomSectionsRoute);
   api.get("/api/v8/articles/by/slug/:slug/", ArticleBySlugRoute);
   api.get("/api/v8/articles/by/publish_url/:url/", ArticleByPublishURL);
+  api.get("/api/v8/articles/by/section/:section/", ArticlesBySectionRoute);
+  api.get("/api/v8/articles/by/topic/:topic/", ArticlesByTopicRoute);
+  api.get("/api/v8/articles/by/subsection/:subsection/", ArticlesBySubSectionRoute);
 
   /* Initialize server */
   api.listen(PORT, () => {

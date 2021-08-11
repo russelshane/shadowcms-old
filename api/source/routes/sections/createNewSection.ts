@@ -7,10 +7,14 @@
 import Section from "../../models/section-model";
 import SubSection from "../../models/subsection-model";
 import { Request, Response } from "express";
+import slugify from "slugify";
 
 export const CreateNewSectionRoute = async (req: Request, res: Response) => {
   /* Get new section data from request body */
-  const { slug, label, description } = req.body;
+  const { label, description } = req.body;
+
+  /* Initialize new slug from label */
+  const slug: string = slugify(label).toLowerCase();
 
   /* Persist new section data to database */
   await Section.create({

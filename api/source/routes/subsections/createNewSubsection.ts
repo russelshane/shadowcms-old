@@ -6,10 +6,14 @@
 
 import SubSection from "../../models/subsection-model";
 import { Request, Response } from "express";
+import slugify from "slugify";
 
 export const CreateNewSubSectionRoute = async (req: Request, res: Response) => {
   /* Get new subsection data from request body */
-  const { slug, label, description, parent } = req.body;
+  const { label, description, parent } = req.body;
+
+  /* Initialize new slug from label */
+  const slug: string = slugify(label).toLowerCase();
 
   /* Persist new subsection data to database */
   await SubSection.create({

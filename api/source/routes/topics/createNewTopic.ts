@@ -6,10 +6,14 @@
 
 import Topic from "../../models/topic-model";
 import { Request, Response } from "express";
+import slugify from "slugify";
 
 export const CreateNewTopicRoute = async (req: Request, res: Response) => {
   /* Get new topic data from request body */
-  const { slug, label, description } = req.body;
+  const { label, description } = req.body;
+
+  /* Initialize new slug from label */
+  const slug: string = slugify(label).toLowerCase();
 
   /* Persist new topic data to database */
   await Topic.create({
