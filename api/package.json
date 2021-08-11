@@ -10,7 +10,7 @@
     "dev": "nodemon dist/index.js",
     "clean": "rm -rf dist/",
     "compile": "tsc",
-    "build": "yarn compile"
+    "build": "tsc"
   },
   "author": "@shadowcms",
   "license": "MIT",
