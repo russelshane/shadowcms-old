@@ -1,4 +1,4 @@
-name: Github | ShadowCMS API Tests
+name: build
 on: [push]
 jobs:
   shadowcms:
