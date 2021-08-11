@@ -29,13 +29,13 @@ export const SaveArticleRoute = async (req: Request, res: Response) => {
     { slug: slug },
     {
       updated_at: date,
-      slug: slug,
-      header: header,
-      metadata: metadata,
-      multimedia: multimedia,
-      contents: contents,
-      corrections: corrections,
-      notes: notes,
+      slug,
+      header,
+      metadata,
+      multimedia,
+      contents,
+      corrections,
+      notes,
     },
   );
 
