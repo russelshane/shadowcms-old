@@ -1,16 +1,11 @@
 language: node_js
-
-# always update to latest node version
 node_js:
   - 14
-
 script:
   - npm run format
 
   - npm run lint
 
   - npm run test
-
-# Disable TravisCI email notifications
 notifications:
   email: false
