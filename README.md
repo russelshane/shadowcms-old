@@ -3,7 +3,7 @@
 <br />
 <a href="https://shadowcms.com">
   <p align="center">
-   <img height=100 src="https://ik.imagekit.io/drs/shadowcms/logo1_UQn8lD-11Pq.svg"/>
+   <img height=140 src="https://ik.imagekit.io/drs/shadowcms/logo-banner_F1OVsXHIm_.svg" />
   </p>
 </a>
 <br />
