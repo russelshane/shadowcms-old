@@ -1,8 +1,8 @@
 {
   "name": "shadow",
-  "version": "2.0.16",
-  "private": "true",
-  "description": "Exclusive Content Management System for Newsrooms",
+  "version": "3.1.16",
+  "private": true,
+  "description": "Shadow: The Exclusive Content Management System for Newsrooms",
   "workspaces": [
     "api"
   ],
@@ -10,8 +10,8 @@
     "staging": "yarn format && yarn lint && yarn test",
     "format": "prettier --write .",
     "lint": "yarn api:lint",
-    "test": "yarn api:test",
     "prepare": "husky install",
+    "test": "yarn api:test",
     "api:test": "yarn workspace api test",
     "api:lint": "eslint --fix --ext .jsx,.js,.tsx,.ts ./api/",
     "api:dev": "yarn workspace api dev",
