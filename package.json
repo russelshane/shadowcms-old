@@ -1,0 +1,54 @@
+{
+  "name": "shadow",
+  "version": "2.0.16",
+  "private": "true",
+  "description": "Exclusive Content Management System for Newsrooms",
+  "workspaces": [
+    "api"
+  ],
+  "scripts": {
+    "staging": "yarn format && yarn lint && yarn test",
+    "format": "prettier --write .",
+    "lint": "yarn api:lint",
+    "test": "yarn api:test",
+    "prepare": "husky install",
+    "api:test": "yarn workspace api test",
+    "api:lint": "eslint --fix --ext .jsx,.js,.tsx,.ts ./api/",
+    "api:dev": "yarn workspace api dev",
+    "api:watch": "yarn workspace api watch",
+    "api:build": "yarn workspace api build"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npx lint-staged"
+    }
+  },
+  "lint-staged": {
+    "api/**/*.{tsx,ts}": "eslint --cache --fix "
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shadowcms/shadow.git"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.29.0",
+    "@typescript-eslint/parser": "^4.29.0",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-flowtype": "^5.9.0",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-prettier": "^3.4.0",
+    "husky": "^7.0.1",
+    "lint-staged": "^11.1.1",
+    "prettier": "^2.3.2"
+  },
+  "keywords": [
+    "shadow",
+    "cms",
+    "newsroom",
+    "journalism",
+    "news"
+  ],
+  "author": "@shadowcms",
+  "license": "MIT"
+}
