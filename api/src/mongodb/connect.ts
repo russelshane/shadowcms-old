@@ -1,20 +1,23 @@
+import dotenv from "dotenv";
 import Logger from "../utilities/logger";
 import mongoose from "mongoose";
-import { MongoDBUrlProduction, MongoDBUrlStaging } from "../constants";
+// import { MongoDBUrlProduction, MongoDBUrlStaging } from "../constants";
 import { MongoDBConnectionOptions } from "./options";
 
 const logger = Logger();
 
 const connectMongodb = async (staging: boolean): Promise<void> => {
+  dotenv.config();
   let urlToConnect = "";
-  let successMessage = "🟢 Connected to Mongo Database successfully!";
+  let successMessage = "Connected to Mongo Database successfully!";
 
   /* Using MongoDB in-memory database in development */
   if (staging) {
-    urlToConnect = MongoDBUrlStaging;
-    successMessage = "Connected to MongoDB staging successfully!";
+    urlToConnect = process.env.MONGODB_STAGING as string;
+    successMessage = "Connected to MongoDB STAGING/TEST successfully!";
   } else {
-    urlToConnect = MongoDBUrlProduction;
+    urlToConnect = process.env.MONGODB_PRODUCTION as string;
+    successMessage = "Connected to MongoDB PRODUCTION successfully!";
   }
 
   /* Connect to MongoDB database */

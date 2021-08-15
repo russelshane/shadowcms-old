@@ -4,7 +4,7 @@
  * @author ShadowCMS
  */
 
-describe("Sample Test", () => {
+describe("True should be true!", () => {
   it("should test that true === true", () => {
     expect(true).toBe(true);
   });
