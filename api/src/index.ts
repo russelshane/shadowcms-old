@@ -5,14 +5,14 @@
 import Logger from "./utilities/logger";
 import cors from "cors";
 import dotenv from "dotenv";
-import express, { Express, urlencoded, json } from "express";
+import connectRedis from "connect-redis";
 import connectMongodb from "./mongodb/connect";
 import connectToRedis from "./redis/connect";
 import session from "express-session";
-import connectRedis from "connect-redis";
+import express, { Express, urlencoded, json } from "express";
+import { REDIS_STORE_NAME, isProduction } from "./constants";
 
 import DefaultRoute from "./routes/defaultRoute";
-import { COOKIE_NAME, isProduction } from "./constants";
 
 /* Replacing console.log with a custom ShadowLogger */
 const logger = Logger();
@@ -40,7 +40,7 @@ const init = async () => {
   /* Initialize server sessions / cookies */
   api.use(
     session({
-      name: COOKIE_NAME,
+      name: REDIS_STORE_NAME,
       store: new RedisStore({
         client: redis,
         disableTouch: true,

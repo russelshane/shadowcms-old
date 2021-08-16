@@ -25,5 +25,8 @@ export const generateDate = () => dayjs().format("YYYY-MM-DDTHH:mm:ss");
 /* Session Cookie Label */
 export const COOKIE_NAME = "qid";
 
+/* Redis Store Name */
+export const REDIS_STORE_NAME = "shadow";
+
 /* Forget/Change Password Prefix */
 export const FORGET_PASSWORD_PREFIX = "forget-password:";
