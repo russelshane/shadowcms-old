@@ -1,5 +1,5 @@
 /**
- * @description Get editorial photos based on custom date and month
+ * @description Get editorial movies/videos based on custom date
  * @author ShadowCMS
  */
 
@@ -10,12 +10,12 @@ import imagekit from "../../imagekit/config";
 
 const logger = Logger();
 
-const GetPhotosByMonthAndYearRoute = async (req: Request, res: Response) => {
+const GetMoviesByMonthAndYearRoute = async (req: Request, res: Response) => {
   const currentYear = req.query.year;
   const currentMonth = req.query.month;
-  const directory = "photograph";
+  const directory = "movies";
 
-  /* Fetch photos */
+  /* Fetch movies */
   imagekit.listFiles(
     {
       skip: 0,
@@ -24,7 +24,7 @@ const GetPhotosByMonthAndYearRoute = async (req: Request, res: Response) => {
     },
     (error, result) => {
       if (error) {
-        logger.error(`Error while fetching images. Details: ${error.message}`);
+        logger.error(`Error while fetching videos. Details: ${error.message}`);
       }
 
       return res.status(httpStatus.OK).json({ result });
@@ -34,4 +34,4 @@ const GetPhotosByMonthAndYearRoute = async (req: Request, res: Response) => {
   return true;
 };
 
-export default GetPhotosByMonthAndYearRoute;
+export default GetMoviesByMonthAndYearRoute;
