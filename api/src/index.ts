@@ -9,6 +9,7 @@ import dotenv from "dotenv";
 import connectRedis from "connect-redis";
 import connectMongodb from "./mongodb/connect";
 import connectToRedis from "./redis/connect";
+import initImageKit from "./imagekit/init";
 import session from "express-session";
 import express, { Express, urlencoded, json } from "express";
 import { REDIS_STORE_NAME, isProduction } from "./constants";
@@ -29,6 +30,7 @@ const init = async () => {
 
   /* Connect to Databases */
   await connectMongodb(true);
+  await initImageKit();
   const redis: any = await connectToRedis(true);
 
   /* Re-initialize new Redis store */
