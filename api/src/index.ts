@@ -18,6 +18,8 @@ import DefaultRoute from "./routes/defaultRoute";
 import CreateNewsArticleRoute from "./controllers/news/createNewsArticle";
 import UpdateNewsArticleRoute from "./controllers/news/updateNewsArticle";
 import GetArticleBySlugRoute from "./controllers/news/newArticleBySlug";
+import GetLatestPhotosRoute from "./controllers/multimedia/getLatestPhotos";
+import GetPhotosByMonthAndYearRoute from "./controllers/multimedia/getPhotosByMonthAndYear";
 
 /* Replacing console.log with a custom ShadowLogger */
 const logger = Logger();
@@ -68,6 +70,8 @@ const init = async () => {
   api.post("/api/v8/articles/new/", CreateNewsArticleRoute);
   api.post("/api/v8/articles/update/", UpdateNewsArticleRoute);
   api.get("/api/v8/articles/:slug/", GetArticleBySlugRoute);
+  api.get("/api/v8/multimedia/photos/latest/", GetLatestPhotosRoute);
+  api.get("/api/v8/multimedia/photos/custom/", GetPhotosByMonthAndYearRoute);
 
   /* Initialize server */
   api.listen(PORT, () => {
