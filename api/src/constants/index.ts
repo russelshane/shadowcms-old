@@ -5,7 +5,7 @@
 
 import dayjs from "dayjs";
 import dotenv from "dotenv";
-import { nanoid } from "nanoid";
+import { customAlphabet, nanoid } from "nanoid";
 
 dotenv.config();
 
@@ -18,6 +18,10 @@ export const MongoDBUrlStaging: string = process.env.MONGODB_STAGING as string;
 
 /* Default ID for ShadowCMS */
 export const generateId = () => nanoid(14);
+
+/* ID (numbers-only) for ShadowCMS */
+const newNano = customAlphabet("09876543210", 14);
+export const generateIdNumber = () => newNano();
 
 /* Date generator for ShadowCMS with specific date format */
 export const generateDate = () => dayjs().format("YYYY-MM-DDTHH:mm:ss");

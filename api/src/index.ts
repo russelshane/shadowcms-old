@@ -1,5 +1,6 @@
 /**
- * @description ShadowCMS
+ * @description Main Server & API
+ * @author ShadowCMS
  */
 
 import Logger from "./utilities/logger";
@@ -13,6 +14,7 @@ import express, { Express, urlencoded, json } from "express";
 import { REDIS_STORE_NAME, isProduction } from "./constants";
 
 import DefaultRoute from "./routes/defaultRoute";
+import CreateNewsArticleRoute from "./controllers/news/createNewsArticle";
 
 /* Replacing console.log with a custom ShadowLogger */
 const logger = Logger();
@@ -59,6 +61,7 @@ const init = async () => {
 
   /* Server request routes (available in API docs) */
   api.get("/", DefaultRoute);
+  api.post("/api/v8/articles/new/", CreateNewsArticleRoute);
 
   /* Initialize server */
   api.listen(PORT, () => {

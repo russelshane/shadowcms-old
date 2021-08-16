@@ -19,6 +19,9 @@ class News {
   updated_at?: string;
 
   @Property({ required: true })
+  slug: string;
+
+  @Property({ required: false })
   doc?: NewsDoc;
 }
 
