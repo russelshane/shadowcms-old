@@ -21,3 +21,9 @@ export const generateId = () => nanoid(14);
 
 /* Date generator for ShadowCMS with specific date format */
 export const generateDate = () => dayjs().format("YYYY-MM-DDTHH:mm:ss");
+
+/* Session Cookie Label */
+export const COOKIE_NAME = "qid";
+
+/* Forget/Change Password Prefix */
+export const FORGET_PASSWORD_PREFIX = "forget-password:";
