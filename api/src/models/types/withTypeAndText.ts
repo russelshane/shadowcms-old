@@ -4,6 +4,6 @@
  */
 
 export type WithTypeAndText = {
-  text?: String;
-  type?: String;
+  text?: string;
+  type?: string;
 };
