@@ -14,6 +14,7 @@ import session from "express-session";
 import express, { Express, urlencoded, json } from "express";
 import { REDIS_STORE_NAME, isProduction } from "./constants";
 
+/* REST Controllers & GraphQL Resolvers */
 import DefaultRoute from "./routes/defaultRoute";
 import CreateNewsArticleRoute from "./controllers/news/createNewsArticle";
 import UpdateNewsArticleRoute from "./controllers/news/updateNewsArticle";
