@@ -9,7 +9,7 @@ type BlockData = {
   html?: string;
   caption?: string;
   captions?: string;
-  level?: any;
+  level?: number;
   link?: string;
   name?: string;
 };

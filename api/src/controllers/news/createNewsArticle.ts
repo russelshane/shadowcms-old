@@ -7,7 +7,7 @@ import Logger from "../../utilities/logger";
 import httpStatus from "http-status";
 import NewsArticle from "../../models/newsModel";
 import { Response } from "express";
-import { generateIdNumber } from "../../constants";
+import { generateIdNumber, generateId } from "../../constants";
 
 const CreateNewsArticleRoute = async (_: any, res: Response) => {
   /* Initialize Document ID */
@@ -17,7 +17,18 @@ const CreateNewsArticleRoute = async (_: any, res: Response) => {
   /* Persist new default article to database */
   try {
     await NewsArticle.create({
+      _id: generateId(),
       slug: slug,
+      doc: {
+        header: {
+          header_type: "basic",
+        },
+        metadata: {
+          is_breaking_news: false,
+          is_exclusive: false,
+          is_live: false,
+        },
+      },
     });
     logger.info(`Created 'news' article ${slug}`);
   } catch (err) {
@@ -28,19 +39,9 @@ const CreateNewsArticleRoute = async (_: any, res: Response) => {
   /* Get new blank article from database */
   const newArticle = await NewsArticle.find({
     slug: slug,
-    doc: {
-      header: {
-        header_type: "basic",
-      },
-      metadata: {
-        is_breaking_news: false,
-        is_exclusive: false,
-        is_live: false,
-      },
-    },
   });
 
-  return res.status(httpStatus.OK).json({ data: { ...newArticle } });
+  return res.status(httpStatus.OK).json(newArticle);
 };
 
 export default CreateNewsArticleRoute;

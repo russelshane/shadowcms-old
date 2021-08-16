@@ -15,6 +15,8 @@ import { REDIS_STORE_NAME, isProduction } from "./constants";
 
 import DefaultRoute from "./routes/defaultRoute";
 import CreateNewsArticleRoute from "./controllers/news/createNewsArticle";
+import UpdateNewsArticleRoute from "./controllers/news/updateNewsArticle";
+import GetArticleBySlugRoute from "./controllers/news/newArticleBySlug";
 
 /* Replacing console.log with a custom ShadowLogger */
 const logger = Logger();
@@ -62,6 +64,8 @@ const init = async () => {
   /* Server request routes (available in API docs) */
   api.get("/", DefaultRoute);
   api.post("/api/v8/articles/new/", CreateNewsArticleRoute);
+  api.post("/api/v8/articles/update/", UpdateNewsArticleRoute);
+  api.get("/api/v8/articles/:slug/", GetArticleBySlugRoute);
 
   /* Initialize server */
   api.listen(PORT, () => {

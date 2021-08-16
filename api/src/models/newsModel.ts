@@ -4,12 +4,18 @@
  */
 
 import { ObjectId } from "mongoose";
-import { generateDate, generateId } from "../constants";
-import { getModelForClass, prop as Property } from "@typegoose/typegoose";
+import { generateDate } from "../constants";
+import {
+  getModelForClass,
+  modelOptions,
+  prop as Property,
+  Severity,
+} from "@typegoose/typegoose";
 import { NewsDoc } from "./types/news/newsDoc";
 
+@modelOptions({ options: { allowMixed: Severity.ALLOW } })
 class News {
-  @Property({ default: generateId() })
+  @Property()
   _id: ObjectId;
 
   @Property({ default: generateDate() })
