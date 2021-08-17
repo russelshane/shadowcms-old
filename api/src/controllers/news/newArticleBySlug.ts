@@ -16,11 +16,11 @@ const GetArticleBySlugRoute = async (req: Request, res: Response) => {
 
   /* Find article based on slug provided */
   try {
-    const article = await NewsArticle.find({
+    const article = await NewsArticle.findOne({
       slug: slug,
     });
 
-    return res.status(httpStatus.OK).json(article);
+    return res.status(httpStatus.OK).json({ data: article });
   } catch (err) {
     logger.error(`Error while getting article. Details: ${err.message}`);
     process.exit(1);
