@@ -74,7 +74,7 @@ const init = async () => {
   api.get("/", DefaultRoute);
   api.post("/api/v8/articles/new/", CreateNewsArticleRoute);
   api.post("/api/v8/articles/news/update/", UpdateNewsArticleRoute);
-  api.get("/api/v8/articles/news/by-slug/:slug/", GetArticleBySlugRoute);
+  api.get("/api/v8/articles/news/by-document-id/:slug/", GetArticleBySlugRoute);
   api.get("/api/v8/articles/news/by-publish-url/:url/", GetArticleByPublishURLRoute);
   api.get("/api/v8/articles/news/get/latest/", GetLatestNewsArticlesRoute);
   api.get("/api/v8/multimedia/photos/latest/", GetLatestPhotosRoute);
