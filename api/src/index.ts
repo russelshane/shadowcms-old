@@ -14,7 +14,7 @@ import session from "express-session";
 import express, { Express, urlencoded, json } from "express";
 import { REDIS_STORE_NAME, isProduction } from "./constants";
 
-/* REST Controllers & GraphQL Resolvers */
+/* REST Controllers */
 import DefaultRoute from "./routes/defaultRoute";
 import CreateNewsArticleRoute from "./controllers/news/createNewsArticle";
 import UpdateNewsArticleRoute from "./controllers/news/updateNewsArticle";
@@ -24,6 +24,7 @@ import GetPhotosByMonthAndYearRoute from "./controllers/multimedia/getPhotosByMo
 import GetLatestMoviesRoute from "./controllers/multimedia/getLatestMovies";
 import GetMoviesByMonthAndYearRoute from "./controllers/multimedia/getMoviesByMonthAndYear";
 import GetLatestNewsArticlesRoute from "./controllers/news/getLatestNews";
+import GetArticleByPublishURLRoute from "./controllers/news/newsArticleByPublishURL";
 
 /* Replacing console.log with a custom ShadowLogger */
 const logger = Logger();
@@ -72,9 +73,10 @@ const init = async () => {
   /* Server request routes (available in API docs) */
   api.get("/", DefaultRoute);
   api.post("/api/v8/articles/new/", CreateNewsArticleRoute);
-  api.post("/api/v8/articles/update/", UpdateNewsArticleRoute);
-  api.get("/api/v8/articles/by-slug/:slug/", GetArticleBySlugRoute);
-  api.get("/api/v8/articles/get/latest/", GetLatestNewsArticlesRoute);
+  api.post("/api/v8/articles/news/update/", UpdateNewsArticleRoute);
+  api.get("/api/v8/articles/news/by-slug/:slug/", GetArticleBySlugRoute);
+  api.get("/api/v8/articles/news/by-publish-url/:url/", GetArticleByPublishURLRoute);
+  api.get("/api/v8/articles/news/get/latest/", GetLatestNewsArticlesRoute);
   api.get("/api/v8/multimedia/photos/latest/", GetLatestPhotosRoute);
   api.get("/api/v8/multimedia/photos/custom/", GetPhotosByMonthAndYearRoute);
   api.get("/api/v8/multimedia/movies/latest/", GetLatestMoviesRoute);
