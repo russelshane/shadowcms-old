@@ -10,10 +10,11 @@ import {
   prop as Property,
   Severity,
 } from "@typegoose/typegoose";
+import { generateId } from "../constants";
 
 @modelOptions({ options: { allowMixed: Severity.ALLOW } })
 class Topic {
-  @Property()
+  @Property({ default: generateId() })
   _id: ObjectId;
 
   @Property({ required: true })

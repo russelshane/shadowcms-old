@@ -25,6 +25,11 @@ import GetLatestMoviesRoute from "./controllers/multimedia/getLatestMovies";
 import GetMoviesByMonthAndYearRoute from "./controllers/multimedia/getMoviesByMonthAndYear";
 import GetLatestNewsArticlesRoute from "./controllers/news/getLatestNews";
 import GetArticleByPublishURLRoute from "./controllers/news/newsArticleByPublishURL";
+import CreateNewSectionRoute from "./controllers/section/addNewSection";
+import CreateNewSubsectionRoute from "./controllers/subsection/addNewSubsection";
+import GetAllSectionsRoute from "./controllers/section/getAllSections";
+import CreateNewTopicRoute from "./controllers/topic/addNewTopic";
+import GetAllTopicsRoute from "./controllers/topic/getAllTopics";
 
 /* Replacing console.log with a custom ShadowLogger */
 const logger = Logger();
@@ -74,7 +79,13 @@ const init = async () => {
   api.get("/", DefaultRoute);
   api.post("/api/v8/articles/new/", CreateNewsArticleRoute);
   api.post("/api/v8/articles/news/update/", UpdateNewsArticleRoute);
+  api.post("/api/v8/sections/new/", CreateNewSectionRoute);
+  api.post("/api/v8/sections/sub/new/", CreateNewSubsectionRoute);
+  api.post("/api/v8/topics/new/", CreateNewTopicRoute);
   api.get("/api/v8/articles/news/by-document-id/:slug/", GetArticleBySlugRoute);
+  api.get("/api/v8/sections/fetch/all", GetAllSectionsRoute);
+  api.get("/api/v8/sections/sub/fetch/all", GetAllSectionsRoute);
+  api.get("/api/v8/topics/fetch/all", GetAllTopicsRoute);
   api.get("/api/v8/articles/news/by-publish-url/:url/", GetArticleByPublishURLRoute);
   api.get("/api/v8/articles/news/get/latest/", GetLatestNewsArticlesRoute);
   api.get("/api/v8/multimedia/photos/latest/", GetLatestPhotosRoute);

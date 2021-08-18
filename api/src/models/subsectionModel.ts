@@ -10,11 +10,11 @@ import {
   Severity,
 } from "@typegoose/typegoose";
 import { ObjectId } from "mongoose";
-import { SectionType } from "./types/section/sectionType";
+import { generateId } from "../constants";
 
 @modelOptions({ options: { allowMixed: Severity.ALLOW } })
 class Subsection {
-  @Property()
+  @Property({ default: generateId() })
   _id: ObjectId;
 
   @Property({ required: true })
@@ -27,7 +27,7 @@ class Subsection {
   description: string;
 
   @Property({ required: false })
-  parent?: SectionType;
+  parent_id?: string;
 }
 
 const SubsectionModel = getModelForClass(Subsection);
