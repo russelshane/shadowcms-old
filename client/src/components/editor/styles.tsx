@@ -8,7 +8,6 @@ import COLORS from "../../styles/globalColors";
 
 export const EditorHolder = styled.div({
   margin: "0 auto",
-  padding: "80px 90px",
   width: "100%",
   maxWidth: "860px",
   minHeight: "100vh",
@@ -127,6 +126,33 @@ export const EditorHolder = styled.div({
     color: "#aaa",
     pointerEvents: "none",
     height: 0,
+  },
+
+  ".collaboration-cursor__caret": {
+    position: "relative",
+    marginLeft: "-1px",
+    marginRight: "-1px",
+    borderLeft: "1px solid #0D0D0D",
+    borderRight: "1px solid #0D0D0D",
+    wordBreak: "normal",
+    pointerEvents: "none",
+  },
+
+  /* Render the username above the caret */
+  ".collaboration-cursor__label": {
+    position: "absolute",
+    top: "-1.4em",
+    left: "-1px",
+    fontSize: "15px",
+    fontFamily: "Poppins, sans-serif",
+    fontStyle: "normal",
+    fontWeight: 600,
+    lineHeight: "normal",
+    userSelect: "none",
+    color: "#fff",
+    padding: "0.1rem 0.3rem",
+    borderRadius: "3px 3px 3px 0",
+    whiteSpace: "nowrap",
   },
 
   ".bubble-menu": {
@@ -296,16 +322,21 @@ export const EditorSummaryTextarea = styled.textarea`
   }
 `;
 
-// export const EditorTimestamp = styled.span`
-//   margin: 30px 0 0 0;
-//   font-size: 14px;
-//   font-family: Khula, sans-serif;
-//   color: ${globalColors.gray100};
-//   user-select: none;
-//   cursor: default;
-//   display: block;
+export const EditorHeader = styled.div({
+  margin: 0,
+  display: "flex",
+  flexDirection: "column",
+  borderBottom: `1px solid ${COLORS.borders}`,
+  padding: "60px 90px",
+});
 
-//   &.feature {
-//     text-align: center;
-//   }
-// `;
+export const EditorTimestamp = styled.div({
+  margin: "30px 0 0 0",
+  fontSize: "13px",
+  fontWeight: 500,
+  fontFamily: "Poppins, sans-serif",
+  color: COLORS.subtext,
+  userSelect: "none",
+  cursor: "default",
+  display: "block",
+});

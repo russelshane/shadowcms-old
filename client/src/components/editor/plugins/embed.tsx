@@ -78,7 +78,7 @@ export default function EmbedBlock(props) {
       });
   }
 
-  function handleClick(e) {
+  function handleClick() {
     //if(!this.props.blockProps.getEditor().props.read_only){
     //  e.preventDefault()
     //}

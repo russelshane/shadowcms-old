@@ -23,37 +23,44 @@ import Placeholder from "@tiptap/extension-placeholder";
 import Document from "@tiptap/extension-document";
 import Paragraph from "@tiptap/extension-paragraph";
 import Image from "@tiptap/extension-image";
-import Iframe from "./plugins/iframe";
 import Text from "@tiptap/extension-text";
-import Mention from "@tiptap/extension-mention";
-import HorizontalRule from "@tiptap/extension-horizontal-rule";
+// import MentionConfig from "./config/MentionConfiguration";
+// import Mention from "@tiptap/extension-mention";
+import HorizontalRule from "./plugins/hr";
 import Blockquote from "@tiptap/extension-blockquote";
-import MentionConfig from "./plugins/MentionConfiguration";
 import CodeBlock from "@tiptap/extension-code-block";
 import Link from "@tiptap/extension-link";
+import loadIframelyEmbedJs from "../../toolkit/editor/loadIframely";
+import Iframely from "./plugins/iframely";
+import PlaceholderConfig from "./config/PlaceholderConfig";
+import { useEditor, EditorContent, BubbleMenu, FloatingMenu } from "@tiptap/react";
 import {
   EditorAdd,
+  EditorHeader,
   EditorHeadlineHolder,
   EditorHolder,
   EditorMenu,
   EditorSummaryHolder,
+  EditorTimestamp,
 } from "./styles";
-import { useEditor, EditorContent, BubbleMenu, FloatingMenu } from "@tiptap/react";
-import loadIframelyEmbedJs from "../../toolkit/editor/loadIframely";
-import EmbedBlock from "./plugins/embed";
+import dayjs from "dayjs";
+import * as Y from "yjs";
+import { WebrtcProvider } from "y-webrtc";
+import CollaborationCursor from "@tiptap/extension-collaboration-cursor";
+import Collaboration from "@tiptap/extension-collaboration";
+import randomColor from "randomcolor";
+import random from "random-name";
 
 const Editor: React.FC = () => {
   /* Interactive state */
   const [editorMenuActive, setEditorMenuActive] = useState(false);
 
   /* Initialize new editor instance */
+  const ydoc = new Y.Doc();
+  const provider = new WebrtcProvider("shadow-compose-staging", ydoc);
   const editor = useEditor({
     extensions: [
-      StarterKit.configure({
-        heading: {
-          levels: [1, 2],
-        },
-      }),
+      StarterKit,
       Document,
       Paragraph,
       Text,
@@ -62,28 +69,19 @@ const Editor: React.FC = () => {
       Blockquote,
       CodeBlock,
       Link,
-      EmbedBlock as any,
-      Placeholder.configure({
-        showOnlyCurrent: false,
-        placeholder: ({ node }) => {
-          const headingPlaceholders = {
-            1: "Enter a heading...",
-            2: "Enter a subheading...",
-          };
-
-          if (node.type.name === "heading") {
-            return headingPlaceholders[node.attrs.level];
-          }
-
-          if (node.type.name === "codeBlock") {
-            return "Enter HTML Code...";
-          }
-
-          return "Write content here...";
+      Iframely,
+      Placeholder.configure(PlaceholderConfig),
+      // Mention.configure(MentionConfig),
+      Collaboration.configure({
+        document: ydoc,
+      }),
+      CollaborationCursor.configure({
+        provider: provider,
+        user: {
+          name: `${random.first()} ${random.last()}`,
+          color: `${randomColor()}`,
         },
       }),
-      Iframe,
-      Mention.configure(MentionConfig),
     ],
     content: `
     <p></p>
@@ -100,16 +98,6 @@ const Editor: React.FC = () => {
     }
   };
 
-  /* Function to Add a YouTube Video from youtube/embed/123 */
-  const addIframe = () => {
-    const url = window.prompt("URL");
-    setEditorMenuActive(false);
-
-    if (url) {
-      editor?.chain().focus().setIframe({ src: url }).run();
-    }
-  };
-
   /* Function to Add Links */
   const setLink = () => {
     const url = window.prompt("URL");
@@ -122,19 +110,34 @@ const Editor: React.FC = () => {
       .run();
   };
 
+  const setEmbed = () => {
+    const url = window.prompt("URL");
+
+    editor
+      ?.chain()
+      .focus()
+      .setIframely({ href: url as string })
+      .run();
+
+    setEditorMenuActive(false);
+  };
+
+  /* Load Embedded Contents */
   useEffect(() => {
     loadIframelyEmbedJs();
   });
 
   const parsed = editor?.getHTML();
-
   console.log(parsed);
 
   /* Return */
   return (
     <EditorHolder>
-      <EditorHeadlineHolder contentEditable={true} placeholder="Enter a headline..." />
-      <EditorSummaryHolder contentEditable={true} placeholder="Enter a summary..." />
+      <EditorHeader>
+        <EditorHeadlineHolder contentEditable={true} placeholder="Enter a headline..." />
+        <EditorSummaryHolder contentEditable={true} placeholder="Enter a summary..." />
+        <EditorTimestamp>{dayjs().format("dddd, MMM D, YYYY")}</EditorTimestamp>
+      </EditorHeader>
 
       {/* PROSEMIRROR */}
       <br />
@@ -230,15 +233,16 @@ const Editor: React.FC = () => {
               <MediaIcon />
               Image
             </button>
-            <button onClick={addIframe}>
+            <button onClick={setEmbed}>
               <SocialMediaIcon />
               Embeds
             </button>
             <button
               className={editor.isActive("codeBlock") ? "is-active" : ""}
-              onClick={() => {
+              onClick={async () => {
                 editor.chain().focus().toggleCodeBlock().run();
                 setEditorMenuActive(false);
+                await editor?.chain().insertContent(`<p></p>`).run();
               }}
             >
               <CodeIcon />
@@ -252,8 +256,9 @@ const Editor: React.FC = () => {
       )}
 
       <EditorContent
+        style={{ padding: "60px 90px" }}
         editor={editor}
-        spellCheck={false}
+        spellCheck
         autoCorrect="false"
         autoComplete="true"
       />

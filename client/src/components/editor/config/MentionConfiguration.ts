@@ -1,4 +1,4 @@
-import { MentionList } from "./MentionList";
+import { MentionList } from "../plugins/mentions";
 import { ReactRenderer } from "@tiptap/react";
 import tippy from "tippy.js";
 
