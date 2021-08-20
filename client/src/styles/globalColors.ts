@@ -8,6 +8,7 @@ const COLORS = {
   foreground: "rgb(60,60,62)",
   subtext: "#8f95b2",
   borders: "#DBDBDB",
+  primary: "#5C85FF",
   danger: "#D14343",
   warning: "##FFB020",
   success: "#429777",

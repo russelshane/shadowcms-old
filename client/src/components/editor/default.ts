@@ -5,6 +5,7 @@
 
 const defaultState = [
   {
+    type: "paragraph",
     children: [
       {
         text: "",

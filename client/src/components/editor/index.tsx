@@ -2,108 +2,261 @@
  * @description Main document/article editor
  * @author ShadowCMS
  */
-
-import { createEditor, Descendant } from "slate";
-import { withHistory } from "slate-history";
-import { PlusIcon } from "evergreen-ui";
-import { EditorAdd, EditorHolder, EditorMenu } from "./styles";
-import { Editable, ReactEditor, Slate, withReact } from "slate-react";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import checkRegEx from "../../toolkit/editor/checkRegex";
+import {
+  BacklinkIcon,
+  BoldIcon,
+  CodeIcon,
+  DragHandleHorizontalIcon,
+  HeaderOneIcon,
+  HeaderTwoIcon,
+  ItalicIcon,
+  LinkIcon,
+  ListIcon,
+  MediaIcon,
+  PlusIcon,
+  SocialMediaIcon,
+  StrikethroughIcon,
+} from "evergreen-ui";
+import React, { useEffect, useState } from "react";
+import StarterKit from "@tiptap/starter-kit";
+import Placeholder from "@tiptap/extension-placeholder";
+import Document from "@tiptap/extension-document";
+import Paragraph from "@tiptap/extension-paragraph";
+import Image from "@tiptap/extension-image";
+import Iframe from "./plugins/iframe";
+import Text from "@tiptap/extension-text";
+import Mention from "@tiptap/extension-mention";
+import HorizontalRule from "@tiptap/extension-horizontal-rule";
+import Blockquote from "@tiptap/extension-blockquote";
+import MentionConfig from "./plugins/MentionConfiguration";
+import CodeBlock from "@tiptap/extension-code-block";
+import Link from "@tiptap/extension-link";
+import {
+  EditorAdd,
+  EditorHeadlineHolder,
+  EditorHolder,
+  EditorMenu,
+  EditorSummaryHolder,
+} from "./styles";
+import { useEditor, EditorContent, BubbleMenu, FloatingMenu } from "@tiptap/react";
 import loadIframelyEmbedJs from "../../toolkit/editor/loadIframely";
-import defaultState from "./default";
+import EmbedBlock from "./plugins/embed";
 
 const Editor: React.FC = () => {
-  /* Interactive State */
-  const [addButtonActive, setAddButtonActive] = useState(false);
+  /* Interactive state */
   const [editorMenuActive, setEditorMenuActive] = useState(false);
 
-  /* Initialize New Editor Component Instance */
-  const editor = useMemo(() => {
-    const _editor = withHistory(withReact(createEditor() as ReactEditor));
-    _editor.isVoid = (el: any) => el.type === "youtube";
-    return _editor;
-  }, []);
+  /* Initialize new editor instance */
+  const editor = useEditor({
+    extensions: [
+      StarterKit.configure({
+        heading: {
+          levels: [1, 2],
+        },
+      }),
+      Document,
+      Paragraph,
+      Text,
+      Image,
+      HorizontalRule,
+      Blockquote,
+      CodeBlock,
+      Link,
+      EmbedBlock as any,
+      Placeholder.configure({
+        showOnlyCurrent: false,
+        placeholder: ({ node }) => {
+          const headingPlaceholders = {
+            1: "Enter a heading...",
+            2: "Enter a subheading...",
+          };
 
-  /* Default Editor Content */
-  const [body, setBody] = useState<Descendant[]>(defaultState);
+          if (node.type.name === "heading") {
+            return headingPlaceholders[node.attrs.level];
+          }
 
-  /* Load Handler for Embedded Elements (Iframely) */
+          if (node.type.name === "codeBlock") {
+            return "Enter HTML Code...";
+          }
+
+          return "Write content here...";
+        },
+      }),
+      Iframe,
+      Mention.configure(MentionConfig),
+    ],
+    content: `
+    <p></p>
+    `,
+  });
+
+  /* Function to Add Image from a URL */
+  const addImage = () => {
+    const url = window.prompt("URL");
+    setEditorMenuActive(false);
+
+    if (url) {
+      editor?.chain().focus().setImage({ src: url }).run();
+    }
+  };
+
+  /* Function to Add a YouTube Video from youtube/embed/123 */
+  const addIframe = () => {
+    const url = window.prompt("URL");
+    setEditorMenuActive(false);
+
+    if (url) {
+      editor?.chain().focus().setIframe({ src: url }).run();
+    }
+  };
+
+  /* Function to Add Links */
+  const setLink = () => {
+    const url = window.prompt("URL");
+
+    editor
+      ?.chain()
+      .focus()
+      .extendMarkRange("link")
+      .setLink({ href: url as string })
+      .run();
+  };
+
   useEffect(() => {
     loadIframelyEmbedJs();
   });
 
-  const renderElement = useCallback(({ attributes, children, element }) => {
-    switch (element.type) {
-      case "link":
-        return (
-          <a {...attributes} href={element.url} rel="noreferrer" target="_blank">
-            {children}
-          </a>
-        );
-      case "embed":
-        return (
-          <div className="iframely-embed" {...attributes} contentEditable={false}>
-            <div className="iframely-responsive">
-              <a data-iframely-url href={element.uri}></a>
-              {children}
-            </div>
-          </div>
-        );
-      default:
-        return (
-          <p className="css-123" {...attributes}>
-            {children}
-          </p>
-        );
-    }
-  }, []);
+  const parsed = editor?.getHTML();
+
+  console.log(parsed);
 
   /* Return */
   return (
     <EditorHolder>
-      <Slate editor={editor} onChange={setBody} value={body}>
-        <Editable
-          spellCheck={true}
-          autoFocus={false}
-          placeholder={
-            [
-              <span style={{ color: "#222", opacity: 1 }}>
-                Begin writing here.
-                <br />
-                <br />
-                Some of the features of this editor may not work if you are using
-                privacy-focused extensions such as uBlock Origin, Privacy Badger,
-                clearURLs, etc.
-              </span>,
-            ] as unknown as string
-          }
-          className="editable"
-          renderElement={renderElement}
-          onClick={() => setAddButtonActive(true)}
-          onKeyDown={() => {
-            setAddButtonActive(false);
-            setEditorMenuActive(false);
-          }}
-          onKeyPress={(e) => {
-            setEditorMenuActive(false);
-            if (e.key === "Enter") {
-              setAddButtonActive(true);
-            }
-          }}
-          onPaste={(e) => {
-            checkRegEx(e, editor) as any;
-            ReactEditor.focus(editor);
-          }}
-        />
-        <EditorAdd
-          className={`${addButtonActive && "show"}`}
-          onClick={() => setEditorMenuActive(!editorMenuActive)}
+      <EditorHeadlineHolder contentEditable={true} placeholder="Enter a headline..." />
+      <EditorSummaryHolder contentEditable={true} placeholder="Enter a summary..." />
+
+      {/* PROSEMIRROR */}
+      <br />
+      {editor && (
+        <BubbleMenu
+          shouldShow={null}
+          pluginKey="bubbleMenuOne"
+          className="bubble-menu"
+          tippyOptions={{ duration: 100 }}
+          editor={editor}
         >
-          <EditorMenu className={`${editorMenuActive && "show"}`}>jaksdjkasdj</EditorMenu>
-          <PlusIcon className="icon" />
-        </EditorAdd>
-      </Slate>
+          <button
+            onClick={() => editor.chain().focus().toggleBold().run()}
+            className={editor.isActive("bold") ? "is-active" : ""}
+          >
+            <BoldIcon />
+          </button>
+          <button
+            onClick={() => editor.chain().focus().toggleItalic().run()}
+            className={editor.isActive("italic") ? "is-active" : ""}
+          >
+            <ItalicIcon />
+          </button>
+          <button
+            onClick={() => editor.chain().focus().toggleStrike().run()}
+            className={editor.isActive("strike") ? "is-active" : ""}
+          >
+            <StrikethroughIcon />
+          </button>
+          <button
+            onClick={setLink}
+            className={editor.isActive("link") ? "is-active" : ""}
+          >
+            <LinkIcon />
+          </button>
+          <button onClick={() => editor.chain().focus().unsetLink().run()}>
+            <BacklinkIcon />
+          </button>
+        </BubbleMenu>
+      )}
+
+      {editor && (
+        <FloatingMenu
+          className="floating-menu"
+          pluginKey="floatingMenuOne"
+          shouldShow={null}
+          tippyOptions={{ duration: 100 }}
+          editor={editor}
+        >
+          <EditorMenu className={`${editorMenuActive && "show"}`}>
+            <button
+              onClick={() => {
+                editor.chain().focus().toggleHeading({ level: 1 }).run();
+                setEditorMenuActive(false);
+              }}
+              className={editor.isActive("heading", { level: 1 }) ? "is-active" : ""}
+            >
+              <HeaderOneIcon />
+              Heading
+            </button>
+            <button
+              onClick={() => {
+                editor.chain().focus().toggleHeading({ level: 2 }).run();
+
+                setEditorMenuActive(false);
+              }}
+              className={editor.isActive("heading", { level: 2 }) ? "is-active" : ""}
+            >
+              <HeaderTwoIcon />
+              Subheading
+            </button>
+            <button
+              onClick={() => {
+                editor.chain().focus().toggleBulletList().run();
+
+                setEditorMenuActive(false);
+              }}
+              className={editor.isActive("bulletList") ? "is-active" : ""}
+            >
+              <ListIcon />
+              Bullet List
+            </button>
+            <button
+              onClick={() => {
+                editor.chain().focus().setHorizontalRule().run();
+                setEditorMenuActive(false);
+              }}
+            >
+              <DragHandleHorizontalIcon />
+              Seperator
+            </button>
+            <button onClick={addImage} className="add-image-btn">
+              <MediaIcon />
+              Image
+            </button>
+            <button onClick={addIframe}>
+              <SocialMediaIcon />
+              Embeds
+            </button>
+            <button
+              className={editor.isActive("codeBlock") ? "is-active" : ""}
+              onClick={() => {
+                editor.chain().focus().toggleCodeBlock().run();
+                setEditorMenuActive(false);
+              }}
+            >
+              <CodeIcon />
+              HTML Code
+            </button>
+          </EditorMenu>
+          <EditorAdd onClick={() => setEditorMenuActive(!editorMenuActive)}>
+            <PlusIcon size={20} />
+          </EditorAdd>
+        </FloatingMenu>
+      )}
+
+      <EditorContent
+        editor={editor}
+        spellCheck={false}
+        autoCorrect="false"
+        autoComplete="true"
+      />
     </EditorHolder>
   );
 };
