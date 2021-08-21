@@ -58,7 +58,7 @@ const Editor: React.FC<EditorProps> = ({ id }) => {
 
   /* Initialize new editor instance */
   const document = new Y.Doc();
-  const provider = new WebsocketProvider("wss://demos.yjs.dev", `${id}`, document);
+  const provider = new WebsocketProvider("ws://localhost:1234", `${id}`, document);
 
   const editor = useEditor(
     {
