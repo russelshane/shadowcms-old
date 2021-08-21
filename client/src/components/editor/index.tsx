@@ -17,6 +17,9 @@ import {
   SocialMediaIcon,
   StrikethroughIcon,
 } from "evergreen-ui";
+// import * as awarenessProtocol from "y-protocols/awareness.js";
+import * as Y from "yjs";
+import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
 import StarterKit from "@tiptap/starter-kit";
 import Placeholder from "@tiptap/extension-placeholder";
@@ -24,8 +27,8 @@ import Document from "@tiptap/extension-document";
 import Paragraph from "@tiptap/extension-paragraph";
 import Image from "@tiptap/extension-image";
 import Text from "@tiptap/extension-text";
-// import MentionConfig from "./config/MentionConfiguration";
-// import Mention from "@tiptap/extension-mention";
+import MentionConfig from "./config/MentionConfiguration";
+import Mention from "@tiptap/extension-mention";
 import HorizontalRule from "./plugins/hr";
 import Blockquote from "@tiptap/extension-blockquote";
 import CodeBlock from "@tiptap/extension-code-block";
@@ -33,60 +36,62 @@ import Link from "@tiptap/extension-link";
 import loadIframelyEmbedJs from "../../toolkit/editor/loadIframely";
 import Iframely from "./plugins/iframely";
 import PlaceholderConfig from "./config/PlaceholderConfig";
-import { useEditor, EditorContent, BubbleMenu, FloatingMenu } from "@tiptap/react";
-import {
-  EditorAdd,
-  EditorHeader,
-  EditorHeadlineHolder,
-  EditorHolder,
-  EditorMenu,
-  EditorSummaryHolder,
-  EditorTimestamp,
-} from "./styles";
-import dayjs from "dayjs";
-import * as Y from "yjs";
-import { WebrtcProvider } from "y-webrtc";
 import CollaborationCursor from "@tiptap/extension-collaboration-cursor";
 import Collaboration from "@tiptap/extension-collaboration";
 import randomColor from "randomcolor";
 import random from "random-name";
+import { useEditor, BubbleMenu, FloatingMenu, EditorContent } from "@tiptap/react";
+import {
+  EditorHeader,
+  EditorHeadlineHolder,
+  EditorHolder,
+  EditorSummaryHolder,
+  EditorTimestamp,
+} from "./styles/canvas";
+import { EditorProps } from "./types";
+import { EditorAdd, EditorMenu } from "./styles/interactive";
+import { WebsocketProvider } from "y-websocket";
 
-const Editor: React.FC = () => {
+const Editor: React.FC<EditorProps> = ({ id }) => {
   /* Interactive state */
   const [editorMenuActive, setEditorMenuActive] = useState(false);
 
   /* Initialize new editor instance */
-  const ydoc = new Y.Doc();
-  const provider = new WebrtcProvider("shadow-compose-staging", ydoc);
-  const editor = useEditor({
-    extensions: [
-      StarterKit,
-      Document,
-      Paragraph,
-      Text,
-      Image,
-      HorizontalRule,
-      Blockquote,
-      CodeBlock,
-      Link,
-      Iframely,
-      Placeholder.configure(PlaceholderConfig),
-      // Mention.configure(MentionConfig),
-      Collaboration.configure({
-        document: ydoc,
-      }),
-      CollaborationCursor.configure({
-        provider: provider,
-        user: {
-          name: `${random.first()} ${random.last()}`,
-          color: `${randomColor()}`,
-        },
-      }),
-    ],
-    content: `
-    <p></p>
-    `,
-  });
+  const document = new Y.Doc();
+  const provider = new WebsocketProvider("wss://demos.yjs.dev", `${id}`, document);
+
+  const editor = useEditor(
+    {
+      extensions: [
+        StarterKit.configure({
+          history: false,
+        }),
+        Document,
+        Paragraph,
+        Text,
+        Image,
+        HorizontalRule,
+        Blockquote,
+        CodeBlock,
+        Link,
+        Iframely,
+        Mention.configure(MentionConfig),
+        Placeholder.configure(PlaceholderConfig),
+        // Mention.configure(MentionConfig),
+        Collaboration.configure({
+          document: document,
+        }),
+        CollaborationCursor.configure({
+          provider: provider,
+          user: {
+            name: `${random.first()} ${random.last()}`,
+            color: `${randomColor()}`,
+          },
+        }),
+      ],
+    },
+    [],
+  );
 
   /* Function to Add Image from a URL */
   const addImage = () => {
@@ -138,7 +143,6 @@ const Editor: React.FC = () => {
         <EditorSummaryHolder contentEditable={true} placeholder="Enter a summary..." />
         <EditorTimestamp>{dayjs().format("dddd, MMM D, YYYY")}</EditorTimestamp>
       </EditorHeader>
-
       {/* PROSEMIRROR */}
       <br />
       {editor && (
@@ -256,11 +260,11 @@ const Editor: React.FC = () => {
       )}
 
       <EditorContent
-        style={{ padding: "60px 90px" }}
         editor={editor}
         spellCheck
         autoCorrect="false"
         autoComplete="true"
+        style={{ padding: "80px 90px" }}
       />
     </EditorHolder>
   );

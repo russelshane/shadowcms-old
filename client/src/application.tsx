@@ -24,7 +24,7 @@ const Application: React.FC = () => {
           <Route
             exact
             path={ROUTES.LANDING}
-            render={() => <Redirect to={`/doc/${nanoid()}/new/editing`} />}
+            render={() => <Redirect to={`/doc/shadow_${nanoid()}/new/editing`} />}
           />
           <Route exact path={ROUTES.COMPOSE} component={Compose} />
         </Switch>

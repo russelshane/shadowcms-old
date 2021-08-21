@@ -4,7 +4,7 @@
  */
 
 import styled from "styled-components";
-import COLORS from "../../styles/globalColors";
+import COLORS from "../../../styles/globalColors";
 
 export const EditorHolder = styled.div({
   margin: "0 auto",
@@ -129,6 +129,17 @@ export const EditorHolder = styled.div({
     opacity: 0.9,
   },
 
+  ".seperator": {
+    width: "123%",
+    height: "1px",
+    background: COLORS.borders,
+    display: "flex",
+    marginTop: "50px",
+    marginBottom: "50px",
+    marginLeft: "-80px",
+    marginRight: "-80px",
+  },
+
   ".collaboration-cursor__caret": {
     position: "relative",
     marginLeft: "-1px",
@@ -179,59 +190,6 @@ export const EditorHolder = styled.div({
   },
 });
 
-export const EditorAdd = styled.div({
-  width: "40px",
-  height: "40px",
-  marginTop: "-2.5px",
-  marginLeft: "-75px",
-  borderRadius: "40px",
-  border: `1px solid ${COLORS.primary}`,
-  color: COLORS.primary,
-  cursor: "pointer",
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-});
-
-export const EditorMenu = styled.div({
-  width: "200px",
-  boxSizing: "border-box",
-  marginTop: "-2px",
-  marginLeft: "-20px",
-  position: "absolute",
-  background: "#fff",
-  padding: "0px",
-  border: `1.5px solid ${COLORS.borders}`,
-  boxShadow: "0 2px 3px #bbb",
-  fontSize: "14px",
-  display: "none",
-  flexDirection: "column",
-
-  button: {
-    padding: "12px",
-    display: "flex",
-    gridGap: "20px",
-    alignItems: "center",
-    border: "none",
-    background: "transparent",
-    borderBottom: `1px solid ${COLORS.borders}`,
-    color: "#444",
-    cursor: "pointer",
-
-    "&:last-child": {
-      borderBottom: "0px !important",
-    },
-
-    "&:hover": {
-      background: COLORS.background,
-    },
-  },
-
-  "&.show": {
-    display: "grid",
-  },
-});
-
 /* Editor Headline ContentEditable and Textarea (for editing) */
 export const EditorHeadlineHolder = styled.div({
   fontFamily: "Bespoke Serif, sans-serif",
@@ -241,8 +199,8 @@ export const EditorHeadlineHolder = styled.div({
   fontStyle: "italic",
   letterSpacing: "-0.85px",
   transform: "skew(-1deg)",
-  fontSize: "2.25rem",
-  lineHeight: "2.925rem",
+  fontSize: "2.85rem",
+  lineHeight: "3.25rem",
   color: "#222",
   outline: "none",
   cursor: "pointer",
@@ -285,15 +243,12 @@ export const EditorSummaryHolder = styled.div`
   cursor: pointer;
   border: none;
   margin-bottom: 30px;
-
   &[placeholder]:empty:before {
     content: attr(placeholder);
     color: #989898;
   }
-
   &.feature {
     text-align: center;
-
     &[placeholder]:empty:before {
       content: attr(placeholder);
       color: #989898;
@@ -313,12 +268,10 @@ export const EditorSummaryTextarea = styled.textarea`
   resize: none;
   cursor: pointer;
   border: none;
-
   &[placeholder]:empty:before {
     content: attr(placeholder);
     color: #989898;
   }
-
   &.feature {
     text-align: center;
   }
@@ -329,7 +282,7 @@ export const EditorHeader = styled.div({
   display: "flex",
   flexDirection: "column",
   borderBottom: `1px solid ${COLORS.borders}`,
-  padding: "60px 90px",
+  padding: "80px 90px",
 });
 
 export const EditorTimestamp = styled.div({

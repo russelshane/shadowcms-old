@@ -20,17 +20,19 @@ const HorizontalRule = Node.create<HorizontalRuleOptions>({
   name: "horizontalRule",
 
   defaultOptions: {
-    HTMLAttributes: {},
+    HTMLAttributes: {
+      class: "seperator",
+    },
   },
 
   group: "block",
 
   parseHTML() {
-    return [{ tag: "hr" }];
+    return [{ tag: "div" }];
   },
 
   renderHTML({ HTMLAttributes }) {
-    return ["hr", mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)];
+    return ["div", mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)];
   },
 
   addCommands() {
@@ -40,7 +42,7 @@ const HorizontalRule = Node.create<HorizontalRuleOptions>({
         ({ chain }) => {
           return (
             chain()
-              // remove node before hr if it’s an empty text block
+              /* Remove previous node before seperator if it's empty */
               .command(({ tr, dispatch }) => {
                 const { selection } = tr;
                 const { empty, $anchor } = selection;
@@ -60,7 +62,7 @@ const HorizontalRule = Node.create<HorizontalRuleOptions>({
                 return true;
               })
               .insertContent({ type: this.name })
-              // add node after hr if it’s the end of the document
+              /* Add a new node after seperator block */
               .command(({ tr, dispatch }) => {
                 if (dispatch) {
                   const { parent, pos } = tr.selection.$from;

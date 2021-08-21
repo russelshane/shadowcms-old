@@ -6,4 +6,5 @@
 export type EditorProps = {
   doc?: any;
   dispatch?: any;
+  id: string;
 };
