@@ -80,7 +80,10 @@ const Editor: React.FC<EditorProps> = ({ doc, provider }) => {
           provider: provider,
           user: {
             name: `${random.first()} ${random.last()}`,
-            color: `${randomColor()}`,
+            color: `${randomColor({
+              luminosity: "dark",
+              format: "hex",
+            })}`,
           },
         }),
       ],
