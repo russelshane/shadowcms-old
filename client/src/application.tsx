@@ -5,12 +5,15 @@
 
 import React, { lazy, Suspense } from "react";
 import GlobalStyles from "./styles/globalStyles";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom";
 import ROUTES from "./constants/routes";
+import { customAlphabet } from "nanoid";
 
 const Application: React.FC = () => {
   /* Dynamic Components */
-  const Landing = lazy(() => import("./pages/landingPage"));
+  // const Landing = lazy(() => import("./pages/landingPage"));
+  const Compose = lazy(() => import("./pages/composePage"));
+  const nanoid = customAlphabet("0987654321", 12);
 
   /* Return */
   return (
@@ -18,7 +21,12 @@ const Application: React.FC = () => {
       <GlobalStyles />
       <Suspense fallback={<h1>Loading...</h1>}>
         <Switch>
-          <Route exact path={ROUTES.LANDING} component={Landing} />
+          <Route
+            exact
+            path={ROUTES.LANDING}
+            render={() => <Redirect to={`/doc/${nanoid()}/new/editing`} />}
+          />
+          <Route exact path={ROUTES.COMPOSE} component={Compose} />
         </Switch>
       </Suspense>
     </Router>

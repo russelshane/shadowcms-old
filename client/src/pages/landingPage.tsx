@@ -3,19 +3,20 @@
  * @author ShadowCMS
  */
 
+import { customAlphabet } from "nanoid";
 import React from "react";
-import loadable from "@loadable/component";
+import { Link } from "react-router-dom";
 
 const Landing: React.FC = () => {
-  /* Dynamic Components */
-  const Editor = loadable(() => import("../components/editor"));
+  const nanoid = customAlphabet("0987654321", 12);
 
   /* Return */
   return (
     <React.Fragment>
       <h1>landing</h1>
-
-      <Editor />
+      <h2 style={{ cursor: "pointer" }}>
+        <Link to={`/doc/shadow_${nanoid()}/new/editing`}>Go to new document</Link>
+      </h2>
     </React.Fragment>
   );
 };

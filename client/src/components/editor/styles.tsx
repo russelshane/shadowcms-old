@@ -126,6 +126,7 @@ export const EditorHolder = styled.div({
     color: "#aaa",
     pointerEvents: "none",
     height: 0,
+    opacity: 0.9,
   },
 
   ".collaboration-cursor__caret": {
@@ -136,6 +137,7 @@ export const EditorHolder = styled.div({
     borderRight: "1px solid #0D0D0D",
     wordBreak: "normal",
     pointerEvents: "none",
+    opacity: 0.9,
   },
 
   /* Render the username above the caret */
