@@ -4,7 +4,7 @@
  */
 
 export type EditorProps = {
-  doc?: any;
-  dispatch?: any;
+  doc: any;
+  provider: any;
   id: string;
 };

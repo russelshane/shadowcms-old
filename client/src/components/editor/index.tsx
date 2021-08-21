@@ -17,8 +17,6 @@ import {
   SocialMediaIcon,
   StrikethroughIcon,
 } from "evergreen-ui";
-// import * as awarenessProtocol from "y-protocols/awareness.js";
-import * as Y from "yjs";
 import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
 import StarterKit from "@tiptap/starter-kit";
@@ -40,6 +38,7 @@ import CollaborationCursor from "@tiptap/extension-collaboration-cursor";
 import Collaboration from "@tiptap/extension-collaboration";
 import randomColor from "randomcolor";
 import random from "random-name";
+// import { WebrtcProvider } from "y-webrtc";
 import { useEditor, BubbleMenu, FloatingMenu, EditorContent } from "@tiptap/react";
 import {
   EditorHeader,
@@ -50,15 +49,12 @@ import {
 } from "./styles/canvas";
 import { EditorProps } from "./types";
 import { EditorAdd, EditorMenu } from "./styles/interactive";
-import { WebsocketProvider } from "y-websocket";
 
-const Editor: React.FC<EditorProps> = ({ id }) => {
+const Editor: React.FC<EditorProps> = ({ doc, provider }) => {
   /* Interactive state */
   const [editorMenuActive, setEditorMenuActive] = useState(false);
 
   /* Initialize new editor instance */
-  const document = new Y.Doc();
-  const provider = new WebsocketProvider("ws://localhost:1234", `${id}`, document);
 
   const editor = useEditor(
     {
@@ -77,9 +73,8 @@ const Editor: React.FC<EditorProps> = ({ id }) => {
         Iframely,
         Mention.configure(MentionConfig),
         Placeholder.configure(PlaceholderConfig),
-        // Mention.configure(MentionConfig),
         Collaboration.configure({
-          document: document,
+          document: doc,
         }),
         CollaborationCursor.configure({
           provider: provider,
