@@ -3,7 +3,7 @@ import Document from "@tiptap/extension-document";
 import Paragraph from "@tiptap/extension-paragraph";
 import Image from "@tiptap/extension-image";
 import Text from "@tiptap/extension-text";
-import HorizontalRule from "./plugins/hr";
+import HorizontalRule from "./plugins/seperator";
 import Blockquote from "@tiptap/extension-blockquote";
 import CodeBlock from "@tiptap/extension-code-block";
 import Link from "@tiptap/extension-link";
@@ -13,7 +13,7 @@ import Placeholder from "@tiptap/extension-placeholder";
 import MentionConfig from "./config/MentionConfig";
 import PlaceholderConfig from "./config/PlaceholderConfig";
 
-const defaultExtensions = [
+const DefaultExtensions = [
   StarterKit.configure({
     history: false,
     heading: {
@@ -33,4 +33,4 @@ const defaultExtensions = [
   Iframely,
 ];
 
-export default defaultExtensions;
+export default DefaultExtensions;

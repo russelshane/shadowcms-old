@@ -3,7 +3,7 @@
  * @author ShadowCMS
  */
 
-function loadIframelyEmbedJs() {
+function LoadIframelyEmbeds() {
   if (
     document.querySelectorAll("[data-iframely-url]").length === 0 &&
     document.querySelectorAll("iframe[src*='iframe.ly']").length === 0
@@ -24,4 +24,4 @@ function loadIframelyEmbedJs() {
   }
 }
 
-export default loadIframelyEmbedJs;
+export default LoadIframelyEmbeds;

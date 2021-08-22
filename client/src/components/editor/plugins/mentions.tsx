@@ -1,17 +1,22 @@
+/**
+ * @description Mentions plugin (non-production) in-article
+ * @author ShadowCMS
+ */
+
 import React from "react";
 import styled from "styled-components";
 
 export class MentionList extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor(props: any) {
+    super(props as any);
 
     this.state = {
       selectedIndex: 0,
-    };
+    } as any;
   }
 
   componentDidUpdate(oldProps) {
-    if (this.props.items !== oldProps.items) {
+    if ((this.props as any).items !== oldProps.items) {
       this.setState({
         selectedIndex: 0,
       });
@@ -40,35 +45,38 @@ export class MentionList extends React.Component {
   upHandler() {
     this.setState({
       selectedIndex:
-        (this.state.selectedIndex + this.props.items.length - 1) %
-        this.props.items.length,
+        ((this.state as any).selectedIndex + (this.props as any).items.length - 1) %
+        (this.props as any).items.length,
     });
   }
 
   downHandler() {
     this.setState({
-      selectedIndex: (this.state.selectedIndex + 1) % this.props.items.length,
+      selectedIndex:
+        ((this.state as any).selectedIndex + 1) % (this.props as any).items.length,
     });
   }
 
   enterHandler() {
-    this.selectItem(this.state.selectedIndex);
+    this.selectItem((this.state as any).selectedIndex);
   }
 
   selectItem(index) {
-    const item = this.props.items[index];
+    const item = (this.props as any).items[index];
 
     if (item) {
-      this.props.command({ id: item });
+      (this.props as any).command({ id: item });
     }
   }
 
   render() {
     return (
       <MentionItems>
-        {this.props.items.map((item, index) => (
+        {(this.props as any).items.map((item, index) => (
           <button
-            className={`item ${index === this.state.selectedIndex ? "is-selected" : ""}`}
+            className={`item ${
+              index === (this.state as any).selectedIndex ? "is-selected" : ""
+            }`}
             key={index}
             onClick={() => this.selectItem(index)}
           >

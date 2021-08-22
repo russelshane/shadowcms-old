@@ -1,23 +1,28 @@
+/**
+ * @description Article seperator (<hr />) component. - To be removed -
+ * @author ShadowCMS
+ */
+
 import { Node, nodeInputRule, mergeAttributes } from "@tiptap/core";
 import { TextSelection } from "prosemirror-state";
 
-export interface HorizontalRuleOptions {
+export interface SeperatorOptions {
   HTMLAttributes: Record<string, any>;
 }
 
 declare module "@tiptap/core" {
   interface Commands<ReturnType> {
-    horizontalRule: {
+    seperator: {
       /**
        * Add a horizontal rule
        */
-      setHorizontalRule: () => ReturnType;
+      setSeperator: () => ReturnType;
     };
   }
 }
 
-const HorizontalRule = Node.create<HorizontalRuleOptions>({
-  name: "horizontalRule",
+const Seperator = Node.create<SeperatorOptions>({
+  name: "seperator",
 
   defaultOptions: {
     HTMLAttributes: {
@@ -37,7 +42,7 @@ const HorizontalRule = Node.create<HorizontalRuleOptions>({
 
   addCommands() {
     return {
-      setHorizontalRule:
+      setSeperator:
         () =>
         ({ chain }) => {
           return (
@@ -94,4 +99,4 @@ const HorizontalRule = Node.create<HorizontalRuleOptions>({
   },
 });
 
-export default HorizontalRule;
+export default Seperator;

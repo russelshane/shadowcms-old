@@ -1,5 +1,5 @@
 /**
- * @description Editor Floating Menu
+ * @description Editor Floating Menu (Add "+" button on the side)
  * @author ShadowCMS
  */
 
@@ -12,12 +12,18 @@ import {
   PlusIcon,
   SocialMediaIcon,
 } from "evergreen-ui";
-import { EditorAdd, EditorMenu } from "./styles/interactive";
+import { EditorAdd, EditorMenu } from "../styles/interactive";
 import { FloatingMenu } from "@tiptap/react";
+import { Editor } from "@tiptap/core";
 import React from "react";
 
+/**
+ * TypeScript Properties: editor is the main editor component,
+ * setEditorMenuActive and editorMenuActive are the state of the
+ * component where the add "+" button is clicked.
+ */
 type FloatingProps = {
-  editor?: any;
+  editor?: Editor;
   setEditorMenuActive?: any;
   editorMenuActive?: any;
 };
@@ -27,7 +33,10 @@ const EditorFloatingMenu: React.FC<FloatingProps> = ({
   editorMenuActive,
   setEditorMenuActive,
 }) => {
-  /* Function to Add Image from a URL */
+  /**
+   * Using Google Cloud Storage (through Firebase) to store
+   * newly uploaded images.
+   */
   const addImage = () => {
     const url = window.prompt("URL");
     setEditorMenuActive(false);
@@ -37,6 +46,11 @@ const EditorFloatingMenu: React.FC<FloatingProps> = ({
     }
   };
 
+  /**
+   * Function to embed content in the article
+   * "setIframely" is a prosemirror/tiptap plugin created by
+   * the ShadowCMS team.
+   */
   const setEmbed = () => {
     const url = window.prompt("URL");
 
@@ -84,7 +98,7 @@ const EditorFloatingMenu: React.FC<FloatingProps> = ({
             </button>
             <button
               onClick={() => {
-                editor.chain().focus().setHorizontalRule().run();
+                editor.chain().focus().setSeperator().run();
                 setEditorMenuActive(false);
               }}
             >

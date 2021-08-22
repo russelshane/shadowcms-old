@@ -3,58 +3,68 @@
  * @author ShadowCMS
  */
 
-import dayjs from "dayjs";
-import random from "random-name";
-import randomColor from "randomcolor";
+import React from "react";
+import DayJS from "dayjs";
 import advancedFormat from "dayjs/plugin/advancedFormat";
-import React, { useEffect, useState } from "react";
-import loadIframelyEmbedJs from "../../toolkit/editor/loadIframely";
-import CollaborationCursor from "@tiptap/extension-collaboration-cursor";
+import RandomName from "random-name";
+import RandomColor from "randomcolor";
+import LoadIframelyEmbeds from "../../toolkit/editor/loadIframely";
 import Collaboration from "@tiptap/extension-collaboration";
-import EditorBubbleMenu from "./bubble";
-import EditorFloatingMenu from "./floating";
-import { EditorProps } from "./types";
-import { useEditor, EditorContent } from "@tiptap/react";
-import { EditorOptions, EditorHeader, EditorTimestamp } from "./styles/component";
+import CollaborationCursor from "@tiptap/extension-collaboration-cursor";
+import DefaultExtensions from "./extensions";
+import EditorBubbleMenu from "./internal/bubble";
+import EditorFloatingMenu from "./internal/floating";
+import { useEffect, useState } from "react";
+import { EditorContent, useEditor } from "@tiptap/react";
+import { EditorHeadlineHolder, EditorHolder, EditorSummaryHolder } from "./styles/canvas";
+import { EditorHeader, EditorOptions, EditorTimestamp } from "./styles/component";
 import { EditorProseMirror } from "./styles/prosemirror";
-import { EditorHeadlineHolder, EditorSummaryHolder, EditorHolder } from "./styles/canvas";
-import defaultExtensions from "./extensions";
+import { EditorProps } from "./types";
 
 const Editor: React.FC<EditorProps> = ({ doc, provider }) => {
-  /* Interactive state */
+  /**
+   * Editor interactive components states, includes the Add "+" button,
+   * selector components, modals, etc.
+   */
   const [editorMenuActive, setEditorMenuActive] = useState(false);
-  dayjs.extend(advancedFormat);
+  const newName = `${RandomName.first()} ${RandomName.last()}`;
 
-  /* Initialize new editor instance */
+  /**
+   * Initialize advanced formats plugin for dayjs, "Do"
+   * day type is needed for current editor timestamp
+   */
+  DayJS.extend(advancedFormat);
+
+  /**
+   *  Initialize new prosemirror/tiptap instance with partial collaboration
+   *  features. Default extensions comes from another file, as well as the
+   *  configurations for it.
+   */
   const editor = useEditor(
     {
       extensions: [
-        ...defaultExtensions,
+        ...DefaultExtensions,
         Collaboration.configure({
           document: doc,
         }),
         CollaborationCursor.configure({
           provider: provider,
           user: {
-            name: `${random.first()} ${random.last()}`,
-            color: `${randomColor({
-              luminosity: "dark",
-              format: "hex",
-            })}`,
+            name: newName,
+            color: RandomColor(),
           },
         }),
       ],
-      content: `
-      <headline class="header-basic"></headline> 
-      <p></p>
-      `,
     },
     [],
   );
 
-  /* Load Embedded Contents */
+  /**
+   * Using Iframely/Embedly for handling in-article embedded contents
+   * API key is needed, can't be hidden as of 8/23/2021.
+   */
   useEffect(() => {
-    loadIframelyEmbedJs();
+    LoadIframelyEmbeds();
   });
 
   const parsed = editor?.getJSON();
@@ -65,14 +75,23 @@ const Editor: React.FC<EditorProps> = ({ doc, provider }) => {
     <EditorHolder>
       <EditorOptions></EditorOptions>
 
-      {/* EDITOR HEADER */}
+      {/**
+       * - Editor Header
+       * Where headline and summary nodes are in. Timestamps are also
+       * included here and the article's bylines.
+       */}
       <EditorHeader>
         <EditorHeadlineHolder contentEditable={true} placeholder="Enter a headline..." />
         <EditorSummaryHolder rows={3} placeholder="Write a summary..." />
-        <EditorTimestamp>{dayjs().format("MMMM Do, YYYY")}</EditorTimestamp>
+        <EditorTimestamp>{DayJS().format("MMMM Do, YYYY")}</EditorTimestamp>
       </EditorHeader>
 
-      {/* PROSEMIRROR */}
+      {/**
+       * - Collaborative ProseMirror/TipTap Component
+       * The editor is using WebSockets to synchronize with other newsroom members.
+       * Cursors are also synced, the function is battle-testeed and should be
+       * enough for production, at least, for now.
+       */}
       <EditorProseMirror>
         {editor && (
           <React.Fragment>

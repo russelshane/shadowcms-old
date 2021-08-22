@@ -5,6 +5,7 @@
 
 import React from "react";
 import { BubbleMenu } from "@tiptap/react";
+import { Editor } from "@tiptap/core";
 import {
   BoldIcon,
   ItalicIcon,
@@ -14,11 +15,14 @@ import {
 } from "evergreen-ui";
 
 type BubbleProps = {
-  editor?: any;
+  editor?: Editor;
 };
 
 const EditorBubbleMenu: React.FC<BubbleProps> = ({ editor }) => {
-  /* Function to Add Links */
+  /**
+   * Function to set links to a specific sentence.
+   * using .extendMarkRange from ProseMirror/TipTap
+   */
   const setLink = () => {
     const url = window.prompt("URL");
 

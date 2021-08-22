@@ -1,6 +1,6 @@
-import { MentionList } from "../plugins/mentions";
 import { ReactRenderer } from "@tiptap/react";
 import tippy from "tippy.js";
+import { MentionList } from "../plugins/mentions";
 
 const MentionConfig = {
   HTMLAttributes: {

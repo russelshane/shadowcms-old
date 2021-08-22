@@ -3,8 +3,11 @@
  * @author ShadowCMS
  */
 
+import { WebrtcProvider } from "y-webrtc";
+import { Doc } from "yjs";
+
 export type EditorProps = {
-  doc: any;
-  provider: any;
+  doc: Doc;
+  provider: WebrtcProvider;
   id: string;
 };
