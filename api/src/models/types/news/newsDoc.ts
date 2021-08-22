@@ -3,7 +3,6 @@
  * @author ShadowCMS
  */
 
-import { NewsBody } from "./newsBody";
 import { NewsHeader } from "./newsHeader";
 import { NewsMetadata } from "./newsMetadata";
 import { NewsMultimedia } from "./newsMultimedia";
@@ -27,7 +26,7 @@ export type NewsDoc = {
   multimedia?: NewsMultimedia;
 
   /* Article body/contents */
-  contents?: NewsBody;
+  contents?: string;
 
   /* Article corrections (optional) */
   corrections?: string;
