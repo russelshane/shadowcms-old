@@ -18,7 +18,7 @@ const PlaceholderConfig = {
       return "Begin writing...";
     }
 
-    return "Write content here...";
+    return "Write content...";
   },
 };
 

@@ -2,77 +2,34 @@
  * @description Main document/article editor
  * @author ShadowCMS
  */
-import {
-  BacklinkIcon,
-  BoldIcon,
-  CodeIcon,
-  DragHandleHorizontalIcon,
-  HeaderOneIcon,
-  HeaderTwoIcon,
-  ItalicIcon,
-  LinkIcon,
-  ListIcon,
-  MediaIcon,
-  PlusIcon,
-  SocialMediaIcon,
-  StrikethroughIcon,
-} from "evergreen-ui";
+
 import dayjs from "dayjs";
+import random from "random-name";
+import randomColor from "randomcolor";
+import advancedFormat from "dayjs/plugin/advancedFormat";
 import React, { useEffect, useState } from "react";
-import StarterKit from "@tiptap/starter-kit";
-import Placeholder from "@tiptap/extension-placeholder";
-import Document from "@tiptap/extension-document";
-import Paragraph from "@tiptap/extension-paragraph";
-import Image from "@tiptap/extension-image";
-import Text from "@tiptap/extension-text";
-import MentionConfig from "./config/MentionConfiguration";
-import Mention from "@tiptap/extension-mention";
-import HorizontalRule from "./plugins/hr";
-import Blockquote from "@tiptap/extension-blockquote";
-import CodeBlock from "@tiptap/extension-code-block";
-import Link from "@tiptap/extension-link";
 import loadIframelyEmbedJs from "../../toolkit/editor/loadIframely";
-import Iframely from "./plugins/iframely";
-import PlaceholderConfig from "./config/PlaceholderConfig";
 import CollaborationCursor from "@tiptap/extension-collaboration-cursor";
 import Collaboration from "@tiptap/extension-collaboration";
-import randomColor from "randomcolor";
-import random from "random-name";
-// import { WebrtcProvider } from "y-webrtc";
-import { useEditor, BubbleMenu, FloatingMenu, EditorContent } from "@tiptap/react";
-import {
-  EditorHeader,
-  EditorHeadlineHolder,
-  EditorHolder,
-  EditorSummaryHolder,
-  EditorTimestamp,
-} from "./styles/canvas";
+import EditorBubbleMenu from "./bubble";
+import EditorFloatingMenu from "./floating";
 import { EditorProps } from "./types";
-import { EditorAdd, EditorMenu } from "./styles/interactive";
+import { useEditor, EditorContent } from "@tiptap/react";
+import { EditorOptions, EditorHeader, EditorTimestamp } from "./styles/component";
+import { EditorProseMirror } from "./styles/prosemirror";
+import { EditorHeadlineHolder, EditorSummaryHolder, EditorHolder } from "./styles/canvas";
+import defaultExtensions from "./extensions";
 
 const Editor: React.FC<EditorProps> = ({ doc, provider }) => {
   /* Interactive state */
   const [editorMenuActive, setEditorMenuActive] = useState(false);
+  dayjs.extend(advancedFormat);
 
   /* Initialize new editor instance */
-
   const editor = useEditor(
     {
       extensions: [
-        StarterKit.configure({
-          history: false,
-        }),
-        Document,
-        Paragraph,
-        Text,
-        Image,
-        HorizontalRule,
-        Blockquote,
-        CodeBlock,
-        Link,
-        Iframely,
-        Mention.configure(MentionConfig),
-        Placeholder.configure(PlaceholderConfig),
+        ...defaultExtensions,
         Collaboration.configure({
           document: doc,
         }),
@@ -87,183 +44,53 @@ const Editor: React.FC<EditorProps> = ({ doc, provider }) => {
           },
         }),
       ],
+      content: `
+      <headline class="header-basic"></headline> 
+      <p></p>
+      `,
     },
     [],
   );
-
-  /* Function to Add Image from a URL */
-  const addImage = () => {
-    const url = window.prompt("URL");
-    setEditorMenuActive(false);
-
-    if (url) {
-      editor?.chain().focus().setImage({ src: url }).run();
-    }
-  };
-
-  /* Function to Add Links */
-  const setLink = () => {
-    const url = window.prompt("URL");
-
-    editor
-      ?.chain()
-      .focus()
-      .extendMarkRange("link")
-      .setLink({ href: url as string })
-      .run();
-  };
-
-  const setEmbed = () => {
-    const url = window.prompt("URL");
-
-    editor
-      ?.chain()
-      .focus()
-      .setIframely({ href: url as string })
-      .run();
-
-    setEditorMenuActive(false);
-  };
 
   /* Load Embedded Contents */
   useEffect(() => {
     loadIframelyEmbedJs();
   });
 
-  const parsed = editor?.getHTML();
+  const parsed = editor?.getJSON();
   console.log(parsed);
 
   /* Return */
   return (
     <EditorHolder>
+      <EditorOptions></EditorOptions>
+
+      {/* EDITOR HEADER */}
       <EditorHeader>
         <EditorHeadlineHolder contentEditable={true} placeholder="Enter a headline..." />
-        <EditorSummaryHolder contentEditable={true} placeholder="Enter a summary..." />
-        <EditorTimestamp>{dayjs().format("dddd, MMM D, YYYY")}</EditorTimestamp>
+        <EditorSummaryHolder rows={3} placeholder="Write a summary..." />
+        <EditorTimestamp>{dayjs().format("MMMM Do, YYYY")}</EditorTimestamp>
       </EditorHeader>
+
       {/* PROSEMIRROR */}
-      <br />
-      {editor && (
-        <BubbleMenu
-          shouldShow={null}
-          pluginKey="bubbleMenuOne"
-          className="bubble-menu"
-          tippyOptions={{ duration: 100 }}
-          editor={editor}
-        >
-          <button
-            onClick={() => editor.chain().focus().toggleBold().run()}
-            className={editor.isActive("bold") ? "is-active" : ""}
-          >
-            <BoldIcon />
-          </button>
-          <button
-            onClick={() => editor.chain().focus().toggleItalic().run()}
-            className={editor.isActive("italic") ? "is-active" : ""}
-          >
-            <ItalicIcon />
-          </button>
-          <button
-            onClick={() => editor.chain().focus().toggleStrike().run()}
-            className={editor.isActive("strike") ? "is-active" : ""}
-          >
-            <StrikethroughIcon />
-          </button>
-          <button
-            onClick={setLink}
-            className={editor.isActive("link") ? "is-active" : ""}
-          >
-            <LinkIcon />
-          </button>
-          <button onClick={() => editor.chain().focus().unsetLink().run()}>
-            <BacklinkIcon />
-          </button>
-        </BubbleMenu>
-      )}
-
-      {editor && (
-        <FloatingMenu
-          className="floating-menu"
-          pluginKey="floatingMenuOne"
-          shouldShow={null}
-          tippyOptions={{ duration: 100 }}
-          editor={editor}
-        >
-          <EditorMenu className={`${editorMenuActive && "show"}`}>
-            <button
-              onClick={() => {
-                editor.chain().focus().toggleHeading({ level: 1 }).run();
-                setEditorMenuActive(false);
-              }}
-              className={editor.isActive("heading", { level: 1 }) ? "is-active" : ""}
-            >
-              <HeaderOneIcon />
-              Heading
-            </button>
-            <button
-              onClick={() => {
-                editor.chain().focus().toggleHeading({ level: 2 }).run();
-
-                setEditorMenuActive(false);
-              }}
-              className={editor.isActive("heading", { level: 2 }) ? "is-active" : ""}
-            >
-              <HeaderTwoIcon />
-              Subheading
-            </button>
-            <button
-              onClick={() => {
-                editor.chain().focus().toggleBulletList().run();
-
-                setEditorMenuActive(false);
-              }}
-              className={editor.isActive("bulletList") ? "is-active" : ""}
-            >
-              <ListIcon />
-              Bullet List
-            </button>
-            <button
-              onClick={() => {
-                editor.chain().focus().setHorizontalRule().run();
-                setEditorMenuActive(false);
-              }}
-            >
-              <DragHandleHorizontalIcon />
-              Seperator
-            </button>
-            <button onClick={addImage} className="add-image-btn">
-              <MediaIcon />
-              Image
-            </button>
-            <button onClick={setEmbed}>
-              <SocialMediaIcon />
-              Embeds
-            </button>
-            <button
-              className={editor.isActive("codeBlock") ? "is-active" : ""}
-              onClick={async () => {
-                editor.chain().focus().toggleCodeBlock().run();
-                setEditorMenuActive(false);
-                await editor?.chain().insertContent(`<p></p>`).run();
-              }}
-            >
-              <CodeIcon />
-              HTML Code
-            </button>
-          </EditorMenu>
-          <EditorAdd onClick={() => setEditorMenuActive(!editorMenuActive)}>
-            <PlusIcon size={20} />
-          </EditorAdd>
-        </FloatingMenu>
-      )}
-
-      <EditorContent
-        editor={editor}
-        spellCheck
-        autoCorrect="false"
-        autoComplete="true"
-        style={{ padding: "80px 90px" }}
-      />
+      <EditorProseMirror>
+        {editor && (
+          <React.Fragment>
+            <EditorBubbleMenu editor={editor} />
+            <EditorFloatingMenu
+              editor={editor}
+              editorMenuActive={editorMenuActive}
+              setEditorMenuActive={setEditorMenuActive}
+            />
+            <EditorContent
+              editor={editor}
+              spellCheck
+              autoCorrect="false"
+              autoComplete="true"
+            />
+          </React.Fragment>
+        )}
+      </EditorProseMirror>
     </EditorHolder>
   );
 };

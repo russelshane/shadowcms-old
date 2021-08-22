@@ -3,8 +3,8 @@
  * @author ShadowCMS
  */
 
-import { customAlphabet } from "nanoid";
 import React from "react";
+import { customAlphabet } from "nanoid";
 import { Link } from "react-router-dom";
 
 const Landing: React.FC = () => {
