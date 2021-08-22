@@ -18,7 +18,7 @@
     "@types/node": "^16.6.1",
     "@types/random-name": "^0.1.0",
     "@types/randomcolor": "^0.5.6",
-    "@types/react": "^17.0.18",
+    "@types/react": "^17.0.19",
     "@types/react-dom": "^17.0.9",
     "@types/react-router-dom": "^5.1.8",
     "@types/slate": "^0.47.9",
