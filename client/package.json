@@ -31,7 +31,7 @@
   },
   "dependencies": {
     "@loadable/component": "^5.15.0",
-    "@tiptap/core": "^2.0.0-beta.99",
+    "@tiptap/core": "^2.0.0-beta.100",
     "@tiptap/extension-blockquote": "^2.0.0-beta.15",
     "@tiptap/extension-code-block": "^2.0.0-beta.17",
     "@tiptap/extension-collaboration": "^2.0.0-beta.20",
