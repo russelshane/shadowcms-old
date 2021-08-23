@@ -44,6 +44,10 @@ const Editor: React.FC<EditorProps> = ({ doc, provider }) => {
     {
       extensions: [
         ...DefaultExtensions,
+        /**
+         * Using WebRTC for the article's body to be collaborative.
+         * Work in progress: headline, summary, bylines, labels, etc.
+         */
         Collaboration.configure({
           document: doc,
         }),
@@ -56,19 +60,22 @@ const Editor: React.FC<EditorProps> = ({ doc, provider }) => {
         }),
       ],
     },
-
     [],
   );
 
   /**
-   * Using Iframely/Embedly for handling in-article embedded contents
-   * API key is needed, can't be hidden as of 8/23/2021.
+   * Load initial scripts for handling editor functions such as
+   * embeds, images, interactive components, etc.
    */
   useEffect(() => {
+    /**
+     * Using Iframely/Embedly for handling in-article embedded contents
+     * API key is needed, can't be hidden as of 8/23/2021.
+     */
     LoadIframelyEmbeds();
   });
 
-  const parsed = editor?.getJSON();
+  const parsed = editor?.getHTML();
   console.log(parsed);
 
   return (

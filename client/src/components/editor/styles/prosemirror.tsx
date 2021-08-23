@@ -13,20 +13,20 @@ export const EditorProseMirror = styled.div({
   minHeight: "80vh",
 
   p: {
-    fontFamily: "'Newsreader', Georgia, 'Times New Roman', serif",
-    fontSize: "1.125rem",
-    lineHeight: "1.785rem",
+    fontFamily: "Domine, Georgia, serif !important",
+    fontSize: "1.025rem",
+    lineHeight: "1.815rem",
     color: "#333",
     marginBlockEnd: "1.5em",
   },
 
   a: {
-    fontFamily: "'Newsreader', Georgia, 'Times New Roman', serif",
-    fontSize: "1.125rem",
-    lineHeight: "1.785rem",
+    fontFamily: "Besley, Georgia, serif !important",
+    fontSize: "1.15rem",
+    lineHeight: "1.825rem",
     color: COLORS.primary,
     cursor: "pointer",
-    borderBottom: `1px dotted ${COLORS.primary}`,
+    borderBottom: `1px solid ${COLORS.primary}`,
   },
 
   img: {
@@ -109,7 +109,7 @@ export const EditorProseMirror = styled.div({
     content: "attr(data-placeholder)",
     float: "left",
     fontWeight: 200,
-    fontFamily: "'Newsreader', serif",
+    fontFamily: "'STIX Two Text', serif",
     color: "#aaa",
     pointerEvents: "none",
     height: 0,
@@ -186,9 +186,5 @@ export const EditorProseMirror = styled.div({
         opacity: 1,
       },
     },
-  },
-
-  ".headline": {
-    background: "pink !important",
   },
 });
