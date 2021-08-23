@@ -3,11 +3,11 @@ import Document from "@tiptap/extension-document";
 import Paragraph from "@tiptap/extension-paragraph";
 import Image from "@tiptap/extension-image";
 import Text from "@tiptap/extension-text";
-import HorizontalRule from "./plugins/seperator";
+import Seperator from "./plugins/seperator";
 import Blockquote from "@tiptap/extension-blockquote";
 import CodeBlock from "@tiptap/extension-code-block";
 import Link from "@tiptap/extension-link";
-import Iframely from "./plugins/iframely";
+import Embed from "./plugins/embed";
 import Mention from "@tiptap/extension-mention";
 import Placeholder from "@tiptap/extension-placeholder";
 import MentionConfig from "./config/MentionConfig";
@@ -26,11 +26,11 @@ const DefaultExtensions = [
   Paragraph,
   Text,
   Image,
-  HorizontalRule,
+  Seperator,
   Blockquote,
   CodeBlock,
   Link,
-  Iframely,
+  Embed,
 ];
 
 export default DefaultExtensions;

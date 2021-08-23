@@ -26,7 +26,7 @@ const Editor: React.FC<EditorProps> = ({ doc, provider }) => {
    * Editor interactive components states, includes the Add "+" button,
    * selector components, modals, etc.
    */
-  const [editorMenuActive, setEditorMenuActive] = useState(false);
+  const [editorMenuActive, setEditorMenuActive] = useState<any>(false);
   const newName = `${RandomName.first()} ${RandomName.last()}`;
 
   /**
@@ -56,6 +56,7 @@ const Editor: React.FC<EditorProps> = ({ doc, provider }) => {
         }),
       ],
     },
+
     [],
   );
 
@@ -70,13 +71,17 @@ const Editor: React.FC<EditorProps> = ({ doc, provider }) => {
   const parsed = editor?.getJSON();
   console.log(parsed);
 
-  /* Return */
   return (
     <EditorHolder>
+      {/**
+       * - Editor Options Component
+       * Set the header type, and any features available to the article such
+       * as labels, bylines, etc.
+       */}
       <EditorOptions></EditorOptions>
 
       {/**
-       * - Editor Header
+       * - Editor Header Component
        * Where headline and summary nodes are in. Timestamps are also
        * included here and the article's bylines.
        */}
@@ -103,9 +108,9 @@ const Editor: React.FC<EditorProps> = ({ doc, provider }) => {
             />
             <EditorContent
               editor={editor}
-              spellCheck
+              spellCheck={false}
               autoCorrect="false"
-              autoComplete="true"
+              autoComplete="false"
             />
           </React.Fragment>
         )}

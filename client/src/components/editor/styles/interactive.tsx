@@ -4,8 +4,8 @@ import COLORS from "../../../styles/globalColors";
 export const EditorAdd = styled.div({
   width: "40px",
   height: "40px",
-  marginTop: "-2.5px",
-  marginLeft: "-75px",
+  marginTop: "-4.5px",
+  marginLeft: "-68px",
   borderRadius: "40px",
   border: `1px solid ${COLORS.primary}`,
   color: COLORS.primary,
@@ -36,7 +36,6 @@ export const EditorMenu = styled.div({
     alignItems: "center",
     border: "none",
     background: "transparent",
-    borderBottom: `1px solid ${COLORS.borders}`,
     color: "#444",
     cursor: "pointer",
 
@@ -51,5 +50,15 @@ export const EditorMenu = styled.div({
 
   "&.show": {
     display: "grid",
+  },
+
+  ".menuSeperator": {
+    width: "88%",
+    height: "1px",
+    background: "#ccc",
+    display: "block",
+    userSelect: "none",
+    cursor: "default",
+    margin: "10px 12px",
   },
 });

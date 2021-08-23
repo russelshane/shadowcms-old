@@ -19,7 +19,7 @@ export const EditorHeader = styled.div({
   display: "flex",
   flexDirection: "column",
   borderBottom: `1px solid ${COLORS.borders}`,
-  padding: "80px 90px",
+  padding: "80px",
 });
 
 export const EditorTimestamp = styled.span({

@@ -7,7 +7,7 @@ import styled from "styled-components";
 import COLORS from "../../../styles/globalColors";
 
 export const EditorProseMirror = styled.div({
-  padding: "80px 90px",
+  padding: "80px",
   background: "#fff",
   width: "100%",
   minHeight: "80vh",
@@ -186,5 +186,9 @@ export const EditorProseMirror = styled.div({
         opacity: 1,
       },
     },
+  },
+
+  ".headline": {
+    background: "pink !important",
   },
 });

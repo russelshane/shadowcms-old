@@ -1,35 +1,48 @@
+/**
+ * @description In-Article Embedded Content Custom Plugin
+ * @author ShadowCMS
+ */
+
 import { mergeAttributes, Node } from "@tiptap/core";
 import { TextSelection } from "prosemirror-state";
 
-export interface IframelyOptions {
+export interface EmbedOptions {
   HTMLAttributes: Record<string, any>;
-  divTwo: any;
+  EmbedAttributes: Record<string, any>;
+  ResponsiveAttributes: Record<string, any>;
 }
 
 declare module "@tiptap/core" {
   interface Commands<ReturnType> {
-    Iframely: {
+    embed: {
       /**
-       * Add a horizontal rule
+       * Set a new embedded content
        */
-      setIframely: (options: { href: string }) => ReturnType;
+      setEmbed: (options: { href: string }) => ReturnType;
     };
   }
 }
 
-const Iframely = Node.create<IframelyOptions>({
+const Embed = Node.create<EmbedOptions>({
   name: "embed",
 
+  /**
+   * Currently using iFramely's Embed.js API for embedded content,
+   * for Embedly, you can use their platform.js
+   */
   defaultOptions: {
     HTMLAttributes: {
       "data-iframely-url": "",
       href: {
-        default: "null",
+        default: null,
       },
     },
-    divTwo: {
+    EmbedAttributes: {
       class: "iframely-embed",
-      style: "margin-block-start: 1em;margin-block-end: 1em;",
+      style: "margin-block-start: 0.5em;margin-block-end: 2em;",
+    },
+    ResponsiveAttributes: {
+      class: "iframely-responsive",
     },
   },
 
@@ -44,27 +57,38 @@ const Iframely = Node.create<IframelyOptions>({
   },
 
   parseHTML() {
-    return [{ tag: "div" }, { tag: "a[href]" }];
+    return [{ tag: "div" }, { tag: "div" }, { tag: "a[href]" }];
   },
 
   renderHTML({ HTMLAttributes }) {
     return [
       "div",
-      mergeAttributes(this.options.divTwo),
-      ["a", mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)],
+      mergeAttributes(this.options.EmbedAttributes),
+      [
+        "div",
+        mergeAttributes(this.options.ResponsiveAttributes),
+        ["a", mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)],
+      ],
     ];
   },
 
   addCommands() {
     return {
-      setIframely:
+      setEmbed:
         (options) =>
         ({ commands, chain }) => {
           return (
+            /**
+             * Insert the embedded content to the current article selection
+             */
             commands.insertContent({
               type: this.name,
               attrs: options,
             }) &&
+            /**
+             * Insert a new paragraph node after the selection for the
+             * newly embedded content
+             */
             chain()
               .command(({ tr, dispatch }) => {
                 if (dispatch) {
@@ -93,4 +117,4 @@ const Iframely = Node.create<IframelyOptions>({
   },
 });
 
-export default Iframely;
+export default Embed;
