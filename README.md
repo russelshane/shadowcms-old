@@ -23,15 +23,15 @@
 
 ## About
 
-Shadow CMS (formerly named Shadow Newsroom System) is a content management system
-that is mainly focused on serving newspapers. The functionality and features of the
-C.M.S. is unique to itself and highly customizable for the specific needs of a
-newsroom.
+Shadow CMS (formerly named Shadow Newsroom System) is a content management system that is
+mainly focused on serving newspapers. The functionality and features of the C.M.S. is
+unique to itself and highly customizable for the specific needs of a newsroom.
 
 ## Features
 
 - Publish, create or edit digital and print versions of news articles and editorials
-- Use a powerful rich text editor when publishing, creating, or editing an article
+- Use a powerful, collaborative rich text editor when publishing, creating, or editing an
+  article
 - Update or create live stories that is currently happening in real time
 - Create or choose from a variety of templates that can be used for articles
 - Edit newsroom sections, subsections, topics, and other algorithmic items
@@ -41,8 +41,8 @@ newsroom.
 
 ## Contributions
 
-Anyone can contribute code, although we focus on people who are part of the Shadow
-CMS team. You can PR the staging branch. <br /> <br />
+Anyone can contribute code, although we focus on people who are part of the Shadow CMS
+team. You can PR the staging branch. <br /> <br />
 
 <hr />
 <br />
