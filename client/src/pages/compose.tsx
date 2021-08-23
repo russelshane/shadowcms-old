@@ -13,17 +13,20 @@ import { Doc } from "yjs";
 const Compose: React.FC = () => {
   /* Init Document */
   const { id }: any = useParams();
-
-  /* Dynamic Components */
   const document: Doc = new Y.Doc();
   const provider: WebrtcProvider = new WebrtcProvider(`${id}`, document);
+
+  /* Dynamic Components */
+  const Layout = loadable(() => import("../ui/layout"));
+  const Header = loadable(() => import("../components/header"));
   const Editor = loadable(() => import("../components/editor"));
 
   /* Return */
   return (
-    <React.Fragment>
+    <Layout page={`Editing ${id} - Shadow`}>
+      <Header />
       <Editor id={id} doc={document} provider={provider} />
-    </React.Fragment>
+    </Layout>
   );
 };
 
