@@ -2459,12 +2459,12 @@
   resolved "https://registry.yarnpkg.com/@tiptap/extension-list-item/-/extension-list-item-2.0.0-beta.14.tgz#65a9ff9daa11bc9ca8bc2989a891abe68081cfbd"
   integrity sha512-t6xwEqP+d5443Ul2Jvqz9kXb3ro7bA7yY9HA0vskm3120WxxHW9jxgxZN+82Ot5Tm7nXOAlsN6vuqnt4idnxZQ==
 
-"@tiptap/extension-mention@^2.0.0-beta.67":
-  version "2.0.0-beta.67"
-  resolved "https://registry.yarnpkg.com/@tiptap/extension-mention/-/extension-mention-2.0.0-beta.67.tgz#da150818181f358147f7cd1a50fca50d30f665f8"
-  integrity sha512-lx++MzXr4nL3jQyd06pYrVc3U5wDYHIa56nDE5d9JhW36pYfaXh+mLNu0LMRAG8PsUJizicHhNA82ZDsqu1EpA==
+"@tiptap/extension-mention@^2.0.0-beta.70":
+  version "2.0.0-beta.70"
+  resolved "https://registry.yarnpkg.com/@tiptap/extension-mention/-/extension-mention-2.0.0-beta.70.tgz#83872afdf7a964d2af14a6c405f2f868011efab2"
+  integrity sha512-uF3N9M5ZL+m3ICOLyFJuVEMvQO4ZLXgqOw+W1VSNy5J6NUCQHjAVkvcMQIorlPbihC9c92aBwsJoX8ljHdqmNQ==
   dependencies:
-    "@tiptap/suggestion" "^2.0.0-beta.65"
+    "@tiptap/suggestion" "^2.0.0-beta.68"
     prosemirror-model "^1.14.3"
     prosemirror-state "^1.3.4"
 
@@ -2533,14 +2533,14 @@
     "@tiptap/extension-strike" "^2.0.0-beta.17"
     "@tiptap/extension-text" "^2.0.0-beta.13"
 
-"@tiptap/suggestion@^2.0.0-beta.65":
-  version "2.0.0-beta.65"
-  resolved "https://registry.yarnpkg.com/@tiptap/suggestion/-/suggestion-2.0.0-beta.65.tgz#d998dd9aa3dfc6e42ab683078caa1e7467a676c2"
-  integrity sha512-Y8pV9jJwe5EfmKOG6jlkRYRR3F0XqQB6Li11aiDIPUHhZI/Wj2U1nuoMpc2W5+kWzaIyFB02t3IbYj6azdRYWg==
+"@tiptap/suggestion@^2.0.0-beta.68":
+  version "2.0.0-beta.68"
+  resolved "https://registry.yarnpkg.com/@tiptap/suggestion/-/suggestion-2.0.0-beta.68.tgz#2cb40c6c70b2990b7a076de4bbc4fdc911ce12d6"
+  integrity sha512-O4HMdd43x+20bSUfd8KrDfzjLnNUXWW5nw6hJ4TCv/Wg16NCtW5gzBQyugRqdcOJ9yCwplkuQcO8i+a5cDBjNA==
   dependencies:
     prosemirror-model "^1.14.3"
     prosemirror-state "^1.3.4"
-    prosemirror-view "^1.19.0"
+    prosemirror-view "^1.19.3"
 
 "@tootallnate/once@1":
   version "1.1.2"
@@ -12381,7 +12381,7 @@ prompts@^2.0.1:
     kleur "^3.0.3"
     sisteransi "^1.0.5"
 
-prop-types@^15.5.10, prop-types@^15.5.7, prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@^15.5.10, prop-types@^15.5.7, prop-types@^15.6.2, prop-types@^15.7.1, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -12477,6 +12477,15 @@ prosemirror-view@^1.0.0, prosemirror-view@^1.1.0, prosemirror-view@^1.19.0:
   version "1.19.2"
   resolved "https://registry.yarnpkg.com/prosemirror-view/-/prosemirror-view-1.19.2.tgz#d71daf432db8f58f2eae2ab1a7845ba2b8e32dd7"
   integrity sha512-A3Dl4OY4hORAY4OVOFJaMhZ+5Rzj/IC+A0PsktPojXEuB7ZyqVGwMbruKjsadAgfIwytQK4kgbvYnAI/F9gDfQ==
+  dependencies:
+    prosemirror-model "^1.14.3"
+    prosemirror-state "^1.0.0"
+    prosemirror-transform "^1.1.0"
+
+prosemirror-view@^1.19.3:
+  version "1.19.3"
+  resolved "https://registry.yarnpkg.com/prosemirror-view/-/prosemirror-view-1.19.3.tgz#8d9bc91705bcf9cb5ae3b4de2668f73c7b93fa14"
+  integrity sha512-YP/ZzVwqPPwbHbJi97U2/CeyZ8PIHmLJt0gIhZWP8XfnuBRGG3y+jwLzUoBVmiuoUCy3R6PSB+pOATliGzLfPg==
   dependencies:
     prosemirror-model "^1.14.3"
     prosemirror-state "^1.0.0"
@@ -12727,6 +12736,14 @@ react-app-polyfill@^2.0.0:
     regenerator-runtime "^0.13.7"
     whatwg-fetch "^3.4.1"
 
+react-contenteditable@^3.3.6:
+  version "3.3.6"
+  resolved "https://registry.yarnpkg.com/react-contenteditable/-/react-contenteditable-3.3.6.tgz#4dac0eeaff268ca1614b52d4290d7b21f3bfb997"
+  integrity sha512-61+Anbmzggel1sP7nwvxq3d2woD3duR5R89RoLGqKan1A+nruFIcmLjw2F+qqk70AyABls0BDKzE1vqS1UIF1g==
+  dependencies:
+    fast-deep-equal "^3.1.3"
+    prop-types "^15.7.1"
+
 react-dev-utils@^11.0.3:
   version "11.0.4"
   resolved "https://registry.yarnpkg.com/react-dev-utils/-/react-dev-utils-11.0.4.tgz#a7ccb60257a1ca2e0efe7a83e38e6700d17aa37a"
@@ -12885,6 +12902,11 @@ react-scripts@^4.0.3:
     workbox-webpack-plugin "5.1.4"
   optionalDependencies:
     fsevents "^2.1.3"
+
+react-slugify@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/react-slugify/-/react-slugify-2.0.3.tgz#b42528a6d67519c6b99a78368ff2159ea8e67709"
+  integrity sha512-ZsKIECbHNS3EZJ13ArN3n+KHqj77l7B0Y6gzI3W9sz/jNoREUY23VfZJ0626zPQ5uGZv75pnZBmAanG49dOBGg==
 
 react-transition-group@^4.4.1:
   version "4.4.2"
