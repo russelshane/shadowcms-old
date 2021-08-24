@@ -1,15 +1,20 @@
 import Slugify from "react-slugify";
 
 function SetNewHeadline(e, dispatch) {
-  const parsedHeadline = e.target.innerHTML;
-
-  // Remove any html tags from a contentEditable innerHTML
-  const headline = parsedHeadline.replace(/<[^>]+>/g, "");
+  const html = e.target.value;
+  const headline = html.replace(/<[^>]+>/g, "");
   const generatedSlug = Slugify(headline);
+
   dispatch({
     type: "SET_HEADLINE",
     payload: {
       text: headline,
+    },
+  });
+  dispatch({
+    type: "SET_HEADLINE_HTML",
+    payload: {
+      html: html,
     },
   });
   dispatch({

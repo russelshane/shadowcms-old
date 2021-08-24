@@ -21,6 +21,7 @@ import { EditorHeadlineHolder, EditorHolder, EditorSummaryHolder } from "./style
 import { EditorHeader, EditorOptions, EditorTimestamp } from "./styles/component";
 import { EditorProseMirror } from "./styles/prosemirror";
 import { EditorProps } from "./types";
+import ContentEditable from "react-contenteditable";
 
 const Editor: React.FC<EditorProps> = ({ doc, provider, articleState, dispatch }) => {
   /**
@@ -117,11 +118,14 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, articleState, dispatch }
        * included here and the article's bylines.
        */}
       <EditorHeader>
-        <EditorHeadlineHolder
-          placeholder="Enter a headline..."
-          contentEditable
-          onInput={(e) => SetNewHeadline(e, dispatch)}
-        />
+        <EditorHeadlineHolder>
+          <ContentEditable
+            className="headline-holder"
+            placeholder="Enter a headline..."
+            onChange={(e) => SetNewHeadline(e, dispatch)}
+            html={articleState.doc.header.headline.html}
+          />
+        </EditorHeadlineHolder>
         <EditorSummaryHolder
           rows={3}
           placeholder="Write a summary..."

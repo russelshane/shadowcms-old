@@ -13,6 +13,7 @@ export const NewsModel = {
       header_type: "basic",
       headline: {
         text: "",
+        html: "",
       },
       summary: {
         text: "",

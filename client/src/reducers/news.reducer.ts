@@ -31,6 +31,21 @@ function NewsReducer(state, action) {
         },
       };
 
+    case "SET_HEADLINE_HTML":
+      return {
+        ...state,
+        doc: {
+          ...state.doc,
+          header: {
+            ...state.doc.header,
+            headline: {
+              ...state.doc.header.headline,
+              html: action.payload.html,
+            },
+          },
+        },
+      };
+
     case "SET_HEADER_TYPE":
       return {
         ...state,

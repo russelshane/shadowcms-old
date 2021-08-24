@@ -34,6 +34,17 @@ export const EditorHeadlineHolder = styled.div({
     content: "attr(placeholder)",
     color: "#aaa",
   },
+
+  ".headline-holder": {
+    border: "none",
+    outline: "none",
+    color: "#222",
+
+    "&[placeholder]:empty:before": {
+      content: "attr(placeholder)",
+      color: "#aaa",
+    },
+  },
 });
 
 /* Editor Summary ContentEditable and Textarea (for editing) */

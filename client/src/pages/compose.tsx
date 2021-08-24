@@ -43,6 +43,14 @@ const Compose: React.FC = () => {
             text: doc.data()?.doc?.header?.headline?.text,
           },
         });
+        if (doc.data()?.doc?.header?.headline?.html !== undefined) {
+          dispatch({
+            type: "SET_HEADLINE_HTML",
+            payload: {
+              html: doc.data()?.doc?.header?.headline?.html,
+            },
+          });
+        }
       });
   }, []);
 
