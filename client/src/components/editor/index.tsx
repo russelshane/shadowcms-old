@@ -5,7 +5,7 @@
 
 import React from "react";
 import DayJS from "dayjs";
-import advancedFormat from "dayjs/plugin/advancedFormat";
+import AdvancedFormat from "dayjs/plugin/advancedFormat";
 import RandomName from "random-name";
 import RandomColor from "randomcolor";
 import LoadIframelyEmbeds from "../../toolkit/editor/loadIframely";
@@ -14,6 +14,7 @@ import CollaborationCursor from "@tiptap/extension-collaboration-cursor";
 import DefaultExtensions from "./extensions";
 import EditorBubbleMenu from "./internal/bubble";
 import EditorFloatingMenu from "./internal/floating";
+import SetNewHeadline from "./handlers/updateHeadline";
 import { useEffect, useState } from "react";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { EditorHeadlineHolder, EditorHolder, EditorSummaryHolder } from "./styles/canvas";
@@ -21,19 +22,21 @@ import { EditorHeader, EditorOptions, EditorTimestamp } from "./styles/component
 import { EditorProseMirror } from "./styles/prosemirror";
 import { EditorProps } from "./types";
 
-const Editor: React.FC<EditorProps> = ({ doc, provider }) => {
+const Editor: React.FC<EditorProps> = ({ doc, provider, articleState, dispatch }) => {
   /**
    * Editor interactive components states, includes the Add "+" button,
    * selector components, modals, etc.
    */
-  const [editorMenuActive, setEditorMenuActive] = useState<any>(false);
+  const [editorMenuActive, setEditorMenuActive] = useState<boolean>(false);
+
+  /* Generate random name */
   const newName = `${RandomName.first()} ${RandomName.last()}`;
 
   /**
    * Initialize advanced formats plugin for dayjs, "Do"
    * day type is needed for current editor timestamp
    */
-  DayJS.extend(advancedFormat);
+  DayJS.extend(AdvancedFormat);
 
   /**
    *  Initialize new prosemirror/tiptap instance with partial collaboration
@@ -78,8 +81,26 @@ const Editor: React.FC<EditorProps> = ({ doc, provider }) => {
     LoadIframelyEmbeds();
   });
 
-  const parsed = editor?.getHTML();
-  console.log(parsed);
+  // On summary input, change following state
+  function setNewSummary(e) {
+    const summary = e.target.value;
+
+    dispatch({
+      type: "SET_SUMMARY",
+      payload: {
+        text: summary,
+      },
+    });
+
+    if ((articleState.doc.header.summary.text as string).length < 0) {
+      dispatch({
+        type: "SET_SEO_DESCRIPTION",
+        payload: {
+          description: summary,
+        },
+      });
+    }
+  }
 
   return (
     <EditorHolder>
@@ -96,8 +117,17 @@ const Editor: React.FC<EditorProps> = ({ doc, provider }) => {
        * included here and the article's bylines.
        */}
       <EditorHeader>
-        <EditorHeadlineHolder placeholder="Enter a headline..." />
-        <EditorSummaryHolder rows={3} placeholder="Write a summary..." />
+        <EditorHeadlineHolder
+          placeholder="Enter a headline..."
+          contentEditable
+          onInput={(e) => SetNewHeadline(e, dispatch)}
+        />
+        <EditorSummaryHolder
+          rows={3}
+          placeholder="Write a summary..."
+          value={articleState.doc.header.summary.text}
+          onChange={setNewSummary}
+        />
         <EditorTimestamp>{DayJS().format("MMMM Do, YYYY")}</EditorTimestamp>
       </EditorHeader>
 

@@ -9,6 +9,6 @@ export type EditorProps = {
   doc: Doc;
   provider: any;
   id: string;
-  article?: any;
-  setArticle?: any;
+  articleState?: any;
+  dispatch?: any;
 };

@@ -109,7 +109,7 @@ export const EditorProseMirror = styled.div({
     content: "attr(data-placeholder)",
     float: "left",
     fontWeight: 200,
-    fontFamily: "'STIX Two Text', serif",
+    fontFamily: "Domine, serif",
     color: "#aaa",
     pointerEvents: "none",
     height: 0,

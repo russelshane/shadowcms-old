@@ -16,7 +16,7 @@ export const EditorHolder = styled.div({
 });
 
 /* Editor Headline ContentEditable and Textarea (for editing) */
-export const EditorHeadlineHolder = styled.textarea({
+export const EditorHeadlineHolder = styled.div({
   fontFamily: "'Bespoke Serif', sans-serif",
   fontWeight: 500,
   fontStyle: "italic",
@@ -28,6 +28,7 @@ export const EditorHeadlineHolder = styled.textarea({
   cursor: "pointer",
   resize: "none",
   border: "none",
+  margin: "0 0 10px 0",
 
   "&[placeholder]:empty:before": {
     content: "attr(placeholder)",
