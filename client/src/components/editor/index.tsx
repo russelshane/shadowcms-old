@@ -15,15 +15,16 @@ import DefaultExtensions from "./extensions";
 import EditorBubbleMenu from "./internal/bubble";
 import EditorFloatingMenu from "./internal/floating";
 import SetNewHeadline from "./handlers/updateHeadline";
+import SetNewSummary from "./handlers/updateSummary";
+import ContentEditable from "react-contenteditable";
 import { useEffect, useState } from "react";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { EditorHeadlineHolder, EditorHolder, EditorSummaryHolder } from "./styles/canvas";
 import { EditorHeader, EditorOptions, EditorTimestamp } from "./styles/component";
 import { EditorProseMirror } from "./styles/prosemirror";
 import { EditorProps } from "./types";
-import ContentEditable from "react-contenteditable";
 
-const Editor: React.FC<EditorProps> = ({ doc, provider, articleState, dispatch }) => {
+const Editor: React.FC<EditorProps> = ({ doc, provider, articleState, dispatch, id }) => {
   /**
    * Editor interactive components states, includes the Add "+" button,
    * selector components, modals, etc.
@@ -82,27 +83,6 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, articleState, dispatch }
     LoadIframelyEmbeds();
   });
 
-  // On summary input, change following state
-  function setNewSummary(e) {
-    const summary = e.target.value;
-
-    dispatch({
-      type: "SET_SUMMARY",
-      payload: {
-        text: summary,
-      },
-    });
-
-    if ((articleState.doc.header.summary.text as string).length < 0) {
-      dispatch({
-        type: "SET_SEO_DESCRIPTION",
-        payload: {
-          description: summary,
-        },
-      });
-    }
-  }
-
   return (
     <EditorHolder>
       {/**
@@ -122,7 +102,7 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, articleState, dispatch }
           <ContentEditable
             className="headline-holder"
             placeholder="Enter a headline..."
-            onChange={(e) => SetNewHeadline(e, dispatch)}
+            onChange={(e) => SetNewHeadline(e, dispatch, id)}
             html={articleState.doc.header.headline.html}
           />
         </EditorHeadlineHolder>
@@ -130,7 +110,7 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, articleState, dispatch }
           rows={3}
           placeholder="Write a summary..."
           value={articleState.doc.header.summary.text}
-          onChange={setNewSummary}
+          onChange={(e) => SetNewSummary(e, dispatch, articleState)}
         />
         <EditorTimestamp>{DayJS().format("MMMM Do, YYYY")}</EditorTimestamp>
       </EditorHeader>

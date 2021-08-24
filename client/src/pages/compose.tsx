@@ -11,7 +11,7 @@ import { useParams } from "react-router-dom";
 import { Doc } from "yjs";
 import { WebsocketProvider } from "y-websocket";
 import { NewsModel } from "../models/news.model";
-import { firestore } from "../services/firebase";
+import useNewsArticle from "../handlers/useNewsArticle";
 
 /* Dynamic Components */
 const Layout = loadable(() => import("../ui/layout"));
@@ -28,30 +28,12 @@ const Compose: React.FC = () => {
   const provider = new WebsocketProvider("wss://websocket.tiptap.dev", id, document);
   const [articleState, dispatch] = useReducer(NewsReducer, NewsModel);
 
-  console.log(articleState);
-
-  /* Fetch most recent data */
+  /**
+   * Fetch the blank or the initial news article data
+   * upon creating new article.
+   */
   useEffect(() => {
-    firestore
-      .collection("articles")
-      .doc(id)
-      .onSnapshot((doc) => {
-        console.log(`From Firestore:`, doc.data());
-        dispatch({
-          type: "SET_HEADLINE",
-          payload: {
-            text: doc.data()?.doc?.header?.headline?.text,
-          },
-        });
-        if (doc.data()?.doc?.header?.headline?.html !== undefined) {
-          dispatch({
-            type: "SET_HEADLINE_HTML",
-            payload: {
-              html: doc.data()?.doc?.header?.headline?.html,
-            },
-          });
-        }
-      });
+    useNewsArticle(id, dispatch);
   }, []);
 
   /* Return */
