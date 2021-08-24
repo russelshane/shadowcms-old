@@ -27,16 +27,16 @@ export const NewsModel = {
       },
     },
     metadata: {
-      publish_url: "",
+      publish_url: null,
       publish_date: dayjs().format("YYYY-MM-DDTHH:mm:ss") as string,
       status: "in-progress",
       is_breaking: false,
       is_live: false,
       seo: {
-        title: "",
-        description: "",
-        keywords: "",
-        image: "",
+        title: null,
+        description: null,
+        keywords: null,
+        image: null,
       },
     },
     sections: {
@@ -48,10 +48,14 @@ export const NewsModel = {
         slug: "",
         description: "",
       },
-      topic: {
-        name: "",
-      },
     },
+    topics: [
+      {
+        name: "",
+        slug: "",
+        description: "",
+      },
+    ],
     body: "",
   },
 };

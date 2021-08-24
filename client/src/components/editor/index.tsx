@@ -14,13 +14,13 @@ import CollaborationCursor from "@tiptap/extension-collaboration-cursor";
 import DefaultExtensions from "./extensions";
 import EditorBubbleMenu from "./internal/bubble";
 import EditorFloatingMenu from "./internal/floating";
-import SetNewHeadline from "./handlers/updateHeadline";
-import SetNewSummary from "./handlers/updateSummary";
+import SetHeadline from "./handlers/setHeadline";
+import SetSummary from "./handlers/setSummary";
 import ContentEditable from "react-contenteditable";
+import { EditorHeadlineHolder, EditorHolder, EditorSummaryHolder } from "./styles/canvas";
+import { EditorHeader, EditorOptions, EditorTimestamp, EditorWrapper } from "./styles/component";
 import { useEffect, useState } from "react";
 import { EditorContent, useEditor } from "@tiptap/react";
-import { EditorHeadlineHolder, EditorHolder, EditorSummaryHolder } from "./styles/canvas";
-import { EditorHeader, EditorOptions, EditorTimestamp } from "./styles/component";
 import { EditorProseMirror } from "./styles/prosemirror";
 import { EditorProps } from "./types";
 
@@ -45,9 +45,7 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, articleState, dispatch, 
    *  features. Default extensions comes from another file, as well as the
    *  configurations for it.
    */
-  provider.on("status", (e) => {
-    console.log(e.status);
-  });
+
   const editor = useEditor(
     {
       extensions: [
@@ -84,46 +82,46 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, articleState, dispatch, 
   });
 
   return (
-    <EditorHolder>
-      {/**
-       * - Editor Options Component
-       * Set the header type, and any features available to the article such
-       * as labels, bylines, etc.
-       */}
-      <EditorOptions></EditorOptions>
+    <EditorWrapper>
+      <EditorHolder>
+        {/**
+         * - Editor Options Component
+         * Set the header type, and any features available to the article such
+         * as labels, bylines, etc.
+         */}
+        <EditorOptions></EditorOptions>
 
-      {/**
-       * - Editor Header Component
-       * Where headline and summary nodes are in. Timestamps are also
-       * included here and the article's bylines.
-       */}
-      <EditorHeader>
-        <EditorHeadlineHolder>
-          <ContentEditable
-            className="headline-holder"
-            placeholder="Enter a headline..."
-            onChange={(e) => SetNewHeadline(e, dispatch, id)}
-            html={articleState.doc.header.headline.html}
+        {/**
+         * - Editor Header Component
+         * Where headline and summary nodes are in. Timestamps are also
+         * included here and the article's bylines.
+         */}
+        <EditorHeader>
+          <EditorHeadlineHolder>
+            <ContentEditable
+              className="headline-holder"
+              placeholder="Enter a headline..."
+              onChange={(e) => SetHeadline(e, dispatch, articleState, id)}
+              html={articleState.doc.header.headline.html}
+            />
+          </EditorHeadlineHolder>
+          <EditorSummaryHolder
+            rows={3}
+            placeholder="Write a summary..."
+            value={articleState.doc.header.summary.text}
+            onChange={(e) => SetSummary(e, dispatch, articleState)}
           />
-        </EditorHeadlineHolder>
-        <EditorSummaryHolder
-          rows={3}
-          placeholder="Write a summary..."
-          value={articleState.doc.header.summary.text}
-          onChange={(e) => SetNewSummary(e, dispatch, articleState)}
-        />
-        <EditorTimestamp>{DayJS().format("MMMM Do, YYYY")}</EditorTimestamp>
-      </EditorHeader>
+          <EditorTimestamp>{DayJS().format("MMMM Do, YYYY")}</EditorTimestamp>
+        </EditorHeader>
 
-      {/**
-       * - Collaborative ProseMirror/TipTap Component
-       * The editor is using WebSockets to synchronize with other newsroom members.
-       * Cursors are also synced, the function is battle-testeed and should be
-       * enough for production, at least, for now.
-       */}
-      <EditorProseMirror>
+        {/**
+         * - Collaborative ProseMirror/TipTap Component
+         * The editor is using WebSockets to synchronize with other newsroom members.
+         * Cursors are also synced, the function is battle-testeed and should be
+         * enough for production, at least, for now.
+         */}
         {editor && (
-          <React.Fragment>
+          <EditorProseMirror>
             <EditorBubbleMenu editor={editor} />
             <EditorFloatingMenu
               editor={editor}
@@ -136,10 +134,10 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, articleState, dispatch, 
               autoCorrect="false"
               autoComplete="false"
             />
-          </React.Fragment>
+          </EditorProseMirror>
         )}
-      </EditorProseMirror>
-    </EditorHolder>
+      </EditorHolder>
+    </EditorWrapper>
   );
 };
 

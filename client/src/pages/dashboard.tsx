@@ -4,13 +4,18 @@
  */
 
 import React from "react";
+import loadable from "@loadable/component";
+
+/* Dynamic Components */
+const Header = loadable(() => import("../components/header"));
+const Layout = loadable(() => import("../ui/layout"));
 
 const Dashboard: React.FC = () => {
   /* Return */
   return (
-    <React.Fragment>
-      <h1>dash</h1>
-    </React.Fragment>
+    <Layout page="Dashboard - Shadow">
+      <Header />
+    </Layout>
   );
 };
 

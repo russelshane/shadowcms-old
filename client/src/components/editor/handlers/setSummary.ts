@@ -3,7 +3,7 @@
  * @author ShadowCMS
  */
 
-function SetNewSummary(e, dispatch, articleState) {
+function SetSummary(e, dispatch, articleState) {
   const summary = e.target.value;
 
   dispatch({
@@ -13,6 +13,10 @@ function SetNewSummary(e, dispatch, articleState) {
     },
   });
 
+  /**
+   * Set the initial SEO description/excerpt from the
+   * new summary only if it's value is empty or null.
+   */
   if ((articleState.doc.header.summary.text as string).length < 0) {
     dispatch({
       type: "SET_SEO_DESCRIPTION",
@@ -23,4 +27,4 @@ function SetNewSummary(e, dispatch, articleState) {
   }
 }
 
-export default SetNewSummary;
+export default SetSummary;

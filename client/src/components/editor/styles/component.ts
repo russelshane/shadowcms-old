@@ -34,3 +34,11 @@ export const EditorTimestamp = styled.span({
   cursor: "default",
   display: "block",
 });
+
+export const EditorWrapper = styled.div({
+  margin: 0,
+  padding: 0,
+  display: "flex",
+  flexDirection: "column",
+  gridGap: "10px",
+});
