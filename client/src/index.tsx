@@ -3,11 +3,11 @@
  * @author ShadowCMS
  */
 
-import { hydrate } from "react-dom";
+import { render } from "react-dom";
 import React from "react";
 import Application from "./application";
 
-hydrate(
+render(
   <React.Fragment>
     <Application />
   </React.Fragment>,
