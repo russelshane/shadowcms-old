@@ -4,8 +4,9 @@
 */
 
 import dayjs from "dayjs";
+import { Article } from "../types/article";
 
-export const NewsModel = {
+export const NewsModel: Article = {
   id: "",
   lastUpdated: dayjs().format("YYYY-MM-DDTHH:mm:ss") as string,
   interactiveState: {
@@ -36,6 +37,7 @@ export const NewsModel = {
       status: "in-progress",
       is_breaking: false,
       is_live: false,
+      is_exclusive: false,
       seo: {
         title: null,
         description: null,

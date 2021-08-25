@@ -3,10 +3,11 @@
  * @author ShadowCMS
  */
 
+import { Article } from "../../types/article";
 import { User } from "../../types/user";
 
 export type HeaderProps = {
   isEditor?: boolean;
-  articleState?: any;
+  articleState?: Article;
   user?: User;
 };

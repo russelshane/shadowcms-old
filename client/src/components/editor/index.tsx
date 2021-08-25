@@ -50,7 +50,7 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, articleState, dispatch, 
   const [spellCheck, setSpellCheck] = useState(false);
   const [allowEmbeds, setAllowEmbeds] = useState(true);
   const [showLabel, setShowLabel] = useState(false);
-  const headlineEditor = articleState.interactiveState.headlineEditor;
+  const headlineEditor = articleState?.interactiveState.headlineEditor;
 
   /**
    * Initialize advanced formats plugin for dayjs, "Do"
@@ -175,7 +175,7 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, articleState, dispatch, 
                     },
                   });
               }}
-              html={articleState.doc.header.headline.html}
+              html={articleState?.doc.header.headline.html as string}
               onClick={() => {
                 firestore
                   .collection("articles")
@@ -192,7 +192,7 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, articleState, dispatch, 
           <EditorSummaryHolder
             rows={3}
             placeholder="Write summary..."
-            value={articleState.doc.header.summary.text}
+            value={articleState?.doc.header.summary.text}
             onChange={(e) => SetSummary(e, dispatch, articleState)}
           />
           <EditorTimestamp>{DayJS().format("MMMM Do, YYYY")}</EditorTimestamp>
