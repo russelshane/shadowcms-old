@@ -157,7 +157,7 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, articleState, dispatch, 
                 dispatch({
                   type: "SET_HEADLINE_EDITOR",
                   payload: {
-                    editor: newName,
+                    editor: null,
                   },
                 });
                 firestore
@@ -177,14 +177,6 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, articleState, dispatch, 
                       saving: false,
                     },
                   });
-                  setTimeout(() => {
-                    dispatch({
-                      type: "SET_ARTICLE_SAVING",
-                      payload: {
-                        saving: null,
-                      },
-                    });
-                  }, 1000);
                 }, 2000);
               }}
               html={articleState?.doc.header.headline.html as string}
