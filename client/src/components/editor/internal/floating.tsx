@@ -32,12 +32,14 @@ type FloatingProps = {
   editor?: Editor;
   setEditorMenuActive?: any;
   editorMenuActive?: any;
+  allowEmbeds?: boolean;
 };
 
 const EditorFloatingMenu: React.FC<FloatingProps> = ({
   editor,
   editorMenuActive,
   setEditorMenuActive,
+  allowEmbeds,
 }) => {
   const [newImageUrl, setNewImageUrl] = useState();
   const [isShown, setIsShown] = useState(false);
@@ -121,8 +123,8 @@ const EditorFloatingMenu: React.FC<FloatingProps> = ({
           </Pane>
           <br />
           <Paragraph>
-            You can either upload an image from your computer, or select one and grab the
-            link from our media library. Make sure you have the license for these images.
+            You can either upload an image from your computer, or select one and grab the link from
+            our media library. Make sure you have the license for these images.
           </Paragraph>
         </Pane>
       </SideSheet>
@@ -155,10 +157,12 @@ const EditorFloatingMenu: React.FC<FloatingProps> = ({
               <MediaIcon />
               Image
             </button>
-            <button onClick={setEmbed}>
-              <ApplicationIcon />
-              Embed
-            </button>
+            {allowEmbeds && (
+              <button onClick={setEmbed}>
+                <ApplicationIcon />
+                Embed
+              </button>
+            )}
             <span className="menuSeperator" />
             <button
               onClick={() => {

@@ -36,11 +36,7 @@ const Header: React.FC<HeaderProps> = ({ isEditor, user }) => {
     <HeaderWrapper>
       <Pane display="flex" gridGap="10px" alignItems="center">
         <Logo />
-        {isEditor && (
-          <Navigation flexDirection="row">
-            <h1>kasajdkasd</h1>
-          </Navigation>
-        )}
+        <Navigation flexDirection="row" />
       </Pane>
       <Pane display="flex" gridGap="20px" alignItems="center">
         {isEditor && (

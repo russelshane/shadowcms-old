@@ -17,12 +17,24 @@ import EditorFloatingMenu from "./internal/floating";
 import SetHeadline from "./handlers/setHeadline";
 import SetSummary from "./handlers/setSummary";
 import ContentEditable from "react-contenteditable";
-import { EditorHeadlineHolder, EditorHolder, EditorSummaryHolder } from "./styles/canvas";
-import { EditorHeader, EditorOptions, EditorTimestamp, EditorWrapper } from "./styles/component";
+import { EditorProps } from "./types";
 import { useEffect, useState } from "react";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { EditorProseMirror } from "./styles/prosemirror";
-import { EditorProps } from "./types";
+import { Heading, Pane, Switch, Text } from "evergreen-ui";
+import {
+  EditorHeadlineHolder,
+  EditorHolder,
+  EditorLabelHolder,
+  EditorSummaryHolder,
+} from "./styles/canvas";
+import {
+  EditorHeader,
+  EditorOptions,
+  EditorTimestamp,
+  EditorTop,
+  EditorWrapper,
+} from "./styles/component";
 
 const Editor: React.FC<EditorProps> = ({ doc, provider, articleState, dispatch, id }) => {
   /**
@@ -30,6 +42,9 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, articleState, dispatch, 
    * selector components, modals, etc.
    */
   const [editorMenuActive, setEditorMenuActive] = useState<boolean>(false);
+  const [spellCheck, setSpellCheck] = useState(false);
+  const [allowEmbeds, setAllowEmbeds] = useState(true);
+  const [showLabel, setShowLabel] = useState(false);
 
   /* Generate random name */
   const newName = `${RandomName.first()} ${RandomName.last()}`;
@@ -83,13 +98,45 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, articleState, dispatch, 
 
   return (
     <EditorWrapper>
+      <EditorTop>
+        <Heading size={200}>ARTICLE</Heading>
+      </EditorTop>
       <EditorHolder>
         {/**
          * - Editor Options Component
          * Set the header type, and any features available to the article such
          * as labels, bylines, etc.
          */}
-        <EditorOptions></EditorOptions>
+        <EditorOptions>
+          <Pane display="flex" gridGap={8} alignItems="center">
+            <Heading size={200}>TEMPLATE</Heading>
+
+            <Text cursor="pointer" fontSize={12} color="blue500">
+              Basic
+            </Text>
+          </Pane>
+
+          <Pane display="flex" gridGap={10} alignItems="center">
+            <Pane display="flex" gridGap={8} alignItems="center">
+              <Text fontSize={12} marginTop="-2px">
+                Spell Check
+              </Text>
+              <Switch checked={spellCheck} onChange={() => setSpellCheck(!spellCheck)} />
+            </Pane>
+            <Pane display="flex" gridGap={8} alignItems="center">
+              <Text fontSize={12} marginTop="-2px">
+                Labels
+              </Text>
+              <Switch checked={showLabel} onChange={() => setShowLabel(!showLabel)} />
+            </Pane>
+            <Pane display="flex" gridGap={8} alignItems="center">
+              <Text fontSize={12} marginTop="-2px">
+                Embeds
+              </Text>
+              <Switch checked={allowEmbeds} onChange={() => setAllowEmbeds(!allowEmbeds)} />
+            </Pane>
+          </Pane>
+        </EditorOptions>
 
         {/**
          * - Editor Header Component
@@ -97,6 +144,11 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, articleState, dispatch, 
          * included here and the article's bylines.
          */}
         <EditorHeader>
+          {showLabel && (
+            <EditorLabelHolder>
+              {!articleState?.doc?.sections?.name ? "UNKNOWN" : articleState.doc.sections.name}
+            </EditorLabelHolder>
+          )}
           <EditorHeadlineHolder>
             <ContentEditable
               className="headline-holder"
@@ -107,7 +159,7 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, articleState, dispatch, 
           </EditorHeadlineHolder>
           <EditorSummaryHolder
             rows={3}
-            placeholder="Write a summary..."
+            placeholder="Write summary..."
             value={articleState.doc.header.summary.text}
             onChange={(e) => SetSummary(e, dispatch, articleState)}
           />
@@ -127,10 +179,11 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, articleState, dispatch, 
               editor={editor}
               editorMenuActive={editorMenuActive}
               setEditorMenuActive={setEditorMenuActive}
+              allowEmbeds={allowEmbeds}
             />
             <EditorContent
               editor={editor}
-              spellCheck={false}
+              spellCheck={spellCheck}
               autoCorrect="false"
               autoComplete="false"
             />

@@ -5,8 +5,8 @@
 
 import { firestore } from "../services/firebase";
 
-function useNewsArticle(id, dispatch) {
-  firestore
+async function useNewsArticle(id, dispatch) {
+  await firestore
     .collection("articles")
     .doc(id)
     .onSnapshot((doc) => {
@@ -36,6 +36,13 @@ function useNewsArticle(id, dispatch) {
        */
       console.log(`From Firestore:`, doc.data());
     });
+
+  await dispatch({
+    type: "SET_DOCUMENT_ID",
+    payload: {
+      id: id,
+    },
+  });
 }
 
 export default useNewsArticle;

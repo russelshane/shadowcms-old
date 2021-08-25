@@ -7,7 +7,7 @@ import styled from "styled-components";
 import COLORS from "../../../styles/globalColors";
 
 export const EditorHolder = styled.div({
-  margin: "40px auto 0 auto",
+  margin: "0px auto 0 auto",
   width: "100%",
   maxWidth: "850px",
   minHeight: "100vh",
@@ -66,3 +66,13 @@ export const EditorSummaryHolder = styled.textarea`
     text-align: center;
   }
 `;
+
+export const EditorLabelHolder = styled.span({
+  margin: "0 0 10px 0",
+  fontSize: 13.5,
+  fontWeight: 600,
+  fontFamily: "Poppins, sans-serif",
+  color: COLORS.foreground,
+  userSelect: "none",
+  cursor: "default",
+});

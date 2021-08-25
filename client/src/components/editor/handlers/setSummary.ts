@@ -25,6 +25,8 @@ function SetSummary(e, dispatch, articleState) {
       },
     });
   }
+
+  console.log(`Saved ${articleState.id}`);
 }
 
 export default SetSummary;
