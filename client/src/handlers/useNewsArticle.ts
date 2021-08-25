@@ -31,6 +31,15 @@ async function useNewsArticle(id, dispatch) {
         });
       }
 
+      if (doc.data()?.interactiveState?.headlineEditor !== undefined) {
+        dispatch({
+          type: "SET_HEADLINE_EDITOR",
+          payload: {
+            editor: doc.data()?.interactiveState.headlineEditor,
+          },
+        });
+      }
+
       /**
        * Log which data comes from firestore and the one from local
        */

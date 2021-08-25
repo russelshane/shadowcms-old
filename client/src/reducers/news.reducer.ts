@@ -46,6 +46,15 @@ function NewsReducer(state, action) {
         },
       };
 
+    case "SET_HEADLINE_EDITOR":
+      return {
+        ...state,
+        interactiveState: {
+          ...state.interactiveState,
+          headlineEditor: action.payload.editor,
+        },
+      };
+
     case "SET_HEADER_TYPE":
       return {
         ...state,

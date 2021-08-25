@@ -8,6 +8,10 @@ import dayjs from "dayjs";
 export const NewsModel = {
   id: "",
   lastUpdated: dayjs().format("YYYY-MM-DDTHH:mm:ss") as string,
+  interactiveState: {
+    headlineEditor: null,
+    summaryEditor: null,
+  },
   doc: {
     header: {
       header_type: "basic",

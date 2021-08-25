@@ -15,6 +15,7 @@ import DefaultExtensions from "./extensions";
 import EditorBubbleMenu from "./internal/bubble";
 import EditorFloatingMenu from "./internal/floating";
 import SetHeadline from "./handlers/setHeadline";
+import SyncHeadline from "./handlers/syncHeadline";
 import SetSummary from "./handlers/setSummary";
 import ContentEditable from "react-contenteditable";
 import { EditorProps } from "./types";
@@ -35,8 +36,12 @@ import {
   EditorTop,
   EditorWrapper,
 } from "./styles/component";
+import { firestore } from "../../services/firebase";
 
 const Editor: React.FC<EditorProps> = ({ doc, provider, articleState, dispatch, id }) => {
+  /* Generate random name */
+  const newName = `${RandomName.first()} ${RandomName.last()}`;
+
   /**
    * Editor interactive components states, includes the Add "+" button,
    * selector components, modals, etc.
@@ -45,9 +50,7 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, articleState, dispatch, 
   const [spellCheck, setSpellCheck] = useState(false);
   const [allowEmbeds, setAllowEmbeds] = useState(true);
   const [showLabel, setShowLabel] = useState(false);
-
-  /* Generate random name */
-  const newName = `${RandomName.first()} ${RandomName.last()}`;
+  const headlineEditor = articleState.interactiveState.headlineEditor;
 
   /**
    * Initialize advanced formats plugin for dayjs, "Do"
@@ -115,7 +118,6 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, articleState, dispatch, 
               Basic
             </Text>
           </Pane>
-
           <Pane display="flex" gridGap={10} alignItems="center">
             <Pane display="flex" gridGap={8} alignItems="center">
               <Text fontSize={12} marginTop="-2px">
@@ -150,11 +152,41 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, articleState, dispatch, 
             </EditorLabelHolder>
           )}
           <EditorHeadlineHolder>
+            {headlineEditor && <Text>{headlineEditor} is editing the headline...</Text>}
             <ContentEditable
               className="headline-holder"
               placeholder="Enter a headline..."
               onChange={(e) => SetHeadline(e, dispatch, articleState, id)}
+              onBlur={(e) => {
+                SyncHeadline(e, articleState);
+                dispatch({
+                  type: "SET_HEADLINE_EDITOR",
+                  payload: {
+                    editor: null,
+                  },
+                });
+                firestore
+                  .collection("articles")
+                  .doc(id)
+                  .set({
+                    ...articleState,
+                    interactiveState: {
+                      headlineEditor: null,
+                    },
+                  });
+              }}
               html={articleState.doc.header.headline.html}
+              onClick={() => {
+                firestore
+                  .collection("articles")
+                  .doc(id)
+                  .set({
+                    ...articleState,
+                    interactiveState: {
+                      headlineEditor: newName,
+                    },
+                  });
+              }}
             />
           </EditorHeadlineHolder>
           <EditorSummaryHolder

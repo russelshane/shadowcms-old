@@ -13,7 +13,6 @@ function SetHeadline(e, dispatch, articleState, id) {
    * content editable value.
    */
   const headline = html.replace(/<[^>]+>/g, "");
-
   /**
    * Create slugged version of the headline value for
    * the article's publish url. This is editable.
@@ -60,7 +59,7 @@ function SetHeadline(e, dispatch, articleState, id) {
     });
   }
 
-  console.log(`Saved ${id}`);
+  console.log(`Saved ${id}. Details: `, articleState);
 }
 
 export default SetHeadline;
