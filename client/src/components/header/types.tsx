@@ -9,5 +9,6 @@ import { User } from "../../types/user";
 export type HeaderProps = {
   isEditor?: boolean;
   articleState?: Article;
+  dispatch?: any;
   user?: User;
 };

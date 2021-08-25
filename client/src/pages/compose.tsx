@@ -40,7 +40,7 @@ const Compose: React.FC = () => {
   /* Return */
   return (
     <Layout page={`Editing ${id} - Shadow`}>
-      <Header isEditor={true} user={MockUser} />
+      <Header isEditor={true} user={MockUser} articleState={articleState} />
       <Editor
         id={id}
         doc={document}

@@ -55,6 +55,15 @@ function NewsReducer(state, action) {
         },
       };
 
+    case "SET_ARTICLE_SAVING":
+      return {
+        ...state,
+        interactiveState: {
+          ...state.interactiveState,
+          saving: action.payload.saving,
+        },
+      };
+
     case "SET_HEADER_TYPE":
       return {
         ...state,

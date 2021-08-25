@@ -11,6 +11,7 @@ export interface Article {
   interactiveState: {
     headlineEditor: string | null;
     summaryEditor: string | null;
+    saving: boolean | null;
   };
   doc: {
     header: {

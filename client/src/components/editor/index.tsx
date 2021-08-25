@@ -18,11 +18,13 @@ import SetHeadline from "./handlers/setHeadline";
 import SyncHeadline from "./handlers/syncHeadline";
 import SetSummary from "./handlers/setSummary";
 import ContentEditable from "react-contenteditable";
+import ShadowComposeTop from "./editorTop";
+import { firestore } from "../../services/firebase";
 import { EditorProps } from "./types";
 import { useEffect, useState } from "react";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { EditorProseMirror } from "./styles/prosemirror";
-import { Heading, Pane, Switch, Text } from "evergreen-ui";
+import { Text } from "evergreen-ui";
 import {
   EditorHeadlineHolder,
   EditorHolder,
@@ -36,7 +38,7 @@ import {
   EditorTop,
   EditorWrapper,
 } from "./styles/component";
-import { firestore } from "../../services/firebase";
+import ShadowComposeOptions from "./editorOptions";
 
 const Editor: React.FC<EditorProps> = ({ doc, provider, articleState, dispatch, id }) => {
   /* Generate random name */
@@ -51,6 +53,7 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, articleState, dispatch, 
   const [allowEmbeds, setAllowEmbeds] = useState(true);
   const [showLabel, setShowLabel] = useState(false);
   const headlineEditor = articleState?.interactiveState.headlineEditor;
+  const isSaving = articleState?.interactiveState.saving;
 
   /**
    * Initialize advanced formats plugin for dayjs, "Do"
@@ -101,8 +104,13 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, articleState, dispatch, 
 
   return (
     <EditorWrapper>
+      {/**
+       * - Editor Top Component
+       * View article history, get help, read the guidelines, undo or redo
+       * changes, other interactive stuff.
+       */}
       <EditorTop>
-        <Heading size={200}>ARTICLE</Heading>
+        <ShadowComposeTop isSaving={isSaving as any} editor={editor} />
       </EditorTop>
       <EditorHolder>
         {/**
@@ -111,33 +119,14 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, articleState, dispatch, 
          * as labels, bylines, etc.
          */}
         <EditorOptions>
-          <Pane display="flex" gridGap={8} alignItems="center">
-            <Heading size={200}>TEMPLATE</Heading>
-
-            <Text cursor="pointer" fontSize={12} color="blue500">
-              Basic
-            </Text>
-          </Pane>
-          <Pane display="flex" gridGap={10} alignItems="center">
-            <Pane display="flex" gridGap={8} alignItems="center">
-              <Text fontSize={12} marginTop="-2px">
-                Spell Check
-              </Text>
-              <Switch checked={spellCheck} onChange={() => setSpellCheck(!spellCheck)} />
-            </Pane>
-            <Pane display="flex" gridGap={8} alignItems="center">
-              <Text fontSize={12} marginTop="-2px">
-                Labels
-              </Text>
-              <Switch checked={showLabel} onChange={() => setShowLabel(!showLabel)} />
-            </Pane>
-            <Pane display="flex" gridGap={8} alignItems="center">
-              <Text fontSize={12} marginTop="-2px">
-                Embeds
-              </Text>
-              <Switch checked={allowEmbeds} onChange={() => setAllowEmbeds(!allowEmbeds)} />
-            </Pane>
-          </Pane>
+          <ShadowComposeOptions
+            setAllowEmbeds={setAllowEmbeds}
+            setShowLabel={setShowLabel}
+            setSpellCheck={setSpellCheck}
+            spellCheck={spellCheck}
+            allowEmbeds={allowEmbeds}
+            showLabel={showLabel}
+          />
         </EditorOptions>
 
         {/**
@@ -158,11 +147,17 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, articleState, dispatch, 
               placeholder="Enter a headline..."
               onChange={(e) => SetHeadline(e, dispatch, articleState, id)}
               onBlur={(e) => {
+                dispatch({
+                  type: "SET_ARTICLE_SAVING",
+                  payload: {
+                    saving: true,
+                  },
+                });
                 SyncHeadline(e, articleState);
                 dispatch({
                   type: "SET_HEADLINE_EDITOR",
                   payload: {
-                    editor: null,
+                    editor: newName,
                   },
                 });
                 firestore
@@ -174,6 +169,23 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, articleState, dispatch, 
                       headlineEditor: null,
                     },
                   });
+
+                setTimeout(() => {
+                  dispatch({
+                    type: "SET_ARTICLE_SAVING",
+                    payload: {
+                      saving: false,
+                    },
+                  });
+                  setTimeout(() => {
+                    dispatch({
+                      type: "SET_ARTICLE_SAVING",
+                      payload: {
+                        saving: null,
+                      },
+                    });
+                  }, 1000);
+                }, 2000);
               }}
               html={articleState?.doc.header.headline.html as string}
               onClick={() => {
@@ -186,6 +198,12 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, articleState, dispatch, 
                       headlineEditor: newName,
                     },
                   });
+                dispatch({
+                  type: "SET_HEADLINE_EDITOR",
+                  payload: {
+                    editor: newName,
+                  },
+                });
               }}
             />
           </EditorHeadlineHolder>

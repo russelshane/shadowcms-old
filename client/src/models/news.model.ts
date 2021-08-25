@@ -12,6 +12,7 @@ export const NewsModel: Article = {
   interactiveState: {
     headlineEditor: null,
     summaryEditor: null,
+    saving: null,
   },
   doc: {
     header: {
