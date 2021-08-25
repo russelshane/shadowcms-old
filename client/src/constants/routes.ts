@@ -6,6 +6,12 @@
 const ROUTES = {
   LANDING: "/",
   DASHBOARD: "/dash",
+  PLANNER: "/planner",
+  SECTIONS: "/lib/sections",
+  TOPICS: "/lib/topics",
+  NEWSROOM: "/newsroom",
+  PUBLISHED_ARTICLES: "/monitoring/published",
+  INCOMING_ARTICLES: "/monitoring/incoming",
   COMPOSE: "/doc/:id/new/editing",
 };
 

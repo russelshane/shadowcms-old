@@ -5,8 +5,8 @@
 
 const COLORS = {
   background: "#F4F6FA",
-  foreground: "rgb(60,60,62)",
-  subtext: "#8f95b2",
+  subtext: "rgb(142,142,147)",
+  foreground: "#474d66",
   borders: "#DBDBDB",
   primary: "#5C85FF",
   danger: "#D14343",

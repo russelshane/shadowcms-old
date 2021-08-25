@@ -1,21 +1,25 @@
 /**
- * @description Client Landing / Authentication Page
+ * @description Create Button UI Component
  * @author ShadowCMS
  */
 
 import React from "react";
-import { customAlphabet } from "nanoid";
-import { Link, useHistory } from "react-router-dom";
-import { firestore } from "../services/firebase";
+import { EditIcon, Position, toaster, Tooltip } from "evergreen-ui";
+import { CreateButtonWrapper } from "./styles";
 import dayjs from "dayjs";
+import { customAlphabet } from "nanoid";
+import { useHistory } from "react-router-dom";
+import { firestore } from "../../services/firebase";
 
-const Landing: React.FC = () => {
+const CreateButton: React.FC = () => {
   const history = useHistory();
 
   const nanoid = customAlphabet("0987654321", 12);
   const newId = nanoid();
 
   const newDoc = async () => {
+    toaster.notify("Initializing...", { duration: 2 });
+
     await firestore
       .collection("articles")
       .doc(`shadow_${newId}`)
@@ -34,18 +38,13 @@ const Landing: React.FC = () => {
     history.push(`/doc/shadow_${newId}/new/editing`);
   };
 
-  /* Return */
   return (
-    <React.Fragment>
-      <h1>landing</h1>
-      <h2 style={{ cursor: "pointer" }} onClick={newDoc}>
-        new document
-      </h2>
-      <Link to="/dash">
-        <h2 style={{ cursor: "pointer" }}>go to dashboard</h2>
-      </Link>
-    </React.Fragment>
+    <Tooltip content="Create new article" position={Position.TOP_RIGHT}>
+      <CreateButtonWrapper onClick={newDoc}>
+        <EditIcon size={22} />
+      </CreateButtonWrapper>
+    </Tooltip>
   );
 };
 
-export default Landing;
+export default CreateButton;

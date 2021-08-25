@@ -12,6 +12,7 @@ import { Doc } from "yjs";
 import { WebsocketProvider } from "y-websocket";
 import { NewsModel } from "../models/news.model";
 import useNewsArticle from "../handlers/useNewsArticle";
+import { MockUser } from "../constants/mocks/user";
 
 /* Dynamic Components */
 const Layout = loadable(() => import("../ui/layout"));
@@ -39,7 +40,7 @@ const Compose: React.FC = () => {
   /* Return */
   return (
     <Layout page={`Editing ${id} - Shadow`}>
-      <Header />
+      <Header isEditor={true} user={MockUser} />
       <Editor
         id={id}
         doc={document}
