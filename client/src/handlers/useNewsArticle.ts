@@ -17,6 +17,15 @@ function useNewsArticle(id, dispatch) {
         },
       });
 
+      if (doc.data()?.doc?.interactiveState?.headlineEditor !== undefined) {
+        dispatch({
+          type: "SET_HEADLINE_EDITOR",
+          payload: {
+            headlineEditor: doc.data()?.doc?.interactiveState?.headlineEditor,
+          },
+        });
+      }
+
       /**
        * Log which data comes from firestore and the one from local
        */

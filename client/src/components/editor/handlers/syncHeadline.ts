@@ -26,7 +26,7 @@ async function SyncHeadline(e, docId) {
   /**
    * Init reference for the article's firestore document
    */
-  const ref = firestore.collection("articles").doc(id);
+  const ref = await firestore.collection("articles").doc(id);
 
   /**
    * Sync new headline entered by user to other users in the

@@ -22,12 +22,14 @@ import ShadowComposeTop from "./editorTop";
 import loadable from "@loadable/component";
 import NewsReducer from "../../reducers/news.reducer";
 import useNewsArticle from "../../handlers/useNewsArticle";
-import { firestore } from "../../services/firebase";
+import SyncHeadline from "./handlers/syncHeadline";
+import SetHeadlineEditor from "./handlers/setHeadlineEditor";
+import saveArticle from "./handlers/saveArticle";
 import { EditorProps } from "./types";
 import { useEffect, useState } from "react";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { EditorProseMirror } from "./styles/prosemirror";
-import { toaster } from "evergreen-ui";
+import { Text } from "evergreen-ui";
 import { MockUser } from "../../constants/mocks/user";
 import { NewsModel } from "../../models/news.model";
 import {
@@ -50,8 +52,6 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, id }) => {
   /* Generate random name */
   const newName = `${RandomName.first()} ${RandomName.last()}`;
 
-  const [articleState, dispatch] = useReducer(NewsReducer, NewsModel);
-
   /**
    * Editor interactive components states, includes the Add "+" button,
    * selector components, modals, etc.
@@ -60,7 +60,9 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, id }) => {
   const [spellCheck, setSpellCheck] = useState(false);
   const [allowEmbeds, setAllowEmbeds] = useState(true);
   const [showLabel, setShowLabel] = useState(false);
-  const isSaving = articleState?.interactiveState.saving;
+  const [articleState, dispatch] = useReducer(NewsReducer, NewsModel);
+  const headlineEditor = articleState?.interactiveState?.headlineEditor;
+  const isSaving = articleState?.interactiveState?.saving;
 
   /**
    * Initialize advanced formats plugin for dayjs, "Do"
@@ -117,72 +119,11 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, id }) => {
     useNewsArticle(id, dispatch);
   }, []);
 
-  /**
-   * Function to save article contents (not publish)
-   */
-  async function saveArticle() {
-    await dispatch({
-      type: "SET_ARTICLE_SAVING",
-      payload: {
-        saving: true,
-      },
-    });
-
-    await dispatch({
-      type: "SET_ARTICLE_BODY",
-      payload: {
-        body: `${editor?.getHTML()}`,
-      },
-    });
-
-    setTimeout(async () => {
-      const ref = await firestore.collection("articles").doc(id);
-
-      await firestore
-        .runTransaction((transaction) => {
-          return transaction.get(ref).then((doc) => {
-            if (!doc.exists) {
-              throw "Document does not exist!";
-            }
-
-            transaction.set(ref, {
-              ...articleState,
-              doc: {
-                ...articleState?.doc,
-                body: `${editor?.getHTML()}`,
-              },
-            });
-          });
-        })
-        .then(() => {
-          toaster.success("Article saved successfully!");
-          dispatch({
-            type: "SET_ARTICLE_SAVING",
-            payload: {
-              saving: false,
-            },
-          });
-
-          setTimeout(() => {
-            dispatch({
-              type: "SET_ARTICLE_SAVING",
-              payload: {
-                saving: null,
-              },
-            });
-          }, 1000);
-        });
-    }, 200);
-  }
+  const docId = id;
 
   return (
     <React.Fragment>
-      <Header
-        saveArticle={saveArticle}
-        isEditor={true}
-        articleState={articleState}
-        user={MockUser}
-      />
+      <Header isEditor={true} user={MockUser} />
 
       <EditorWrapper>
         {/**
@@ -226,10 +167,16 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, id }) => {
               </EditorLabelHolder>
             )}
             <EditorHeadlineHolder>
+              {headlineEditor && <Text>{headlineEditor} is editing the headline...</Text>}
               <ContentEditable
                 className="headline-holder"
                 placeholder="Enter a headline..."
                 onChange={(e) => SetHeadline(e, dispatch, articleState)}
+                onBlur={(e) => {
+                  SyncHeadline(e, docId);
+                  saveArticle({ dispatch, articleState, id, editor });
+                }}
+                onClick={() => SetHeadlineEditor(newName, docId, dispatch)}
                 html={articleState?.doc.header.headline.html as string}
                 spellCheck={spellCheck}
               />
@@ -237,7 +184,15 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, id }) => {
             <EditorSummaryHolder
               placeholder="Write summary..."
               value={articleState?.doc.header.summary.text}
-              onChange={(e) => SetSummary(e, dispatch, articleState)}
+              onBlur={(e) => SetSummary(e, articleState)}
+              onChange={(e) =>
+                dispatch({
+                  type: "SET_SUMMARY",
+                  payload: {
+                    text: e.target.value,
+                  },
+                })
+              }
               spellCheck={spellCheck}
             />
             <EditorTimestamp>{DayJS().format("MMMM Do, YYYY")}</EditorTimestamp>

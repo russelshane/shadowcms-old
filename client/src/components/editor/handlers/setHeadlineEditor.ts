@@ -5,13 +5,20 @@
 
 import { firestore } from "../../../services/firebase";
 
-async function SetHeadlineEditor(newName, articleState) {
-  const id = articleState?.slug;
+async function SetHeadlineEditor(newName, docId, dispatch) {
+  const id = docId;
+
+  dispatch({
+    type: "SET_HEADLINE_EDITOR",
+    payload: {
+      headlineEditor: newName,
+    },
+  });
 
   /**
    * Init reference for the article's firestore document
    */
-  const ref = firestore.collection("articles").doc(id);
+  const ref = await firestore.collection("articles").doc(id);
 
   await firestore
     .runTransaction((transaction) => {

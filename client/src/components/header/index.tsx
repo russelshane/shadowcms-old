@@ -9,10 +9,9 @@ import { HeaderProps } from "./types";
 import { HeaderWrapper, UserAvatar, UserEmail } from "./styles";
 import { Button, CloudUploadIcon, Pane } from "evergreen-ui";
 
-const Header: React.FC<HeaderProps> = ({ isEditor, user, articleState, saveArticle }) => {
+const Header: React.FC<HeaderProps> = ({ isEditor, user }) => {
   /* Interactive State */
   const [publishDisabled, setPublishDisabled] = useState<boolean>();
-  const isSaving = articleState?.interactiveState.saving;
 
   /* Dynamic Components */
   const Logo = loadable(() => import("../../ui/logo"));
@@ -33,13 +32,6 @@ const Header: React.FC<HeaderProps> = ({ isEditor, user, articleState, saveArtic
           <Pane display="flex" gridGap="10px" alignItems="center">
             <Button appearance="minimal" disabled={publishDisabled} iconBefore={CloudUploadIcon}>
               Publish
-            </Button>
-            <Button
-              appearance="primary"
-              onClick={saveArticle}
-              isLoading={(isSaving as any) === undefined ? null : (isSaving as any)}
-            >
-              {isSaving ? "Saving" : "Save"}
             </Button>
           </Pane>
         )}

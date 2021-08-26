@@ -1,26 +1,42 @@
-import { toaster } from "evergreen-ui";
-import { firestore } from "../services/firebase";
+/**
+ * @description Function to save entire article and keep it up to date
+ * @author ShadowCMS
+ */
 
-function saveArticle({ articleState, dispatch }) {
-  dispatch({
+import { toaster } from "evergreen-ui";
+import { firestore } from "../../../services/firebase";
+
+async function saveArticle({ dispatch, editor, id, articleState }) {
+  await dispatch({
     type: "SET_ARTICLE_SAVING",
     payload: {
       saving: true,
     },
   });
 
-  setTimeout(() => {
-    const ref = firestore.collection("articles").doc(articleState?.id);
+  await dispatch({
+    type: "SET_ARTICLE_BODY",
+    payload: {
+      body: `${editor?.getHTML()}`,
+    },
+  });
 
-    firestore
+  setTimeout(async () => {
+    const ref = await firestore.collection("articles").doc(id);
+
+    await firestore
       .runTransaction((transaction) => {
-        return transaction.get(ref).then(async (doc) => {
+        return transaction.get(ref).then((doc) => {
           if (!doc.exists) {
             throw "Document does not exist!";
           }
 
-          await transaction.set(ref, {
+          transaction.set(ref, {
             ...articleState,
+            doc: {
+              ...articleState?.doc,
+              body: `${editor?.getHTML()}`,
+            },
           });
         });
       })
@@ -42,7 +58,7 @@ function saveArticle({ articleState, dispatch }) {
           });
         }, 1000);
       });
-  }, 2000);
+  }, 200);
 }
 
 export default saveArticle;

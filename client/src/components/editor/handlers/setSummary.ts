@@ -3,28 +3,29 @@
  * @author ShadowCMS
  */
 
-async function SetSummary(e, dispatch, articleState) {
+import { firestore } from "../../../services/firebase";
+
+async function SetSummary(e, articleState) {
+  const id = articleState.id;
   const summary = e.target.value;
 
-  await dispatch({
-    type: "SET_SUMMARY",
-    payload: {
-      text: summary,
-    },
-  });
+  const ref = await firestore.collection("articles").doc(id);
 
-  /**
-   * Set the initial SEO description/excerpt from the
-   * new summary only if it's value is empty or null.
-   */
-  if ((articleState.doc.header.summary.text as string).length < 0) {
-    dispatch({
-      type: "SET_SEO_DESCRIPTION",
-      payload: {
-        description: summary,
-      },
+  await firestore
+    .runTransaction((transaction) => {
+      return transaction.get(ref).then((doc) => {
+        if (!doc.exists) {
+          throw "Document does not exist!";
+        }
+
+        transaction.update(ref, {
+          "doc.header.summary.text": summary,
+        });
+      });
+    })
+    .then(() => {
+      console.log(`Successful transaction for editing summary!`);
     });
-  }
 }
 
 export default SetSummary;
