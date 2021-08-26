@@ -9,8 +9,6 @@ export interface Article {
   id: string;
   lastUpdated: string;
   interactiveState: {
-    headlineEditor: string | null;
-    summaryEditor: string | null;
     saving: boolean | null;
   };
   doc: {

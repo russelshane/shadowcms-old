@@ -11,4 +11,5 @@ export type HeaderProps = {
   articleState?: Article;
   dispatch?: any;
   user?: User;
+  saveArticle?: any;
 };

@@ -3,10 +3,10 @@
  * @author ShadowCMS
  */
 
-function SetSummary(e, dispatch, articleState) {
+async function SetSummary(e, dispatch, articleState) {
   const summary = e.target.value;
 
-  dispatch({
+  await dispatch({
     type: "SET_SUMMARY",
     payload: {
       text: summary,
@@ -25,8 +25,6 @@ function SetSummary(e, dispatch, articleState) {
       },
     });
   }
-
-  console.log(`Saved ${articleState.id}`);
 }
 
 export default SetSummary;

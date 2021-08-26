@@ -6,7 +6,7 @@
 import { firestore } from "../../../services/firebase";
 
 async function SetHeadlineEditor(newName, articleState) {
-  const id = articleState?.id;
+  const id = articleState?.slug;
 
   /**
    * Init reference for the article's firestore document

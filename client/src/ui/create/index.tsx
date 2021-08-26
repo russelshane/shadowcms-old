@@ -4,12 +4,13 @@
  */
 
 import React from "react";
+import dayjs from "dayjs";
 import { EditIcon, Position, toaster, Tooltip } from "evergreen-ui";
 import { CreateButtonWrapper } from "./styles";
-import dayjs from "dayjs";
 import { customAlphabet } from "nanoid";
 import { useHistory } from "react-router-dom";
 import { firestore } from "../../services/firebase";
+import { NewsModel } from "../../models/news.model";
 
 const CreateButton: React.FC = () => {
   const history = useHistory();
@@ -24,14 +25,13 @@ const CreateButton: React.FC = () => {
       .collection("articles")
       .doc(`shadow_${newId}`)
       .set({
-        slug: `shadow_${newId}`,
+        id: `shadow_${newId}`,
         lastUpdated: dayjs().format("YYYY-MM-DDTHH:mm:ss"),
+        interactiveState: {
+          saving: null,
+        },
         doc: {
-          metadata: {
-            is_live: false,
-            is_breaking: false,
-            is_exclusive: false,
-          },
+          ...NewsModel.doc,
         },
       });
 

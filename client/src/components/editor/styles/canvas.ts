@@ -20,10 +20,9 @@ export const EditorHeadlineHolder = styled.div({
   fontFamily: "'Bespoke Serif', sans-serif",
   fontWeight: 500,
   fontStyle: "italic",
-  letterSpacing: "-0.85px",
+  letterSpacing: "-1.325px",
   fontSize: "2.5rem",
-  lineHeight: "2.85rem",
-  color: "#222",
+  lineHeight: "2.965rem",
   outline: "none",
   cursor: "pointer",
   resize: "none",
@@ -38,7 +37,7 @@ export const EditorHeadlineHolder = styled.div({
   ".headline-holder": {
     border: "none",
     outline: "none",
-    color: "#222",
+    color: "#333",
 
     "&[placeholder]:empty:before": {
       content: "attr(placeholder)",
@@ -57,7 +56,7 @@ export const EditorSummaryHolder = styled.textarea`
   font-family: "Bespoke Serif", serif;
   color: #292929;
   width: 100%;
-  height: 90px;
+  height: 110px;
   outline: none;
   resize: none;
   cursor: pointer;

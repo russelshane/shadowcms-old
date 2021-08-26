@@ -19,11 +19,14 @@ import SetSummary from "./handlers/setSummary";
 import ContentEditable from "react-contenteditable";
 import ShadowComposeOptions from "./editorOptions";
 import ShadowComposeTop from "./editorTop";
+import loadable from "@loadable/component";
+import { firestore } from "../../services/firebase";
 import { EditorProps } from "./types";
 import { useEffect, useState } from "react";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { EditorProseMirror } from "./styles/prosemirror";
-import { Text } from "evergreen-ui";
+import { toaster } from "evergreen-ui";
+import { MockUser } from "../../constants/mocks/user";
 import {
   EditorHeadlineHolder,
   EditorHolder,
@@ -38,6 +41,8 @@ import {
   EditorWrapper,
 } from "./styles/component";
 
+const Header = loadable(() => import("../../components/header"));
+
 const Editor = React.memo(({ doc, provider, articleState, dispatch, id }: EditorProps) => {
   /* Generate random name */
   const newName = `${RandomName.first()} ${RandomName.last()}`;
@@ -50,7 +55,6 @@ const Editor = React.memo(({ doc, provider, articleState, dispatch, id }: Editor
   const [spellCheck, setSpellCheck] = useState(false);
   const [allowEmbeds, setAllowEmbeds] = useState(true);
   const [showLabel, setShowLabel] = useState(false);
-  const headlineEditor = articleState?.interactiveState.headlineEditor;
   const isSaving = articleState?.interactiveState.saving;
 
   /**
@@ -100,100 +104,166 @@ const Editor = React.memo(({ doc, provider, articleState, dispatch, id }: Editor
     LoadIframelyEmbeds();
   });
 
-  console.log(articleState?.doc.body);
+  /**
+   * Function to save article contents (not publish)
+   */
+  async function saveArticle() {
+    await dispatch({
+      type: "SET_ARTICLE_SAVING",
+      payload: {
+        saving: true,
+      },
+    });
+
+    await dispatch({
+      type: "SET_ARTICLE_BODY",
+      payload: {
+        body: `${editor?.getHTML()}`,
+      },
+    });
+
+    setTimeout(async () => {
+      const ref = await firestore.collection("articles").doc(id);
+
+      await firestore
+        .runTransaction((transaction) => {
+          return transaction.get(ref).then((doc) => {
+            if (!doc.exists) {
+              throw "Document does not exist!";
+            }
+
+            transaction.set(ref, {
+              ...articleState,
+              doc: {
+                ...articleState?.doc,
+                body: `${editor?.getHTML()}`,
+              },
+            });
+          });
+        })
+        .then(() => {
+          toaster.success("Article saved successfully!");
+          dispatch({
+            type: "SET_ARTICLE_SAVING",
+            payload: {
+              saving: false,
+            },
+          });
+
+          setTimeout(() => {
+            dispatch({
+              type: "SET_ARTICLE_SAVING",
+              payload: {
+                saving: null,
+              },
+            });
+          }, 1000);
+        });
+    }, 200);
+  }
 
   return (
-    <EditorWrapper>
-      {/**
-       * - Editor Top Component
-       * View article history, get help, read the guidelines, undo or redo
-       * changes, other interactive stuff.
-       */}
-      <EditorTop>
-        <ShadowComposeTop isSaving={isSaving as any} editor={editor} />
-      </EditorTop>
-      <EditorHolder>
-        {/**
-         * - Editor Options Component
-         * Set the header type, and any features available to the article such
-         * as labels, bylines, etc.
-         */}
-        <EditorOptions>
-          <ShadowComposeOptions
-            setAllowEmbeds={setAllowEmbeds}
-            setShowLabel={setShowLabel}
-            setSpellCheck={setSpellCheck}
-            spellCheck={spellCheck}
-            allowEmbeds={allowEmbeds}
-            showLabel={showLabel}
-          />
-        </EditorOptions>
+    <React.Fragment>
+      <Header
+        saveArticle={saveArticle}
+        isEditor={true}
+        articleState={articleState}
+        user={MockUser}
+      />
 
+      <EditorWrapper>
         {/**
-         * - Editor Header Component
-         * Where headline and summary nodes are in. Timestamps are also
-         * included here and the article's bylines.
+         * - Editor Top Component
+         * View article history, get help, read the guidelines, undo or redo
+         * changes, other interactive stuff.
          */}
-        <EditorHeader>
+        <EditorTop>
+          <ShadowComposeTop isSaving={isSaving as any} editor={editor} />
+        </EditorTop>
+        <EditorHolder>
           {/**
-           * Only show the label/section/topic of the article if the user has
-           * set the "Show Labels" to "on".
+           * - Editor Options Component
+           * Set the header type, and any features available to the article such
+           * as labels, bylines, etc.
            */}
-          {showLabel && (
-            <EditorLabelHolder>
-              {!articleState?.doc?.sections?.name ? "UNKNOWN" : articleState.doc.sections.name}
-            </EditorLabelHolder>
-          )}
-          <EditorHeadlineHolder>
-            {headlineEditor && <Text>{headlineEditor} is editing the headline...</Text>}
-            <ContentEditable
-              className="headline-holder"
-              placeholder="Enter a headline..."
-              onChange={(e) => SetHeadline(e, dispatch, articleState, id)}
-              html={articleState?.doc.header.headline.html as string}
-            />
-          </EditorHeadlineHolder>
-          <EditorSummaryHolder
-            placeholder="Write summary..."
-            value={articleState?.doc.header.summary.text}
-            onChange={(e) => SetSummary(e, dispatch, articleState)}
-          />
-          <EditorTimestamp>{DayJS().format("MMMM Do, YYYY")}</EditorTimestamp>
-        </EditorHeader>
-
-        {/**
-         * - Collaborative ProseMirror/TipTap Component
-         * The editor is using WebSockets to synchronize with other newsroom members.
-         * Cursors are also synced, the function is not quite battle-testeed but should
-         * be enough for production, at least, for now.
-         */}
-        {editor && (
-          <EditorProseMirror>
-            <EditorBubbleMenu editor={editor} />
-            <EditorFloatingMenu
-              editor={editor}
-              editorMenuActive={editorMenuActive}
-              setEditorMenuActive={setEditorMenuActive}
-              allowEmbeds={allowEmbeds}
-            />
-            <EditorContent
-              editor={editor}
+          <EditorOptions>
+            <ShadowComposeOptions
+              setAllowEmbeds={setAllowEmbeds}
+              setShowLabel={setShowLabel}
+              setSpellCheck={setSpellCheck}
               spellCheck={spellCheck}
-              autoCorrect="false"
-              autoComplete="false"
-              onInput={() => {
-                dispatch({
-                  type: "SET_ARTICLE_BODY",
-                  payload: {
-                    html: `${editor.getHTML()}`,
-                  },
-                });
-              }}
+              allowEmbeds={allowEmbeds}
+              showLabel={showLabel}
             />
-          </EditorProseMirror>
-        )}
-      </EditorHolder>
-    </EditorWrapper>
+          </EditorOptions>
+
+          {/**
+           * - Editor Header Component
+           * Where headline and summary nodes are in. Timestamps are also
+           * included here and the article's bylines.
+           */}
+          <EditorHeader>
+            {/**
+             * Only show the label/section/topic of the article if the user has
+             * set the "Show Labels" to "on".
+             */}
+            {showLabel && (
+              <EditorLabelHolder>
+                {!articleState?.doc?.sections?.name ? "UNKNOWN" : articleState.doc.sections.name}
+              </EditorLabelHolder>
+            )}
+            <EditorHeadlineHolder>
+              <ContentEditable
+                className="headline-holder"
+                placeholder="Enter a headline..."
+                onChange={(e) => SetHeadline(e, dispatch, articleState)}
+                html={articleState?.doc.header.headline.html as string}
+                spellCheck={spellCheck}
+              />
+            </EditorHeadlineHolder>
+            <EditorSummaryHolder
+              placeholder="Write summary..."
+              value={articleState?.doc.header.summary.text}
+              onChange={(e) => SetSummary(e, dispatch, articleState)}
+              spellCheck={spellCheck}
+            />
+            <EditorTimestamp>{DayJS().format("MMMM Do, YYYY")}</EditorTimestamp>
+          </EditorHeader>
+
+          {/**
+           * - Collaborative ProseMirror/TipTap Component
+           * The editor is using WebSockets to synchronize with other newsroom members.
+           * Cursors are also synced, the function is not quite battle-testeed but should
+           * be enough for production, at least, for now.
+           */}
+          {editor && (
+            <EditorProseMirror>
+              <EditorBubbleMenu editor={editor} />
+              <EditorFloatingMenu
+                editor={editor}
+                editorMenuActive={editorMenuActive}
+                setEditorMenuActive={setEditorMenuActive}
+                allowEmbeds={allowEmbeds}
+              />
+              <EditorContent
+                editor={editor}
+                spellCheck={spellCheck}
+                autoCorrect="false"
+                autoComplete="false"
+                onInput={() => {
+                  dispatch({
+                    type: "SET_ARTICLE_BODY",
+                    payload: {
+                      html: `${editor.getHTML()}`,
+                    },
+                  });
+                }}
+              />
+            </EditorProseMirror>
+          )}
+        </EditorHolder>
+      </EditorWrapper>
+    </React.Fragment>
   );
 });
 

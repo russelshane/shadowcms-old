@@ -10,8 +10,6 @@ export const NewsModel: Article = {
   id: "",
   lastUpdated: dayjs().format("YYYY-MM-DDTHH:mm:ss") as string,
   interactiveState: {
-    headlineEditor: null,
-    summaryEditor: null,
     saving: null,
   },
   doc: {

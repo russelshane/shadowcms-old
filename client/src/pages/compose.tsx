@@ -12,11 +12,9 @@ import { useParams } from "react-router-dom";
 import { Doc } from "yjs";
 import { WebsocketProvider } from "y-websocket";
 import { NewsModel } from "../models/news.model";
-import { MockUser } from "../constants/mocks/user";
 
 /* Dynamic Components */
 const Layout = loadable(() => import("../ui/layout"));
-const Header = loadable(() => import("../components/header"));
 const Editor = loadable(() => import("../components/editor"));
 
 const Compose: React.FC = () => {
@@ -40,7 +38,6 @@ const Compose: React.FC = () => {
   /* Return */
   return (
     <Layout page={`Editing ${id} - Shadow`}>
-      <Header isEditor={true} user={MockUser} articleState={articleState} dispatch={dispatch} />
       <Editor
         id={id}
         doc={document}

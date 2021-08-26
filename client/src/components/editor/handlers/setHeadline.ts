@@ -5,28 +5,28 @@
 
 import Slugify from "react-slugify";
 
-function SetHeadline(e, dispatch, articleState, id) {
+async function SetHeadline(e, dispatch, articleState) {
   const html = e.target.value;
 
   /**
    * Remove any possible HTML tags or code from the
    * content editable value.
    */
-  const headline = html.replace(/<[^>]+>/g, "");
+  const headline = await html.replace(/<[^>]+>/g, "");
   /**
    * Create slugged version of the headline value for
    * the article's publish url. This is editable.
    */
-  const generatedPublishUrl = Slugify(headline);
+  const generatedPublishUrl = await Slugify(headline);
 
-  dispatch({
+  await dispatch({
     type: "SET_HEADLINE",
     payload: {
       text: headline,
     },
   });
 
-  dispatch({
+  await dispatch({
     type: "SET_HEADLINE_HTML",
     payload: {
       html: html,
@@ -58,8 +58,6 @@ function SetHeadline(e, dispatch, articleState, id) {
       },
     });
   }
-
-  console.log(`Saved ${id}. ${html} Details: `, articleState);
 }
 
 export default SetHeadline;
