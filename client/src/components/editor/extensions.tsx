@@ -12,7 +12,6 @@ import Mention from "@tiptap/extension-mention";
 import Placeholder from "@tiptap/extension-placeholder";
 import MentionConfig from "./config/MentionConfig";
 import PlaceholderConfig from "./config/PlaceholderConfig";
-import History from "@tiptap/extension-history";
 
 const DefaultExtensions = [
   StarterKit.configure({
@@ -29,7 +28,6 @@ const DefaultExtensions = [
   Image,
   Seperator,
   Blockquote,
-  History,
   CodeBlock,
   Link,
   Embed,

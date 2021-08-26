@@ -17,9 +17,10 @@ import EditorFloatingMenu from "./internal/floating";
 import SetHeadline from "./handlers/setHeadline";
 import SyncHeadline from "./handlers/syncHeadline";
 import SetSummary from "./handlers/setSummary";
+import SetHeadlineEditor from "./handlers/setHeadlineEditor";
 import ContentEditable from "react-contenteditable";
+import ShadowComposeOptions from "./editorOptions";
 import ShadowComposeTop from "./editorTop";
-import { firestore } from "../../services/firebase";
 import { EditorProps } from "./types";
 import { useEffect, useState } from "react";
 import { EditorContent, useEditor } from "@tiptap/react";
@@ -38,7 +39,6 @@ import {
   EditorTop,
   EditorWrapper,
 } from "./styles/component";
-import ShadowComposeOptions from "./editorOptions";
 
 const Editor: React.FC<EditorProps> = ({ doc, provider, articleState, dispatch, id }) => {
   /* Generate random name */
@@ -66,7 +66,9 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, articleState, dispatch, 
    *  features. Default extensions comes from another file, as well as the
    *  configurations for it.
    */
-
+  provider.on("status", () => {
+    console.log(provider.status);
+  });
   const editor = useEditor(
     {
       extensions: [
@@ -146,61 +148,12 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, articleState, dispatch, 
               className="headline-holder"
               placeholder="Enter a headline..."
               onChange={(e) => SetHeadline(e, dispatch, articleState, id)}
-              onBlur={(e) => {
-                dispatch({
-                  type: "SET_ARTICLE_SAVING",
-                  payload: {
-                    saving: true,
-                  },
-                });
-                SyncHeadline(e, articleState);
-                dispatch({
-                  type: "SET_HEADLINE_EDITOR",
-                  payload: {
-                    editor: null,
-                  },
-                });
-                firestore
-                  .collection("articles")
-                  .doc(id)
-                  .set({
-                    ...articleState,
-                    interactiveState: {
-                      headlineEditor: null,
-                    },
-                  });
-
-                setTimeout(() => {
-                  dispatch({
-                    type: "SET_ARTICLE_SAVING",
-                    payload: {
-                      saving: false,
-                    },
-                  });
-                }, 2000);
-              }}
+              onBlur={(e) => SyncHeadline(e, articleState, dispatch)}
               html={articleState?.doc.header.headline.html as string}
-              onClick={() => {
-                firestore
-                  .collection("articles")
-                  .doc(id)
-                  .set({
-                    ...articleState,
-                    interactiveState: {
-                      headlineEditor: newName,
-                    },
-                  });
-                dispatch({
-                  type: "SET_HEADLINE_EDITOR",
-                  payload: {
-                    editor: newName,
-                  },
-                });
-              }}
+              onClick={() => SetHeadlineEditor(dispatch, newName, articleState)}
             />
           </EditorHeadlineHolder>
           <EditorSummaryHolder
-            rows={3}
             placeholder="Write summary..."
             value={articleState?.doc.header.summary.text}
             onChange={(e) => SetSummary(e, dispatch, articleState)}

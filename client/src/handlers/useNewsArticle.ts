@@ -22,14 +22,12 @@ async function useNewsArticle(id, dispatch) {
         },
       });
 
-      if (doc.data()?.doc?.header?.headline?.html !== undefined) {
-        dispatch({
-          type: "SET_HEADLINE_HTML",
-          payload: {
-            html: doc.data()?.doc?.header?.headline?.html,
-          },
-        });
-      }
+      dispatch({
+        type: "SET_HEADLINE_HTML",
+        payload: {
+          html: doc.data()?.doc?.header?.headline?.html,
+        },
+      });
 
       if (doc.data()?.interactiveState?.headlineEditor !== undefined) {
         dispatch({

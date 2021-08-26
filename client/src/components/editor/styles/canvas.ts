@@ -57,6 +57,7 @@ export const EditorSummaryHolder = styled.textarea`
   font-family: "Bespoke Serif", serif;
   color: #292929;
   width: 100%;
+  height: 90px;
   outline: none;
   resize: none;
   cursor: pointer;
