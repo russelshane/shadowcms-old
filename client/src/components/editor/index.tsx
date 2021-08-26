@@ -3,7 +3,7 @@
  * @author ShadowCMS
  */
 
-import React from "react";
+import React, { useReducer } from "react";
 import DayJS from "dayjs";
 import AdvancedFormat from "dayjs/plugin/advancedFormat";
 import RandomName from "random-name";
@@ -20,6 +20,8 @@ import ContentEditable from "react-contenteditable";
 import ShadowComposeOptions from "./editorOptions";
 import ShadowComposeTop from "./editorTop";
 import loadable from "@loadable/component";
+import NewsReducer from "../../reducers/news.reducer";
+import useNewsArticle from "../../handlers/useNewsArticle";
 import { firestore } from "../../services/firebase";
 import { EditorProps } from "./types";
 import { useEffect, useState } from "react";
@@ -27,6 +29,7 @@ import { EditorContent, useEditor } from "@tiptap/react";
 import { EditorProseMirror } from "./styles/prosemirror";
 import { toaster } from "evergreen-ui";
 import { MockUser } from "../../constants/mocks/user";
+import { NewsModel } from "../../models/news.model";
 import {
   EditorHeadlineHolder,
   EditorHolder,
@@ -43,9 +46,11 @@ import {
 
 const Header = loadable(() => import("../../components/header"));
 
-const Editor: React.FC<EditorProps> = ({ doc, provider, articleState, dispatch, id }) => {
+const Editor: React.FC<EditorProps> = ({ doc, provider, id }) => {
   /* Generate random name */
   const newName = `${RandomName.first()} ${RandomName.last()}`;
+
+  const [articleState, dispatch] = useReducer(NewsReducer, NewsModel);
 
   /**
    * Editor interactive components states, includes the Add "+" button,
@@ -103,6 +108,14 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, articleState, dispatch, 
      */
     LoadIframelyEmbeds();
   });
+
+  /**
+   * Fetch the blank or the initial news article data
+   * upon creating new article.
+   */
+  useEffect(() => {
+    useNewsArticle(id, dispatch);
+  }, []);
 
   /**
    * Function to save article contents (not publish)
