@@ -24,7 +24,7 @@ const Compose: React.FC = () => {
    */
   const { id }: any = useParams();
   const document: Doc = new Y.Doc();
-  const provider = new WebsocketProvider("ws://127.0.0.1:5000", id, document);
+  const provider = new WebsocketProvider("wss://shadow-websockets.herokuapp.com", id, document);
   const [articleState, dispatch] = useReducer(NewsReducer, NewsModel);
 
   /**
