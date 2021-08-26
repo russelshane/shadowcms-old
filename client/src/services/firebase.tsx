@@ -12,7 +12,7 @@ const config = {
   authDomain: "timesproject.firebaseapp.com",
   databaseURL: "https://timesproject-default-rtdb.asia-southeast1.firebasedatabase.app",
   projectId: "timesproject",
-  storageBucket: "assets.sbtx.cf",
+  storageBucket: "timesproject.appspot.com",
   messagingSenderId: "694644400493",
   appId: "1:694644400493:web:f556ac77104e99ec3fba64",
 };
