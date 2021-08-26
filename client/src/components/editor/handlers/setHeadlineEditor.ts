@@ -5,8 +5,9 @@
 
 import { firestore } from "../../../services/firebase";
 
-async function SetHeadlineEditor(newName, docId, dispatch) {
+async function SetHeadlineEditor(user, docId, dispatch) {
   const id = docId;
+  const newName = user;
 
   dispatch({
     type: "SET_HEADLINE_EDITOR",

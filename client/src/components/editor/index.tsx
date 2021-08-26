@@ -48,7 +48,7 @@ import {
 
 const Header = loadable(() => import("../../components/header"));
 
-const Editor: React.FC<EditorProps> = ({ doc, provider, id }) => {
+const Editor = React.memo(({ doc, provider, id }: EditorProps) => {
   /**
    * Editor interactive components states, includes the Add "+" button,
    * selector components, modals, etc.
@@ -239,6 +239,6 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, id }) => {
       </EditorWrapper>
     </React.Fragment>
   );
-};
+});
 
 export default Editor;
