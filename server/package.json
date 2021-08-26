@@ -13,9 +13,11 @@
   "license": "MIT",
   "dependencies": {
     "@hocuspocus/extension-rocksdb": "^1.0.0-alpha.65",
-    "@hocuspocus/server": "^1.0.0-alpha.63"
+    "@hocuspocus/server": "^1.0.0-alpha.63",
+    "dotenv": "^10.0.0"
   },
   "devDependencies": {
+    "@types/dotenv": "^8.2.0",
     "@types/node": "^16.7.2",
     "nodemon": "^2.0.12",
     "ts-node": "^10.2.1",
