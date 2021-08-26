@@ -15,9 +15,7 @@ import DefaultExtensions from "./extensions";
 import EditorBubbleMenu from "./internal/bubble";
 import EditorFloatingMenu from "./internal/floating";
 import SetHeadline from "./handlers/setHeadline";
-import SyncHeadline from "./handlers/syncHeadline";
 import SetSummary from "./handlers/setSummary";
-import SetHeadlineEditor from "./handlers/setHeadlineEditor";
 import ContentEditable from "react-contenteditable";
 import ShadowComposeOptions from "./editorOptions";
 import ShadowComposeTop from "./editorTop";
@@ -40,7 +38,7 @@ import {
   EditorWrapper,
 } from "./styles/component";
 
-const Editor: React.FC<EditorProps> = ({ doc, provider, articleState, dispatch, id }) => {
+const Editor = React.memo(({ doc, provider, articleState, dispatch, id }: EditorProps) => {
   /* Generate random name */
   const newName = `${RandomName.first()} ${RandomName.last()}`;
 
@@ -66,15 +64,12 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, articleState, dispatch, 
    *  features. Default extensions comes from another file, as well as the
    *  configurations for it.
    */
-  provider.on("status", () => {
-    console.log(provider.status);
-  });
   const editor = useEditor(
     {
       extensions: [
         ...DefaultExtensions,
         /**
-         * Using WebRTC for the article's body to be collaborative.
+         * Using WebSockets for the article's body to be collaborative.
          * Work in progress: headline, summary, bylines, labels, etc.
          */
         Collaboration.configure({
@@ -88,6 +83,7 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, articleState, dispatch, 
           },
         }),
       ],
+      content: `${articleState?.doc.body}`,
     },
     [],
   );
@@ -103,6 +99,8 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, articleState, dispatch, 
      */
     LoadIframelyEmbeds();
   });
+
+  console.log(articleState?.doc.body);
 
   return (
     <EditorWrapper>
@@ -152,9 +150,7 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, articleState, dispatch, 
               className="headline-holder"
               placeholder="Enter a headline..."
               onChange={(e) => SetHeadline(e, dispatch, articleState, id)}
-              onBlur={(e) => SyncHeadline(e, articleState, dispatch)}
               html={articleState?.doc.header.headline.html as string}
-              onClick={() => SetHeadlineEditor(dispatch, newName, articleState)}
             />
           </EditorHeadlineHolder>
           <EditorSummaryHolder
@@ -185,12 +181,20 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, articleState, dispatch, 
               spellCheck={spellCheck}
               autoCorrect="false"
               autoComplete="false"
+              onInput={() => {
+                dispatch({
+                  type: "SET_ARTICLE_BODY",
+                  payload: {
+                    html: `${editor.getHTML()}`,
+                  },
+                });
+              }}
             />
           </EditorProseMirror>
         )}
       </EditorHolder>
     </EditorWrapper>
   );
-};
+});
 
 export default Editor;

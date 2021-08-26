@@ -59,7 +59,7 @@ function SetHeadline(e, dispatch, articleState, id) {
     });
   }
 
-  console.log(`Saved ${id}. Details: `, articleState);
+  console.log(`Saved ${id}. ${html} Details: `, articleState);
 }
 
 export default SetHeadline;

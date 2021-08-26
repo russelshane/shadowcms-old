@@ -1,0 +1,24 @@
+{
+  "name": "server",
+  "version": "1.0.8",
+  "description": "WebSockets Server for ShadowCMS Collaborative Editor",
+  "main": "index.js",
+  "scripts": {
+    "watch": "tsc -w",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "nodemon dist/index.js"
+  },
+  "author": "@shadowcms",
+  "license": "MIT",
+  "dependencies": {
+    "@hocuspocus/extension-rocksdb": "^1.0.0-alpha.65",
+    "@hocuspocus/server": "^1.0.0-alpha.63"
+  },
+  "devDependencies": {
+    "@types/node": "^16.7.2",
+    "nodemon": "^2.0.12",
+    "ts-node": "^10.2.1",
+    "typescript": "^4.3.5"
+  }
+}

@@ -5,7 +5,8 @@
   "description": "Shadow: The Exclusive Content Management System for Newsrooms",
   "workspaces": [
     "api",
-    "client"
+    "client",
+    "server"
   ],
   "scripts": {
     "staging": "yarn format && yarn lint && yarn test",
@@ -20,7 +21,9 @@
     "api:build": "yarn workspace api build",
     "cl:dev": "yarn workspace client dev",
     "cl:build": "yarn workspace client build",
-    "cl:test": "yarn workspace client test"
+    "cl:test": "yarn workspace client test",
+    "sr:watch": "yarn workspace server watch",
+    "sr:start": "yarn workspace server start"
   },
   "husky": {
     "hooks": {

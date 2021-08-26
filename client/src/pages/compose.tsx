@@ -6,12 +6,12 @@
 import * as Y from "yjs";
 import loadable from "@loadable/component";
 import NewsReducer from "../reducers/news.reducer";
+import useNewsArticle from "../handlers/useNewsArticle";
 import React, { useEffect, useReducer } from "react";
 import { useParams } from "react-router-dom";
 import { Doc } from "yjs";
 import { WebsocketProvider } from "y-websocket";
 import { NewsModel } from "../models/news.model";
-import useNewsArticle from "../handlers/useNewsArticle";
 import { MockUser } from "../constants/mocks/user";
 
 /* Dynamic Components */
@@ -26,7 +26,7 @@ const Compose: React.FC = () => {
    */
   const { id }: any = useParams();
   const document: Doc = new Y.Doc();
-  const provider = new WebsocketProvider("wss://websocket.tiptap.dev", id, document);
+  const provider = new WebsocketProvider("ws://127.0.0.1:5000", id, document);
   const [articleState, dispatch] = useReducer(NewsReducer, NewsModel);
 
   /**
@@ -40,7 +40,7 @@ const Compose: React.FC = () => {
   /* Return */
   return (
     <Layout page={`Editing ${id} - Shadow`}>
-      <Header isEditor={true} user={MockUser} articleState={articleState} />
+      <Header isEditor={true} user={MockUser} articleState={articleState} dispatch={dispatch} />
       <Editor
         id={id}
         doc={document}

@@ -8,6 +8,7 @@ import loadable from "@loadable/component";
 import { HeaderProps } from "./types";
 import { HeaderWrapper, UserAvatar, UserEmail } from "./styles";
 import { Button, CloudUploadIcon, Pane, toaster } from "evergreen-ui";
+import { firestore } from "../../services/firebase";
 
 const Header: React.FC<HeaderProps> = ({ isEditor, user, articleState, dispatch }) => {
   /* Interactive State */
@@ -31,24 +32,38 @@ const Header: React.FC<HeaderProps> = ({ isEditor, user, articleState, dispatch 
       },
     });
 
-    setTimeout(() => {
-      toaster.success("Article saved successfully!");
-      dispatch({
-        type: "SET_ARTICLE_SAVING",
-        payload: {
-          saving: false,
-        },
-      });
+    const ref = firestore.collection("articles").doc(articleState?.id);
 
-      setTimeout(() => {
+    firestore
+      .runTransaction((transaction) => {
+        return transaction.get(ref).then(async (doc) => {
+          if (!doc.exists) {
+            throw "Document does not exist!";
+          }
+
+          await transaction.set(ref, {
+            ...articleState,
+          });
+        });
+      })
+      .then(() => {
+        toaster.success("Article saved successfully!");
         dispatch({
           type: "SET_ARTICLE_SAVING",
           payload: {
-            saving: null,
+            saving: false,
           },
         });
-      }, 1000);
-    }, 5000);
+
+        setTimeout(() => {
+          dispatch({
+            type: "SET_ARTICLE_SAVING",
+            payload: {
+              saving: null,
+            },
+          });
+        }, 1000);
+      });
   }
 
   return (

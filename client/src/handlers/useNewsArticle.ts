@@ -5,8 +5,8 @@
 
 import { firestore } from "../services/firebase";
 
-async function useNewsArticle(id, dispatch) {
-  await firestore
+function useNewsArticle(id, dispatch) {
+  firestore
     .collection("articles")
     .doc(id)
     .onSnapshot((doc) => {
@@ -22,12 +22,14 @@ async function useNewsArticle(id, dispatch) {
         },
       });
 
-      dispatch({
-        type: "SET_HEADLINE_HTML",
-        payload: {
-          html: doc.data()?.doc?.header?.headline?.html,
-        },
-      });
+      if (doc.data()?.doc?.header?.headline?.html !== undefined) {
+        dispatch({
+          type: "SET_HEADLINE_HTML",
+          payload: {
+            html: doc.data()?.doc?.header?.headline?.html,
+          },
+        });
+      }
 
       if (doc.data()?.interactiveState?.headlineEditor !== undefined) {
         dispatch({
@@ -44,7 +46,7 @@ async function useNewsArticle(id, dispatch) {
       console.log(`From Firestore:`, doc.data());
     });
 
-  await dispatch({
+  dispatch({
     type: "SET_DOCUMENT_ID",
     payload: {
       id: id,

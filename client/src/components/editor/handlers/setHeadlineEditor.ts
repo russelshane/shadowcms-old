@@ -5,7 +5,7 @@
 
 import { firestore } from "../../../services/firebase";
 
-async function SetHeadlineEditor(dispatch, newName, articleState) {
+async function SetHeadlineEditor(newName, articleState) {
   const id = articleState?.id;
 
   /**

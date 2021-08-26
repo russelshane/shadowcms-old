@@ -6,8 +6,9 @@
 import Slugify from "react-slugify";
 import { firestore } from "../../../services/firebase";
 
-async function SyncHeadline(e, articleState, dispatch) {
-  const id = articleState.id;
+async function SyncHeadline(e, docId) {
+  const id = docId;
+
   const html = e.target.innerHTML;
 
   /**
@@ -33,12 +34,12 @@ async function SyncHeadline(e, articleState, dispatch) {
    */
   await firestore
     .runTransaction((transaction) => {
-      return transaction.get(ref).then((doc) => {
+      return transaction.get(ref).then(async (doc) => {
         if (!doc.exists) {
           throw "Document does not exist!";
         }
 
-        transaction.update(ref, {
+        await transaction.update(ref, {
           "doc.header.headline.text": headline,
           "doc.header.headline.html": html,
           "doc.metadata.publish_url": generatedPublishUrl,
@@ -47,29 +48,7 @@ async function SyncHeadline(e, articleState, dispatch) {
       });
     })
     .then(() => {
-      console.log("Transaction to sync new headline successfully committed!");
-
-      /**
-       * Set the headline and publish url up to date in local state too
-       */
-      dispatch({
-        type: "SET_HEADLINE",
-        payload: {
-          text: headline,
-        },
-      });
-      dispatch({
-        type: "SET_HEADLINE_HTML",
-        payload: {
-          html: html,
-        },
-      });
-      dispatch({
-        type: "SET_PUBLISH_URL",
-        payload: {
-          publish_url: generatedPublishUrl,
-        },
-      });
+      console.log(`Transaction to update headline to ${html} successfully committed!`);
     })
     .catch((error) => {
       console.log("Transaction failed: ", error);
