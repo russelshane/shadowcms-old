@@ -23,16 +23,6 @@ async function SyncHeadline(e, articleState, dispatch) {
   const generatedPublishUrl = Slugify(headline);
 
   /**
-   * Set the article saving state to true
-   */
-  dispatch({
-    type: "SET_ARTICLE_SAVING",
-    payload: {
-      saving: true,
-    },
-  });
-
-  /**
    * Init reference for the article's firestore document
    */
   const ref = firestore.collection("articles").doc(id);
@@ -52,6 +42,7 @@ async function SyncHeadline(e, articleState, dispatch) {
           "doc.header.headline.text": headline,
           "doc.header.headline.html": html,
           "doc.metadata.publish_url": generatedPublishUrl,
+          "interactiveState.saving": true,
         });
       });
     })
@@ -102,16 +93,6 @@ async function SyncHeadline(e, articleState, dispatch) {
     })
     .then(() => {
       console.log("Transaction to set headline editor to null is successfully committed!");
-
-      /**
-       * Set the headlineEditor to null in local state too
-       */
-      dispatch({
-        type: "SET_HEADLINE_EDITOR",
-        payload: {
-          editor: null,
-        },
-      });
     })
     .catch((error) => {
       console.log("Transaction failed: ", error);
@@ -135,16 +116,6 @@ async function SyncHeadline(e, articleState, dispatch) {
     })
     .then(() => {
       console.log("Transaction to set saving to false is successfully committed!");
-
-      /**
-       * Set the article saving local state to false
-       */
-      dispatch({
-        type: "SET_ARTICLE_SAVING",
-        payload: {
-          saving: false,
-        },
-      });
     })
     .catch((error) => {
       console.log("Transaction failed: ", error);

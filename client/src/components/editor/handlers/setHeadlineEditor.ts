@@ -27,16 +27,6 @@ async function SetHeadlineEditor(dispatch, newName, articleState) {
     })
     .then(() => {
       console.log(`Transaction to set ${newName} as headline editor is successfully committed!`);
-
-      /**
-       * Make sure that headlineEditor is set in local state too
-       */
-      dispatch({
-        type: "SET_HEADLINE_EDITOR",
-        payload: {
-          editor: newName,
-        },
-      });
     })
     .catch((error) => {
       console.log("Transaction failed: ", error);
