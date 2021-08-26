@@ -53,7 +53,7 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, id }) => {
    * Editor interactive components states, includes the Add "+" button,
    * selector components, modals, etc.
    */
-  const [user, setUser] = useState<any>();
+  const [user] = useState<any>(`${RandomName.first()} ${RandomName.last()}`);
   const [editorMenuActive, setEditorMenuActive] = useState<boolean>(false);
   const [spellCheck, setSpellCheck] = useState(false);
   const [allowEmbeds, setAllowEmbeds] = useState(true);
@@ -61,12 +61,6 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, id }) => {
   const [articleState, dispatch] = useReducer(NewsReducer, NewsModel);
   const headlineEditor = articleState?.interactiveState?.headlineEditor;
   const isSaving = articleState?.interactiveState?.saving;
-
-  /* Generate random name */
-  useEffect(() => {
-    const name = `${RandomName.first()} ${RandomName.last()}`;
-    setUser(name);
-  }, []);
 
   /**
    * Initialize advanced formats plugin for dayjs, "Do"
