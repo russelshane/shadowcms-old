@@ -43,7 +43,7 @@ import {
 
 const Header = loadable(() => import("../../components/header"));
 
-const Editor = React.memo(({ doc, provider, articleState, dispatch, id }: EditorProps) => {
+const Editor: React.FC<EditorProps> = ({ doc, provider, articleState, dispatch, id }) => {
   /* Generate random name */
   const newName = `${RandomName.first()} ${RandomName.last()}`;
 
@@ -265,6 +265,6 @@ const Editor = React.memo(({ doc, provider, articleState, dispatch, id }: Editor
       </EditorWrapper>
     </React.Fragment>
   );
-});
+};
 
 export default Editor;
