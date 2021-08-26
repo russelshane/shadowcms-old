@@ -137,6 +137,10 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, articleState, dispatch, 
          * included here and the article's bylines.
          */}
         <EditorHeader>
+          {/**
+           * Only show the label/section/topic of the article if the user has
+           * set the "Show Labels" to "on".
+           */}
           {showLabel && (
             <EditorLabelHolder>
               {!articleState?.doc?.sections?.name ? "UNKNOWN" : articleState.doc.sections.name}
@@ -164,8 +168,8 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, articleState, dispatch, 
         {/**
          * - Collaborative ProseMirror/TipTap Component
          * The editor is using WebSockets to synchronize with other newsroom members.
-         * Cursors are also synced, the function is battle-testeed and should be
-         * enough for production, at least, for now.
+         * Cursors are also synced, the function is not quite battle-testeed but should
+         * be enough for production, at least, for now.
          */}
         {editor && (
           <EditorProseMirror>
