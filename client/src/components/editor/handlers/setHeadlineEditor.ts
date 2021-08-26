@@ -7,9 +7,9 @@ import { firestore } from "../../../services/firebase";
 
 async function SetHeadlineEditor(user, docId, dispatch) {
   const id = docId;
-  const newName = user;
+  const newName = await user;
 
-  dispatch({
+  await dispatch({
     type: "SET_HEADLINE_EDITOR",
     payload: {
       headlineEditor: newName,
