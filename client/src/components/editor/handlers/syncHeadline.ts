@@ -56,7 +56,7 @@ async function SyncHeadline(e, docId) {
 
   /**
    * Set the current headline editor to null after saving
-   * the article
+   * the article. And then set the saving state to false.
    */
   await firestore
     .runTransaction((transaction) => {
@@ -67,34 +67,12 @@ async function SyncHeadline(e, docId) {
 
         transaction.update(ref, {
           "interactiveState.headlineEditor": null,
-        });
-      });
-    })
-    .then(() => {
-      console.log("Transaction to set headline editor to null is successfully committed!");
-    })
-    .catch((error) => {
-      console.log("Transaction failed: ", error);
-    });
-
-  /**
-   * Set the article saving state to false after setting
-   * headlineEditor to null
-   */
-  await firestore
-    .runTransaction((transaction) => {
-      return transaction.get(ref).then((doc) => {
-        if (!doc.exists) {
-          throw "Document does not exist!";
-        }
-
-        transaction.update(ref, {
           "interactiveState.saving": false,
         });
       });
     })
     .then(() => {
-      console.log("Transaction to set saving to false is successfully committed!");
+      console.log("Transaction to set headline editor to null is successfully committed!");
     })
     .catch((error) => {
       console.log("Transaction failed: ", error);

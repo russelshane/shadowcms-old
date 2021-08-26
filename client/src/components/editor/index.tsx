@@ -49,13 +49,11 @@ import {
 const Header = loadable(() => import("../../components/header"));
 
 const Editor: React.FC<EditorProps> = ({ doc, provider, id }) => {
-  /* Generate random name */
-  const newName = `${RandomName.first()} ${RandomName.last()}`;
-
   /**
    * Editor interactive components states, includes the Add "+" button,
    * selector components, modals, etc.
    */
+  const [user, setUser] = useState<any>();
   const [editorMenuActive, setEditorMenuActive] = useState<boolean>(false);
   const [spellCheck, setSpellCheck] = useState(false);
   const [allowEmbeds, setAllowEmbeds] = useState(true);
@@ -63,6 +61,12 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, id }) => {
   const [articleState, dispatch] = useReducer(NewsReducer, NewsModel);
   const headlineEditor = articleState?.interactiveState?.headlineEditor;
   const isSaving = articleState?.interactiveState?.saving;
+
+  /* Generate random name */
+  useEffect(() => {
+    const name = `${RandomName.first()} ${RandomName.last()}`;
+    setUser(name);
+  }, []);
 
   /**
    * Initialize advanced formats plugin for dayjs, "Do"
@@ -89,7 +93,7 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, id }) => {
         CollaborationCursor.configure({
           provider: provider,
           user: {
-            name: newName,
+            name: user,
             color: RandomColor(),
           },
         }),
@@ -171,12 +175,14 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, id }) => {
               <ContentEditable
                 className="headline-holder"
                 placeholder="Enter a headline..."
-                onChange={(e) => SetHeadline(e, dispatch, articleState)}
+                onChange={(e) => {
+                  SetHeadline(e, dispatch, articleState);
+                }}
                 onBlur={(e) => {
                   SyncHeadline(e, docId);
                   saveArticle({ dispatch, articleState, id, editor });
                 }}
-                onClick={() => SetHeadlineEditor(newName, docId, dispatch)}
+                onClick={() => SetHeadlineEditor(user, docId, dispatch)}
                 html={articleState?.doc.header.headline.html as string}
                 spellCheck={spellCheck}
               />
