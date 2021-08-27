@@ -16,12 +16,14 @@ import {
   SideSheet,
   ApplicationIcon,
   TextInput,
+  FilePicker,
 } from "evergreen-ui";
 import React, { useState } from "react";
 import { EditorAdd, EditorMenu } from "../styles/interactive";
 import { FloatingMenu } from "@tiptap/react";
 import { Editor } from "@tiptap/core";
 import { TextSelection } from "prosemirror-state";
+import { storageRef } from "../../../services/firebase";
 
 /**
  * TypeScript Properties: editor is the main editor component,
@@ -42,6 +44,7 @@ const EditorFloatingMenu: React.FC<FloatingProps> = ({
   allowEmbeds,
 }) => {
   const [newImageUrl, setNewImageUrl] = useState();
+  const [newMediaFile, setNewMediaFile] = useState<any>();
   const [isShown, setIsShown] = useState(false);
 
   /**
@@ -52,6 +55,57 @@ const EditorFloatingMenu: React.FC<FloatingProps> = ({
   const addImage = () => {
     const url = newImageUrl;
     setEditorMenuActive(false);
+
+    if (url) {
+      editor?.chain().focus().setImage({ src: url }).run();
+
+      editor
+        ?.chain()
+        .command(({ tr, dispatch }) => {
+          if (dispatch) {
+            const { parent, pos } = tr.selection.$from;
+            const posAfter = pos + 1;
+            const nodeAfter = tr.doc.nodeAt(posAfter);
+
+            if (!nodeAfter) {
+              const node = parent.type.contentMatch.defaultType?.create();
+
+              if (node) {
+                tr.insert(posAfter, node);
+                tr.setSelection(TextSelection.create(tr.doc, posAfter));
+              }
+            }
+
+            tr.scrollIntoView();
+          }
+
+          return true;
+        })
+        .run();
+
+      setIsShown(false);
+    }
+  };
+
+  const uploadImage = async () => {
+    const file = newMediaFile[0];
+    console.log(file);
+    setEditorMenuActive(false);
+
+    const fbStorageRef = storageRef.ref();
+    const imagesRef = fbStorageRef.child("2021").child(file.name);
+
+    // Type of file will be set to 'image' no need to set 'jpeg/png/etc.'
+    const metadata = {
+      contentType: "image",
+    };
+
+    const uploadTask = await imagesRef.put(file, metadata);
+    console.log("Uploaded successfully!", uploadTask);
+
+    const url = await uploadTask.ref.getDownloadURL();
+
+    console.log(url);
 
     if (url) {
       editor?.chain().focus().setImage({ src: url }).run();
@@ -119,6 +173,24 @@ const EditorFloatingMenu: React.FC<FloatingProps> = ({
             />
             <Button onClick={addImage} padding="18px" fontSize="12px">
               Insert Image
+            </Button>
+          </Pane>
+          <br />
+
+          <Pane display="flex" gridColumnGap="12px">
+            <FilePicker
+              width="100%"
+              height={38}
+              placeholder="Upload a file..."
+              onChange={(files) => setNewMediaFile(files)}
+            />
+            <Button
+              onClick={uploadImage}
+              padding="18px"
+              fontSize="12px"
+              disabled={newMediaFile ? false : true}
+            >
+              Upload Image
             </Button>
           </Pane>
           <br />
