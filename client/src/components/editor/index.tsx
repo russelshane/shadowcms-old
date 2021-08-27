@@ -15,7 +15,7 @@ import DefaultExtensions from "./extensions";
 import EditorBubbleMenu from "./internal/bubble";
 import EditorFloatingMenu from "./internal/floating";
 import SetHeadline from "./handlers/setHeadline";
-import SetSummary from "./handlers/setSummary";
+import SyncSummary from "./handlers/syncSummary";
 import ContentEditable from "react-contenteditable";
 import ShadowComposeOptions from "./editorOptions";
 import ShadowComposeTop from "./editorTop";
@@ -23,13 +23,11 @@ import loadable from "@loadable/component";
 import NewsReducer from "../../reducers/news.reducer";
 import useNewsArticle from "../../handlers/useNewsArticle";
 import SyncHeadline from "./handlers/syncHeadline";
-import SetHeadlineEditor from "./handlers/setHeadlineEditor";
 import saveArticle from "./handlers/saveArticle";
 import { EditorProps } from "./types";
 import { useEffect, useState } from "react";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { EditorProseMirror } from "./styles/prosemirror";
-import { Text } from "evergreen-ui";
 import { MockUser } from "../../constants/mocks/user";
 import { NewsModel } from "../../models/news.model";
 import {
@@ -59,7 +57,6 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, id }) => {
   const [allowEmbeds, setAllowEmbeds] = useState(true);
   const [showLabel, setShowLabel] = useState(false);
   const [articleState, dispatch] = useReducer(NewsReducer, NewsModel);
-  const headlineEditor = articleState?.interactiveState?.headlineEditor;
   const isSaving = articleState?.interactiveState?.saving;
 
   /**
@@ -165,7 +162,6 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, id }) => {
               </EditorLabelHolder>
             )}
             <EditorHeadlineHolder>
-              {headlineEditor && <Text>{headlineEditor} is editing the headline...</Text>}
               <ContentEditable
                 className="headline-holder"
                 placeholder="Enter a headline..."
@@ -176,7 +172,6 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, id }) => {
                   SyncHeadline(e, docId);
                   saveArticle({ dispatch, articleState, id, editor });
                 }}
-                onClick={() => SetHeadlineEditor(user, docId, dispatch)}
                 html={articleState?.doc.header.headline.html as string}
                 spellCheck={spellCheck}
               />
@@ -184,7 +179,7 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, id }) => {
             <EditorSummaryHolder
               placeholder="Write summary..."
               value={articleState?.doc.header.summary.text}
-              onBlur={(e) => SetSummary(e, articleState)}
+              onBlur={(e) => SyncSummary(e, articleState)}
               onChange={(e) =>
                 dispatch({
                   type: "SET_SUMMARY",

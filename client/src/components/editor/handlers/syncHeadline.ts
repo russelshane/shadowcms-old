@@ -66,7 +66,6 @@ async function SyncHeadline(e, docId) {
         }
 
         transaction.update(ref, {
-          "interactiveState.headlineEditor": null,
           "interactiveState.saving": false,
         });
       });

@@ -3,7 +3,6 @@
  * @author ShadowCMS
  */
 
-import { toaster } from "evergreen-ui";
 import { firestore } from "../../../services/firebase";
 
 async function saveArticle({ dispatch, editor, id, articleState }) {
@@ -41,22 +40,12 @@ async function saveArticle({ dispatch, editor, id, articleState }) {
         });
       })
       .then(() => {
-        toaster.success("Article saved successfully!");
         dispatch({
           type: "SET_ARTICLE_SAVING",
           payload: {
             saving: false,
           },
         });
-
-        setTimeout(() => {
-          dispatch({
-            type: "SET_ARTICLE_SAVING",
-            payload: {
-              saving: null,
-            },
-          });
-        }, 1000);
       });
   }, 200);
 }

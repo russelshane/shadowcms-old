@@ -10,8 +10,6 @@ export interface Article {
   lastUpdated: string;
   interactiveState: {
     saving: boolean | null;
-    headlineEditor: string | null;
-    summaryEditor: string | null;
   };
   doc: {
     header: {

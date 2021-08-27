@@ -8,13 +8,12 @@ import "firebase/storage";
 import "firebase/firestore";
 
 const config = {
-  apiKey: "AIzaSyD-7VPpdpY242mJcSwVRiTTLxpG9BvtbgU",
-  authDomain: "timesproject.firebaseapp.com",
-  databaseURL: "https://timesproject-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "timesproject",
-  storageBucket: "timesproject.appspot.com",
-  messagingSenderId: "694644400493",
-  appId: "1:694644400493:web:f556ac77104e99ec3fba64",
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY as string,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN as string,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID as string,
+  storageBucket: "timesproject.appspot.com", // Replace with your own
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSENGER_ID as string,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID as string,
 };
 
 firebase.initializeApp(config);

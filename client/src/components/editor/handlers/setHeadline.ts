@@ -20,6 +20,13 @@ async function SetHeadline(e, dispatch, articleState) {
   const generatedPublishUrl = await Slugify(headline);
 
   await dispatch({
+    type: "SET_ARTICLE_SAVING",
+    payload: {
+      saving: null,
+    },
+  });
+
+  await dispatch({
     type: "SET_HEADLINE",
     payload: {
       text: headline,

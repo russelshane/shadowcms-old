@@ -26,6 +26,15 @@ function useNewsArticle(id, dispatch) {
         });
       }
 
+      if (doc.data()?.doc?.interactiveState?.saving !== undefined) {
+        dispatch({
+          type: "SET_ARTICLE_SAVING",
+          payload: {
+            saving: doc.data()?.doc?.interactiveState?.saving,
+          },
+        });
+      }
+
       /**
        * Log which data comes from firestore and the one from local
        */

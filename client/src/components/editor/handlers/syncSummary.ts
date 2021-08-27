@@ -5,7 +5,7 @@
 
 import { firestore } from "../../../services/firebase";
 
-async function SetSummary(e, articleState) {
+async function SyncSummary(e, articleState) {
   const id = articleState.id;
   const summary = e.target.value;
 
@@ -20,6 +20,7 @@ async function SetSummary(e, articleState) {
 
         transaction.update(ref, {
           "doc.header.summary.text": summary,
+          "interactiveState.saving": false,
         });
       });
     })
@@ -28,4 +29,4 @@ async function SetSummary(e, articleState) {
     });
 }
 
-export default SetSummary;
+export default SyncSummary;
