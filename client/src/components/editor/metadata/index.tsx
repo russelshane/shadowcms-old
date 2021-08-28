@@ -25,20 +25,30 @@ const EditorMetadata: React.FC<EditorMetadataProps> = ({ bodyPanel, articleState
           required
           description="Creative and formal headline to appear on the main article page."
           disabled
-          value={articleState?.doc.header.headline.html}
-          onChange={() =>
-            console.log("Headline changed.") as any
-          } /* Text input is disabled, this can be edited on body page. */
+          value={articleState?.doc.header.headline.html as string}
+          onChange={(e) =>
+            dispatch({
+              type: "SET_HEADLINE_HTML",
+              payload: {
+                html: e.target.value,
+              },
+            })
+          }
         />
         <TextInputField
           label="Summary / Excerpt"
           required
           description="A short brief on what information this article may give to readers."
           disabled
-          value={articleState?.doc.header.summary.text}
-          onChange={() =>
-            console.log("Summary changed.") as any
-          } /* Text input is disabled, this can be edited on body page. */
+          value={articleState?.doc.header.summary.text as string}
+          onChange={(e) =>
+            dispatch({
+              type: "SET_SUMMARY",
+              payload: {
+                text: e.target.value,
+              },
+            })
+          }
         />
         <TextInputField
           label="Publish URL"

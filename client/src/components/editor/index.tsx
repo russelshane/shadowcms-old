@@ -97,6 +97,7 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, id }) => {
         }),
       ],
       content: `${articleState?.doc.body}`,
+      enablePasteRules: false,
     },
     [],
   );
@@ -248,6 +249,36 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, id }) => {
                         html: `${editor.getHTML()}`,
                       },
                     });
+                  }}
+                  onPasteCapture={(e) => {
+                    /**
+                     * Transform pastedLinks as soon as possible to embedded content
+                     * if supported by editor
+                     */
+                    const pastedText = e.clipboardData?.getData("text")?.trim();
+
+                    const youtubeRegex =
+                      /(?:https?:\/\/)?(?:www\.)?(?:(?:youtu\.be\/)|(?:youtube\.com)\/(?:v\/|u\/\w\/|embed\/|watch))(?:(?:\?v=)?([^#&?=]*))?((?:[?&]\w*=\w*)*)/; //eslint-disable-line
+                    const twitterRegex =
+                      /^https?:\/\/twitter\.com\/(?:#!\/)?(\w+)\/status(?:es)?\/(\d+)(?:\/.*)?$/; //eslint-disable-line
+                    const instagramRegex = /https?:\/\/www\.instagram\.com\/p\/([^\/\?\&]+)\/?/; //eslint-disable-line
+                    const facebookRegex = /https?:\/\/www.facebook.com\/([^\/\?\&]*)\/(.*)/; //eslint-disable-line
+                    const pinRegex = /https?:\/\/([^\/\?\&]*).pinterest.com\/pin\/([^\/\?\&]*)\/?$/; //eslint-disable-line
+
+                    const matches =
+                      pastedText.match(twitterRegex) ||
+                      pastedText.match(youtubeRegex) ||
+                      pastedText.match(instagramRegex) ||
+                      pastedText.match(facebookRegex) ||
+                      pastedText.match(pinRegex);
+
+                    if (matches != null) {
+                      editor
+                        ?.chain()
+                        .focus()
+                        .setEmbed({ href: matches as any })
+                        .run();
+                    }
                   }}
                 />
               </EditorProseMirror>

@@ -9,7 +9,6 @@ import { firestore } from "../../../services/firebase";
 
 async function SyncHeadline(e, docId, articleState) {
   const id = docId;
-
   const html = e.target.innerHTML;
 
   /**

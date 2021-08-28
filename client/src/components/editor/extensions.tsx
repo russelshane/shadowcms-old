@@ -3,7 +3,6 @@ import Document from "@tiptap/extension-document";
 import Paragraph from "@tiptap/extension-paragraph";
 import Image from "@tiptap/extension-image";
 import Text from "@tiptap/extension-text";
-import Seperator from "./plugins/seperator";
 import Blockquote from "@tiptap/extension-blockquote";
 import CodeBlock from "@tiptap/extension-code-block";
 import Link from "@tiptap/extension-link";
@@ -26,7 +25,6 @@ const DefaultExtensions = [
   Paragraph,
   Text,
   Image,
-  Seperator,
   Blockquote,
   CodeBlock,
   Link,

@@ -17,6 +17,7 @@ import {
   ApplicationIcon,
   TextInput,
   FilePicker,
+  StatusIndicator,
 } from "evergreen-ui";
 import React, { useState } from "react";
 import { EditorAdd, EditorMenu } from "../styles/interactive";
@@ -45,6 +46,7 @@ const EditorFloatingMenu: React.FC<FloatingProps> = ({
 }) => {
   const [newImageUrl, setNewImageUrl] = useState();
   const [newMediaFile, setNewMediaFile] = useState<any>();
+  const [uploading, setUploading] = useState<boolean>(false);
   const [isShown, setIsShown] = useState(false);
 
   /**
@@ -88,6 +90,7 @@ const EditorFloatingMenu: React.FC<FloatingProps> = ({
   };
 
   const uploadImage = async () => {
+    setUploading(true);
     const file = newMediaFile[0];
     console.log(file);
     setEditorMenuActive(false);
@@ -135,6 +138,7 @@ const EditorFloatingMenu: React.FC<FloatingProps> = ({
         .run();
 
       setIsShown(false);
+      setUploading(false);
     }
   };
 
@@ -193,6 +197,7 @@ const EditorFloatingMenu: React.FC<FloatingProps> = ({
               Upload Image
             </Button>
           </Pane>
+          {uploading && <StatusIndicator color="warning">Uploading...</StatusIndicator>}
           <br />
           <Paragraph>
             You can either upload an image from your computer, or select one and grab the link from
