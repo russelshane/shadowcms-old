@@ -8,4 +8,5 @@ import { Article } from "../../../types/article";
 export type EditorSidebarProps = {
   articleState?: Article;
   dispatch?: any;
+  words?: any;
 };

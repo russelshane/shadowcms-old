@@ -3,6 +3,7 @@
  * @author ShadowCMS
  */
 
+import dayjs from "dayjs";
 import Slugify from "react-slugify";
 import { firestore } from "../../../services/firebase";
 
@@ -28,6 +29,8 @@ async function SyncHeadline(e, docId) {
    */
   const ref = await firestore.collection("articles").doc(id);
 
+  const timeNow = dayjs().format("YYYY-MM-DDTHH:mm:ss");
+
   /**
    * Sync new headline entered by user to other users in the
    * document with firestore transactions.
@@ -40,6 +43,7 @@ async function SyncHeadline(e, docId) {
         }
 
         await transaction.update(ref, {
+          lastUpdated: timeNow,
           "doc.header.headline.text": headline,
           "doc.header.headline.html": html,
           "doc.metadata.publish_url": generatedPublishUrl,

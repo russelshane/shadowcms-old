@@ -4,25 +4,41 @@
  */
 
 import React from "react";
+import dayjs from "dayjs";
+import RelativeTime from "dayjs/plugin/relativeTime";
 import { EditorSidebarProps } from "./types";
-import { EditorSidebarContainer } from "./styles";
-import { Pane, Heading, ManualIcon, ManuallyEnteredDataIcon } from "evergreen-ui";
+import { ManualIcon, ManuallyEnteredDataIcon } from "evergreen-ui";
+import {
+  SidebarLabel,
+  EditorSidebarContainer,
+  SidebarHeading,
+  SidebarNav,
+  SidebarNavLabel,
+} from "./styles";
 
-const EditorSidebar: React.FC<EditorSidebarProps> = () => {
+const EditorSidebar: React.FC<EditorSidebarProps> = ({ words, articleState }) => {
+  /* Last Updated */
+  const lastUpdated = articleState?.lastUpdated;
+  dayjs.extend(RelativeTime);
+
+  /* Return */
   return (
     <EditorSidebarContainer>
-      <Pane display="flex" gridGap="8px" alignItems="center" cursor="pointer">
-        <ManuallyEnteredDataIcon marginBottom="-4px" />
-        <Heading size={600} color="muted">
-          Metadata
-        </Heading>
-      </Pane>
-      <Pane display="flex" gridGap="8px" alignItems="center" cursor="pointer">
-        <ManualIcon marginBottom="-4px" />
-        <Heading size={600} color="muted">
-          Body
-        </Heading>
-      </Pane>
+      <SidebarHeading>ARTICLE</SidebarHeading>
+      <SidebarNav>
+        <ManuallyEnteredDataIcon />
+        <SidebarNavLabel>Metadata</SidebarNavLabel>
+      </SidebarNav>
+      <SidebarNav>
+        <ManualIcon />
+        <SidebarNavLabel>Body</SidebarNavLabel>
+      </SidebarNav>
+      <SidebarLabel style={{ color: "#777" }}>Updated {dayjs(lastUpdated).fromNow()}</SidebarLabel>
+      <SidebarLabel>
+        {words} {words !== 1 ? "words" : "word"}
+      </SidebarLabel>
+      <br />
+      <SidebarHeading>PROGRESS</SidebarHeading>
     </EditorSidebarContainer>
   );
 };

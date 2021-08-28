@@ -3,6 +3,7 @@
  * @author ShadowCMS
  */
 
+import dayjs from "dayjs";
 import { firestore } from "../../../services/firebase";
 
 async function saveArticle({ dispatch, editor, id, articleState }) {
@@ -35,6 +36,7 @@ async function saveArticle({ dispatch, editor, id, articleState }) {
            */
           transaction.set(ref, {
             ...articleState,
+            lastUpdated: dayjs().format("YYYY-MM-DDTHH:mm:ss") as string,
             doc: {
               ...articleState?.doc,
               body: `${editor?.getHTML()}`,

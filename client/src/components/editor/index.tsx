@@ -60,6 +60,7 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, id }) => {
   const [allowEmbeds, setAllowEmbeds] = useState(true);
   const [showLabel, setShowLabel] = useState(false);
   const [articleState, dispatch] = useReducer(NewsReducer, NewsModel);
+  const [wordCount, setWordCount] = useState<any>(0);
   const isSaving = articleState?.interactiveState?.saving;
   const docId = id;
 
@@ -108,6 +109,11 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, id }) => {
      * API key is needed, can't be hidden as of 8/23/2021.
      */
     LoadIframelyEmbeds();
+
+    /**
+     * Always get current character count in article's body / contents
+     */
+    setWordCount(editor?.state.doc.textContent.split(" ").length);
   });
 
   /**
@@ -118,8 +124,6 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, id }) => {
     useNewsArticle(id, dispatch);
   }, []);
 
-  console.log(articleState);
-
   return (
     <React.Fragment>
       <Header isEditor={true} user={MockUser} />
@@ -128,7 +132,7 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, id }) => {
          * - Editor Sidebar Component
          * View article checklist, properties, character count, etc.
          */}
-        <EditorSidebar articleState={articleState} dispatch={dispatch} />
+        <EditorSidebar articleState={articleState} dispatch={dispatch} words={wordCount} />
         <EditorWrapper>
           {/**
            * - Editor Top Component
