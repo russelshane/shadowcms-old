@@ -12,8 +12,6 @@ import LoadIframelyEmbeds from "../../toolkit/editor/loadIframely";
 import Collaboration from "@tiptap/extension-collaboration";
 import CollaborationCursor from "@tiptap/extension-collaboration-cursor";
 import DefaultExtensions from "./extensions";
-import EditorBubbleMenu from "./internal/bubble";
-import EditorFloatingMenu from "./internal/floating";
 import SetHeadline from "./handlers/setHeadline";
 import SyncSummary from "./handlers/syncSummary";
 import ContentEditable from "react-contenteditable";
@@ -24,6 +22,9 @@ import NewsReducer from "../../reducers/news.reducer";
 import useNewsArticle from "../../handlers/useNewsArticle";
 import SyncHeadline from "./handlers/syncHeadline";
 import saveArticle from "./handlers/saveArticle";
+import EditorBubbleMenu from "./internal/bubble";
+import EditorFloatingMenu from "./internal/floating";
+import EditorSidebar from "./sidebar";
 import { EditorProps } from "./types";
 import { useEffect, useState } from "react";
 import { EditorContent, useEditor } from "@tiptap/react";
@@ -37,6 +38,7 @@ import {
   EditorSummaryHolder,
 } from "./styles/canvas";
 import {
+  EditorContainer,
   EditorHeader,
   EditorOptions,
   EditorTimestamp,
@@ -44,6 +46,7 @@ import {
   EditorWrapper,
 } from "./styles/component";
 
+/* Dynamic Components */
 const Header = loadable(() => import("../../components/header"));
 
 const Editor: React.FC<EditorProps> = ({ doc, provider, id }) => {
@@ -58,6 +61,7 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, id }) => {
   const [showLabel, setShowLabel] = useState(false);
   const [articleState, dispatch] = useReducer(NewsReducer, NewsModel);
   const isSaving = articleState?.interactiveState?.saving;
+  const docId = id;
 
   /**
    * Initialize advanced formats plugin for dayjs, "Do"
@@ -114,120 +118,126 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, id }) => {
     useNewsArticle(id, dispatch);
   }, []);
 
-  const docId = id;
+  console.log(articleState);
 
   return (
     <React.Fragment>
       <Header isEditor={true} user={MockUser} />
-
-      <EditorWrapper>
+      <EditorContainer>
         {/**
-         * - Editor Top Component
-         * View article history, get help, read the guidelines, undo or redo
-         * changes, other interactive stuff.
+         * - Editor Sidebar Component
+         * View article checklist, properties, character count, etc.
          */}
-        <EditorTop>
-          <ShadowComposeTop isSaving={isSaving as any} editor={editor} />
-        </EditorTop>
-        <EditorHolder>
+        <EditorSidebar articleState={articleState} dispatch={dispatch} />
+        <EditorWrapper>
           {/**
-           * - Editor Options Component
-           * Set the header type, and any features available to the article such
-           * as labels, bylines, etc.
+           * - Editor Top Component
+           * View article history, get help, read the guidelines, undo or redo
+           * changes, other interactive stuff.
            */}
-          <EditorOptions>
-            <ShadowComposeOptions
-              setAllowEmbeds={setAllowEmbeds}
-              setShowLabel={setShowLabel}
-              setSpellCheck={setSpellCheck}
-              spellCheck={spellCheck}
-              allowEmbeds={allowEmbeds}
-              showLabel={showLabel}
-            />
-          </EditorOptions>
-
-          {/**
-           * - Editor Header Component
-           * Where headline and summary nodes are in. Timestamps are also
-           * included here and the article's bylines.
-           */}
-          <EditorHeader>
+          <EditorTop>
+            <ShadowComposeTop isSaving={isSaving as any} editor={editor} />
+          </EditorTop>
+          <EditorHolder>
             {/**
-             * Only show the label/section/topic of the article if the user has
-             * set the "Show Labels" to "on".
+             * - Editor Options Component
+             * Set the header type, and any features available to the article such
+             * as labels, bylines, etc.
              */}
-            {showLabel && (
-              <EditorLabelHolder>
-                {!articleState?.doc?.sections?.name ? "UNKNOWN" : articleState.doc.sections.name}
-              </EditorLabelHolder>
-            )}
-            <EditorHeadlineHolder>
-              <ContentEditable
-                className="headline-holder"
-                placeholder="Enter a headline..."
-                onChange={(e) => {
-                  SetHeadline(e, dispatch, articleState);
-                }}
-                onBlur={(e) => {
-                  SyncHeadline(e, docId);
-                }}
-                html={articleState?.doc.header.headline.html as string}
+            <EditorOptions>
+              <ShadowComposeOptions
+                setAllowEmbeds={setAllowEmbeds}
+                setShowLabel={setShowLabel}
+                setSpellCheck={setSpellCheck}
                 spellCheck={spellCheck}
-              />
-            </EditorHeadlineHolder>
-            <EditorSummaryHolder
-              placeholder="Write summary..."
-              value={articleState?.doc.header.summary.text}
-              onBlur={(e) => SyncSummary(e, articleState)}
-              onChange={(e) =>
-                dispatch({
-                  type: "SET_SUMMARY",
-                  payload: {
-                    text: e.target.value,
-                  },
-                })
-              }
-              spellCheck={spellCheck}
-            />
-            <EditorTimestamp>{DayJS().format("MMMM Do, YYYY")}</EditorTimestamp>
-          </EditorHeader>
-
-          {/**
-           * - Collaborative ProseMirror/TipTap Component
-           * The editor is using WebSockets to synchronize with other newsroom members.
-           * Cursors are also synced, the function is not quite battle-testeed but should
-           * be enough for production, at least, for now.
-           */}
-          {editor && (
-            <EditorProseMirror>
-              <EditorBubbleMenu editor={editor} />
-              <EditorFloatingMenu
-                editor={editor}
-                editorMenuActive={editorMenuActive}
-                setEditorMenuActive={setEditorMenuActive}
                 allowEmbeds={allowEmbeds}
+                showLabel={showLabel}
               />
-              <EditorContent
-                editor={editor}
-                spellCheck={spellCheck}
-                autoCorrect="false"
-                autoComplete="false"
-                onBlur={() => {
-                  saveArticle({ dispatch, articleState, id, editor });
-                }}
-                onInput={() => {
+            </EditorOptions>
+
+            {/**
+             * - Editor Header Component
+             * Where headline and summary nodes are in. Timestamps are also
+             * included here and the article's bylines.
+             */}
+            <EditorHeader>
+              {/**
+               * Only show the label/section/topic of the article if the user has
+               * set the "Show Labels" to "on".
+               */}
+              {showLabel && (
+                <EditorLabelHolder>
+                  {!articleState?.doc?.sections?.name ? "UNKNOWN" : articleState.doc.sections.name}
+                </EditorLabelHolder>
+              )}
+              <EditorHeadlineHolder>
+                <ContentEditable
+                  className="headline-holder"
+                  placeholder="Enter a headline..."
+                  onChange={(e) => {
+                    SetHeadline(e, dispatch, articleState);
+                  }}
+                  onBlur={(e) => {
+                    SyncHeadline(e, docId);
+                  }}
+                  html={articleState?.doc.header.headline.html as string}
+                  spellCheck={spellCheck}
+                />
+              </EditorHeadlineHolder>
+              <EditorSummaryHolder
+                placeholder="Write summary..."
+                value={articleState?.doc.header.summary.text}
+                onBlur={(e) => SyncSummary(e, articleState)}
+                onChange={(e) =>
                   dispatch({
-                    type: "SET_ARTICLE_BODY",
+                    type: "SET_SUMMARY",
                     payload: {
-                      html: `${editor.getHTML()}`,
+                      text: e.target.value,
                     },
-                  });
-                }}
+                  })
+                }
+                spellCheck={spellCheck}
               />
-            </EditorProseMirror>
-          )}
-        </EditorHolder>
-      </EditorWrapper>
+              <EditorTimestamp>{DayJS().format("MMMM Do, YYYY")}</EditorTimestamp>
+            </EditorHeader>
+
+            {/**
+             * - Collaborative ProseMirror/TipTap Component
+             * The editor is using WebSockets to synchronize with other newsroom members.
+             * Cursors are also synced, the function is not quite battle-testeed but should
+             * be enough for production, at least, for now.
+             */}
+            {editor && (
+              <EditorProseMirror>
+                <EditorBubbleMenu editor={editor} />
+                <EditorFloatingMenu
+                  editor={editor}
+                  editorMenuActive={editorMenuActive}
+                  setEditorMenuActive={setEditorMenuActive}
+                  allowEmbeds={allowEmbeds}
+                />
+                <EditorContent
+                  editor={editor}
+                  spellCheck={spellCheck}
+                  autoCorrect="false"
+                  autoComplete="false"
+                  onBlur={() => {
+                    saveArticle({ dispatch, articleState, id, editor });
+                  }}
+                  onInput={() => {
+                    dispatch({
+                      type: "SET_ARTICLE_BODY",
+                      payload: {
+                        html: `${editor.getHTML()}`,
+                      },
+                    });
+                  }}
+                />
+              </EditorProseMirror>
+            )}
+          </EditorHolder>
+        </EditorWrapper>
+      </EditorContainer>
     </React.Fragment>
   );
 };

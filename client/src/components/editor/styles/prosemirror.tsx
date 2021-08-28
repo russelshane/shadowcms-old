@@ -14,7 +14,7 @@ export const EditorProseMirror = styled.div({
 
   p: {
     fontFamily: "Domine, Georgia, serif !important",
-    fontSize: "1.025rem",
+    fontSize: "1.075rem",
     lineHeight: "1.815rem",
     color: "#333",
     marginBlockEnd: "1.5em",
@@ -34,15 +34,11 @@ export const EditorProseMirror = styled.div({
     boxSizing: "border-box",
   },
 
-  h1: {
-    fontFamily: "'Gambetta', Georgia, serif",
-    fontSize: "2.25rem",
-    color: COLORS.headline,
-  },
-
   h2: {
-    fontFamily: "'Gambetta', Georgia, serif",
+    fontFamily: "'Bespoke Serif', Georgia, serif",
     fontSize: "1.925rem",
+    fontWeight: 400,
+    letterSpacing: "-0.5px",
     color: COLORS.headline,
   },
 

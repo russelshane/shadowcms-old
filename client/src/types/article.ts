@@ -54,6 +54,6 @@ export interface Article {
       };
     };
     topics: Topic[];
-    body: "";
+    body: string;
   };
 }

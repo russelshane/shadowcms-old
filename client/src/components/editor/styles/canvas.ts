@@ -49,12 +49,12 @@ export const EditorHeadlineHolder = styled.div({
 /* Editor Summary ContentEditable and Textarea (for editing) */
 export const EditorSummaryHolder = styled.textarea`
   display: block;
-  font-size: 1.165rem;
-  line-height: 1.8365rem;
+  font-size: 1.25rem;
+  line-height: 1.9365rem;
   padding-right: 20px;
   letter-spacing: -0.35px;
   font-family: "Bespoke Serif", serif;
-  color: #292929;
+  color: #353535;
   width: 100%;
   height: 110px;
   outline: none;

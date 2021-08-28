@@ -30,7 +30,7 @@ const Header: React.FC<HeaderProps> = ({ isEditor, user }) => {
       <Pane display="flex" gridGap="20px" alignItems="center">
         {isEditor && (
           <Pane display="flex" gridGap="10px" alignItems="center">
-            <Button appearance="minimal" disabled={publishDisabled} iconBefore={CloudUploadIcon}>
+            <Button appearance="primary" disabled={publishDisabled} iconBefore={CloudUploadIcon}>
               Publish
             </Button>
           </Pane>

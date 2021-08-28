@@ -36,7 +36,7 @@ export const EditorTimestamp = styled.span({
 });
 
 export const EditorWrapper = styled.div({
-  margin: "40px 0 0 0",
+  margin: "0 0 0 80px",
   padding: 0,
   display: "flex",
   flexDirection: "column",
@@ -49,4 +49,8 @@ export const EditorTop = styled.div({
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
+});
+
+export const EditorContainer = styled.div({
+  margin: "40px 0 0 0",
 });
