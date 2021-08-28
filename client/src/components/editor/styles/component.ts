@@ -38,9 +38,13 @@ export const EditorTimestamp = styled.span({
 export const EditorWrapper = styled.div({
   margin: "0 0 0 20px",
   padding: 0,
-  display: "flex",
+  display: "none",
   flexDirection: "column",
   gridGap: "10px",
+
+  "&.show": {
+    display: "flex",
+  },
 });
 
 export const EditorTop = styled.div({

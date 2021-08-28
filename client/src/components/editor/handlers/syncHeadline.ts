@@ -7,7 +7,7 @@ import dayjs from "dayjs";
 import Slugify from "react-slugify";
 import { firestore } from "../../../services/firebase";
 
-async function SyncHeadline(e, docId) {
+async function SyncHeadline(e, docId, articleState) {
   const id = docId;
 
   const html = e.target.innerHTML;
@@ -41,6 +41,8 @@ async function SyncHeadline(e, docId) {
         if (!doc.exists) {
           throw "Document does not exist!";
         }
+
+        console.log(articleState.doc.metadata.publish_url);
 
         await transaction.update(ref, {
           lastUpdated: timeNow,

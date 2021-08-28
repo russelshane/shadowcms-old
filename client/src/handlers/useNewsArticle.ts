@@ -13,18 +13,11 @@ function useNewsArticle(id, dispatch) {
       dispatch({
         type: "SET_FULL_ARTICLE",
         payload: {
-          doc: { ...doc.data() },
+          doc: {
+            ...doc.data(),
+          },
         },
       });
-
-      if (doc.data()?.doc?.interactiveState?.headlineEditor !== undefined) {
-        dispatch({
-          type: "SET_HEADLINE_EDITOR",
-          payload: {
-            headlineEditor: doc.data()?.doc?.interactiveState?.headlineEditor,
-          },
-        });
-      }
 
       if (doc.data()?.doc?.interactiveState?.saving !== undefined) {
         dispatch({

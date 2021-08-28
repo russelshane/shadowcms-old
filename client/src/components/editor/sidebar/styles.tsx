@@ -32,6 +32,7 @@ export const SidebarNav = styled.div({
   cursor: "pointer",
   color: COLORS.foreground,
   transition: "0.1s ease-in-out",
+  userSelect: "none",
 
   "&:hover": {
     color: COLORS.subtext,

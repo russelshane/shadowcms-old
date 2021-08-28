@@ -1,14 +1,12 @@
 /**
- * @description Editor Sidebar Types
+ * @description Editor Metadata Types
  * @author ShadowCMS
  */
 
 import { Article } from "../../../types/article";
 
-export type EditorSidebarProps = {
+export type EditorMetadataProps = {
   articleState?: Article;
   dispatch?: any;
-  words?: any;
-  setBodyPanel?: any;
   bodyPanel?: boolean;
 };

@@ -16,7 +16,7 @@ import {
   SidebarNavLabel,
 } from "./styles";
 
-const EditorSidebar: React.FC<EditorSidebarProps> = ({ words, articleState }) => {
+const EditorSidebar: React.FC<EditorSidebarProps> = ({ words, articleState, setBodyPanel }) => {
   /* Last Updated */
   const lastUpdated = articleState?.lastUpdated;
   dayjs.extend(RelativeTime);
@@ -25,11 +25,11 @@ const EditorSidebar: React.FC<EditorSidebarProps> = ({ words, articleState }) =>
   return (
     <EditorSidebarContainer>
       <SidebarHeading>ARTICLE</SidebarHeading>
-      <SidebarNav>
+      <SidebarNav onClick={() => setBodyPanel(false)}>
         <ManuallyEnteredDataIcon />
         <SidebarNavLabel>Metadata</SidebarNavLabel>
       </SidebarNav>
-      <SidebarNav>
+      <SidebarNav onClick={() => setBodyPanel(true)}>
         <ManualIcon />
         <SidebarNavLabel>Body</SidebarNavLabel>
       </SidebarNav>

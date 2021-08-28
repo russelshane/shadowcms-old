@@ -4,13 +4,10 @@
  */
 
 import React from "react";
-import loadable from "@loadable/component";
+import Layout from "../ui/layout";
+import Header from "../components/header";
+import CreateButton from "../ui/create";
 import { MockUser } from "../constants/mocks/user";
-
-/* Dynamic Components */
-const Header = loadable(() => import("../components/header"));
-const Layout = loadable(() => import("../ui/layout"));
-const CreateButton = loadable(() => import("../ui/create"));
 
 const Dashboard: React.FC = () => {
   /* Return */

@@ -25,6 +25,7 @@ import saveArticle from "./handlers/saveArticle";
 import EditorBubbleMenu from "./internal/bubble";
 import EditorFloatingMenu from "./internal/floating";
 import EditorSidebar from "./sidebar";
+import EditorMetadata from "./metadata";
 import { EditorProps } from "./types";
 import { useEffect, useState } from "react";
 import { EditorContent, useEditor } from "@tiptap/react";
@@ -56,6 +57,7 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, id }) => {
    */
   const [user] = useState<any>(`${RandomName.first()} ${RandomName.last()}`);
   const [editorMenuActive, setEditorMenuActive] = useState<boolean>(false);
+  const [bodyPanel, setBodyPanel] = useState<boolean>(true);
   const [spellCheck, setSpellCheck] = useState(false);
   const [allowEmbeds, setAllowEmbeds] = useState(true);
   const [showLabel, setShowLabel] = useState(false);
@@ -132,8 +134,19 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, id }) => {
          * - Editor Sidebar Component
          * View article checklist, properties, character count, etc.
          */}
-        <EditorSidebar articleState={articleState} dispatch={dispatch} words={wordCount} />
-        <EditorWrapper>
+        <EditorSidebar
+          articleState={articleState}
+          dispatch={dispatch}
+          words={wordCount}
+          setBodyPanel={setBodyPanel}
+        />
+        {/**
+         * - Editor Metadata Component
+         * Article's  main components, edit the section, subsection, topics, seo,
+         * tags, lede media, etc.
+         */}
+        <EditorMetadata articleState={articleState} dispatch={dispatch} bodyPanel={bodyPanel} />
+        <EditorWrapper className={`${bodyPanel ? "show" : undefined}`}>
           {/**
            * - Editor Top Component
            * View article history, get help, read the guidelines, undo or redo
@@ -182,7 +195,7 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, id }) => {
                     SetHeadline(e, dispatch, articleState);
                   }}
                   onBlur={(e) => {
-                    SyncHeadline(e, docId);
+                    SyncHeadline(e, docId, articleState);
                   }}
                   html={articleState?.doc.header.headline.html as string}
                   spellCheck={spellCheck}
