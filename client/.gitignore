@@ -1,0 +1,15 @@
+# MODULES
+node_modules/
+dist/
+build/
+
+# SECRETS
+.env
+.env.production
+.env.development
+.env.local
+
+# LOGS
+yarn-debug.log
+yarn-error.log
+npm-debug.log
