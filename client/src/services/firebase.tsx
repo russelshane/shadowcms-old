@@ -8,12 +8,13 @@ import "firebase/storage";
 import "firebase/firestore";
 
 const config = {
-  apiKey: process.env.REACT_APP_FIREBASE_API_KEY as string,
-  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN as string,
-  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID as string,
-  storageBucket: "timesproject.appspot.com", // Replace with your own
-  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSENGER_ID as string,
-  appId: process.env.REACT_APP_FIREBASE_APP_ID as string,
+  apiKey: "AIzaSyCAd931AmyuM7KTcZ7vw3xa8Wv8bhDRcMQ",
+  authDomain: "subictimes.firebaseapp.com",
+  projectId: "subictimes",
+  storageBucket: "assets.sbtx.cf",
+  messagingSenderId: "50963397322",
+  appId: "1:50963397322:web:eb2649a2bb9bc3bb45d233",
+  measurementId: "G-GD0XW2CSD1",
 };
 
 firebase.initializeApp(config);

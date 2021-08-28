@@ -170,7 +170,6 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, id }) => {
                 }}
                 onBlur={(e) => {
                   SyncHeadline(e, docId);
-                  saveArticle({ dispatch, articleState, id, editor });
                 }}
                 html={articleState?.doc.header.headline.html as string}
                 spellCheck={spellCheck}
@@ -213,6 +212,9 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, id }) => {
                 spellCheck={spellCheck}
                 autoCorrect="false"
                 autoComplete="false"
+                onBlur={() => {
+                  saveArticle({ dispatch, articleState, id, editor });
+                }}
                 onInput={() => {
                   dispatch({
                     type: "SET_ARTICLE_BODY",

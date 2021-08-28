@@ -60,12 +60,12 @@ async function SyncHeadline(e, docId) {
    */
   await firestore
     .runTransaction((transaction) => {
-      return transaction.get(ref).then((doc) => {
+      return transaction.get(ref).then(async (doc) => {
         if (!doc.exists) {
           throw "Document does not exist!";
         }
 
-        transaction.update(ref, {
+        await transaction.update(ref, {
           "interactiveState.saving": false,
         });
       });

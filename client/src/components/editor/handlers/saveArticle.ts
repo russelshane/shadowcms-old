@@ -30,6 +30,9 @@ async function saveArticle({ dispatch, editor, id, articleState }) {
             throw "Document does not exist!";
           }
 
+          /**
+           * Update entire article document, not just article body
+           */
           transaction.set(ref, {
             ...articleState,
             doc: {

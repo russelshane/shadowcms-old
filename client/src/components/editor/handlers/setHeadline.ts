@@ -5,35 +5,35 @@
 
 import Slugify from "react-slugify";
 
-async function SetHeadline(e, dispatch, articleState) {
+function SetHeadline(e, dispatch, articleState) {
   const html = e.target.value;
 
   /**
    * Remove any possible HTML tags or code from the
    * content editable value.
    */
-  const headline = await html.replace(/<[^>]+>/g, "");
+  const headline = html.replace(/<[^>]+>/g, "");
   /**
    * Create slugged version of the headline value for
    * the article's publish url. This is editable.
    */
-  const generatedPublishUrl = await Slugify(headline);
+  const generatedPublishUrl = Slugify(headline);
 
-  await dispatch({
+  dispatch({
     type: "SET_ARTICLE_SAVING",
     payload: {
       saving: null,
     },
   });
 
-  await dispatch({
+  dispatch({
     type: "SET_HEADLINE",
     payload: {
       text: headline,
     },
   });
 
-  await dispatch({
+  dispatch({
     type: "SET_HEADLINE_HTML",
     payload: {
       html: html,
