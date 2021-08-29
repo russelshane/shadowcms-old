@@ -134,7 +134,16 @@ function NewsReducer(state, action) {
         ...state,
         doc: {
           ...state.doc,
-          corrections: action.payload.text,
+          corrections: action.payload.correction,
+        },
+      };
+
+    case "SET_EDITORS_NOTE":
+      return {
+        ...state,
+        doc: {
+          ...state.doc,
+          notes: action.payload.note,
         },
       };
 

@@ -6,6 +6,8 @@
 import React, { useReducer } from "react";
 import DayJS from "dayjs";
 import AdvancedFormat from "dayjs/plugin/advancedFormat";
+import Timezone from "dayjs/plugin/timezone";
+import UTC from "dayjs/plugin/utc";
 import RandomName from "random-name";
 import RandomColor from "randomcolor";
 import LoadIframelyEmbeds from "../../toolkit/editor/loadIframely";
@@ -71,36 +73,35 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, id }) => {
    * day type is needed for current editor timestamp
    */
   DayJS.extend(AdvancedFormat);
+  DayJS.extend(Timezone);
+  DayJS.extend(UTC);
 
   /**
    *  Initialize new prosemirror/tiptap instance with partial collaboration
    *  features. Default extensions comes from another file, as well as the
    *  configurations for it.
    */
-  const editor = useEditor(
-    {
-      extensions: [
-        ...DefaultExtensions,
-        /**
-         * Using WebSockets for the article's body to be collaborative.
-         * Work in progress: headline, summary, bylines, labels, etc.
-         */
-        Collaboration.configure({
-          document: doc,
-        }),
-        CollaborationCursor.configure({
-          provider: provider,
-          user: {
-            name: user,
-            color: RandomColor(),
-          },
-        }),
-      ],
-      content: `${articleState?.doc.body}`,
-      enablePasteRules: false,
-    },
-    [],
-  );
+  const editor = useEditor({
+    extensions: [
+      ...DefaultExtensions,
+      /**
+       * Using WebSockets for the article's body to be collaborative.
+       * Work in progress: headline, summary, bylines, labels, etc.
+       */
+      Collaboration.configure({
+        document: doc,
+      }),
+      CollaborationCursor.configure({
+        provider: provider,
+        user: {
+          name: user,
+          color: RandomColor(),
+        },
+      }),
+    ],
+    content: `${articleState?.doc.body}`,
+    enablePasteRules: false,
+  });
 
   /**
    * Load initial scripts for handling editor functions such as
@@ -125,7 +126,7 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, id }) => {
    */
   useEffect(() => {
     useNewsArticle(id, dispatch);
-  }, []);
+  }, [useNewsArticle]);
 
   return (
     <React.Fragment>
@@ -216,7 +217,7 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, id }) => {
                 }
                 spellCheck={spellCheck}
               />
-              <EditorTimestamp>{DayJS().format("MMMM Do, YYYY")}</EditorTimestamp>
+              <EditorTimestamp>{DayJS().format("MMMM Do, YYYY")} </EditorTimestamp>
             </EditorHeader>
 
             {/**

@@ -4,11 +4,11 @@
  */
 
 import React from "react";
-import { Heading } from "evergreen-ui";
-import { EditorMetadataWrapper, MetadataContainer } from "./styles";
-import { EditorMetadataProps } from "./types";
 import TextInput from "../../../ui/textinput";
 import Textarea from "../../../ui/textarea";
+import { Heading } from "evergreen-ui";
+import { EditorMetadataProps } from "./types";
+import { EditorMetadataWrapper, MetadataContainer } from "./styles";
 
 const EditorMetadata: React.FC<EditorMetadataProps> = ({ bodyPanel, articleState, dispatch }) => {
   return (
@@ -28,18 +28,16 @@ const EditorMetadata: React.FC<EditorMetadataProps> = ({ bodyPanel, articleState
           description="A formal headline that will appear on the main article page."
           disabled
           value={articleState?.doc.header.headline.html as string}
-          onChange={console.log("Headline changed.")}
+          onChange={null}
         />
-
         <Textarea
           label="Summary / Excerpt"
           required
           description="A short brief on what information this article may give to readers."
           disabled
           value={articleState?.doc.header.summary.text as string}
-          onChange={console.log("Summary changed.")}
+          onChange={null}
         />
-
         <TextInput
           label="Publish URL"
           required
@@ -54,14 +52,13 @@ const EditorMetadata: React.FC<EditorMetadataProps> = ({ bodyPanel, articleState
             })
           }
         />
-
         <TextInput
           label="Document ID / CMS Slug"
           required
           disabled
           description="This is auto-generated and cannot be changed."
           value={articleState?.id}
-          onChange={console.log("Critical: Document ID Changed.")}
+          onChange={null}
         />
       </MetadataContainer>
 
@@ -92,7 +89,22 @@ const EditorMetadata: React.FC<EditorMetadataProps> = ({ bodyPanel, articleState
       <Heading size={400} color="muted">
         EDITOR'S NOTE
       </Heading>
-      <MetadataContainer></MetadataContainer>
+      <MetadataContainer>
+        <Textarea
+          label="Optional"
+          description="A way to provide a reporter with information about the author, as well as the company that the person is reporting on."
+          value={articleState?.doc.editors_note as string}
+          rows={4}
+          onChange={(e) =>
+            dispatch({
+              type: "SET_EDITORS_NOTE",
+              payload: {
+                note: e.target.value,
+              },
+            })
+          }
+        />
+      </MetadataContainer>
 
       {/**
        * - Editor Corrections Tab
@@ -105,15 +117,14 @@ const EditorMetadata: React.FC<EditorMetadataProps> = ({ bodyPanel, articleState
       <MetadataContainer>
         <Textarea
           label="Optional"
-          required
-          description="If you need to correct an editorial error, you can leave it here.."
+          description="If you need to correct an editorial error, you can do so here."
           value={articleState?.doc.corrections as string}
           rows={4}
           onChange={(e) =>
             dispatch({
               type: "SET_CORRECTIONS",
               payload: {
-                corrections: e.target.value,
+                correction: e.target.value,
               },
             })
           }

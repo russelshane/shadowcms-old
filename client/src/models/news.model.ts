@@ -54,14 +54,9 @@ export const NewsModel: Article = {
         description: "",
       },
     },
-    topics: [
-      {
-        name: "",
-        slug: "",
-        description: "",
-      },
-    ],
+    topics: [],
     body: "",
     corrections: "",
+    editors_note: "",
   },
 };

@@ -56,5 +56,6 @@ export interface Article {
     topics: Topic[];
     body: string;
     corrections: string;
+    editors_note: string;
   };
 }
