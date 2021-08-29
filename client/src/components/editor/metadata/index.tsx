@@ -4,9 +4,10 @@
  */
 
 import React from "react";
-import { Heading, TextInputField } from "evergreen-ui";
+import { Heading } from "evergreen-ui";
 import { EditorMetadataWrapper, MetadataContainer } from "./styles";
 import { EditorMetadataProps } from "./types";
+import TextInput from "../../../ui/textinput";
 
 const EditorMetadata: React.FC<EditorMetadataProps> = ({ bodyPanel, articleState, dispatch }) => {
   return (
@@ -20,10 +21,10 @@ const EditorMetadata: React.FC<EditorMetadataProps> = ({ bodyPanel, articleState
         MAIN
       </Heading>
       <MetadataContainer>
-        <TextInputField
+        <TextInput
           label="Headline"
           required
-          description="Creative and formal headline to appear on the main article page."
+          description="A formal headline that will appear on the main article page."
           disabled
           value={articleState?.doc.header.headline.html as string}
           onChange={(e) =>
@@ -35,7 +36,8 @@ const EditorMetadata: React.FC<EditorMetadataProps> = ({ bodyPanel, articleState
             })
           }
         />
-        <TextInputField
+
+        <TextInput
           label="Summary / Excerpt"
           required
           description="A short brief on what information this article may give to readers."
@@ -50,7 +52,8 @@ const EditorMetadata: React.FC<EditorMetadataProps> = ({ bodyPanel, articleState
             })
           }
         />
-        <TextInputField
+
+        <TextInput
           label="Publish URL"
           required
           description="This is auto-generated, although it's required to make it more URL-friendly. You should worry about this last."

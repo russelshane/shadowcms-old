@@ -21,6 +21,8 @@ const EditorSidebar: React.FC<EditorSidebarProps> = ({ words, articleState, setB
   const lastUpdated = articleState?.lastUpdated;
   dayjs.extend(RelativeTime);
 
+  /* Interactive State */
+
   /* Return */
   return (
     <EditorSidebarContainer>

@@ -5,8 +5,8 @@
 
 import { firestore } from "../../../services/firebase";
 
-async function SyncSummary(e, articleState) {
-  const id = articleState.id;
+async function SyncSummary(e, docId) {
+  const id = docId;
   const summary = e.target.value;
 
   const ref = await firestore.collection("articles").doc(id);

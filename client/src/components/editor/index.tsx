@@ -21,7 +21,7 @@ import loadable from "@loadable/component";
 import NewsReducer from "../../reducers/news.reducer";
 import useNewsArticle from "../../handlers/useNewsArticle";
 import SyncHeadline from "./handlers/syncHeadline";
-import saveArticle from "./handlers/saveArticle";
+import SaveArticle from "./handlers/saveArticle";
 import EditorBubbleMenu from "./internal/bubble";
 import EditorFloatingMenu from "./internal/floating";
 import EditorSidebar from "./sidebar";
@@ -205,7 +205,7 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, id }) => {
               <EditorSummaryHolder
                 placeholder="Write summary..."
                 value={articleState?.doc.header.summary.text}
-                onBlur={(e) => SyncSummary(e, articleState)}
+                onBlur={(e) => SyncSummary(e, docId)}
                 onChange={(e) =>
                   dispatch({
                     type: "SET_SUMMARY",
@@ -240,7 +240,7 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, id }) => {
                   autoCorrect="false"
                   autoComplete="false"
                   onBlur={() => {
-                    saveArticle({ dispatch, articleState, id, editor });
+                    SaveArticle({ dispatch, articleState, id, editor });
                   }}
                   onInput={() => {
                     dispatch({

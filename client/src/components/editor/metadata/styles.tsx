@@ -25,4 +25,7 @@ export const MetadataContainer = styled.div({
   padding: 20,
   background: "#fff",
   border: `1px solid ${COLORS.borders}`,
+  display: "flex",
+  flexDirection: "column",
+  gridGap: 20,
 });

@@ -31,7 +31,7 @@ export const NewsModel: Article = {
       },
     },
     metadata: {
-      publish_url: null,
+      publish_url: "",
       publish_date: dayjs().format("YYYY-MM-DDTHH:mm:ss") as string,
       status: "in-progress",
       is_breaking: false,
