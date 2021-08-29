@@ -129,6 +129,15 @@ function NewsReducer(state, action) {
         },
       };
 
+    case "SET_CORRECTIONS":
+      return {
+        ...state,
+        doc: {
+          ...state.doc,
+          corrections: action.payload.text,
+        },
+      };
+
     case "SET_BYLINES":
       return {
         ...state,

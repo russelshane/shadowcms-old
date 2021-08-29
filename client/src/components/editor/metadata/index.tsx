@@ -8,6 +8,7 @@ import { Heading } from "evergreen-ui";
 import { EditorMetadataWrapper, MetadataContainer } from "./styles";
 import { EditorMetadataProps } from "./types";
 import TextInput from "../../../ui/textinput";
+import Textarea from "../../../ui/textarea";
 
 const EditorMetadata: React.FC<EditorMetadataProps> = ({ bodyPanel, articleState, dispatch }) => {
   return (
@@ -27,45 +28,40 @@ const EditorMetadata: React.FC<EditorMetadataProps> = ({ bodyPanel, articleState
           description="A formal headline that will appear on the main article page."
           disabled
           value={articleState?.doc.header.headline.html as string}
-          onChange={(e) =>
-            dispatch({
-              type: "SET_HEADLINE_HTML",
-              payload: {
-                html: e.target.value,
-              },
-            })
-          }
+          onChange={console.log("Headline changed.")}
         />
 
-        <TextInput
+        <Textarea
           label="Summary / Excerpt"
           required
           description="A short brief on what information this article may give to readers."
           disabled
           value={articleState?.doc.header.summary.text as string}
-          onChange={(e) =>
-            dispatch({
-              type: "SET_SUMMARY",
-              payload: {
-                text: e.target.value,
-              },
-            })
-          }
+          onChange={console.log("Summary changed.")}
         />
 
         <TextInput
           label="Publish URL"
           required
           description="This is auto-generated, although it's required to make it more URL-friendly. You should worry about this last."
-          value={articleState?.doc.metadata.publish_url as string}
+          value={articleState?.doc.metadata.publish_url}
           onChange={(e) =>
             dispatch({
               type: "SET_PUBLISH_URL",
               payload: {
-                publish_url: e.target.value,
+                url: e.target.value,
               },
             })
           }
+        />
+
+        <TextInput
+          label="Document ID / CMS Slug"
+          required
+          disabled
+          description="This is auto-generated and cannot be changed."
+          value={articleState?.id}
+          onChange={console.log("Critical: Document ID Changed.")}
         />
       </MetadataContainer>
 
@@ -85,7 +81,7 @@ const EditorMetadata: React.FC<EditorMetadataProps> = ({ bodyPanel, articleState
        * image here. They can also add their own keywords.
        */}
       <Heading size={400} color="muted">
-        SECTIONS
+        TOPICS
       </Heading>
       <MetadataContainer></MetadataContainer>
 
@@ -106,7 +102,23 @@ const EditorMetadata: React.FC<EditorMetadataProps> = ({ bodyPanel, articleState
       <Heading size={400} color="muted">
         CORRECTIONS
       </Heading>
-      <MetadataContainer></MetadataContainer>
+      <MetadataContainer>
+        <Textarea
+          label="Optional"
+          required
+          description="If you need to correct an editorial error, you can leave it here.."
+          value={articleState?.doc.corrections as string}
+          rows={4}
+          onChange={(e) =>
+            dispatch({
+              type: "SET_CORRECTIONS",
+              payload: {
+                corrections: e.target.value,
+              },
+            })
+          }
+        />
+      </MetadataContainer>
     </EditorMetadataWrapper>
   );
 };

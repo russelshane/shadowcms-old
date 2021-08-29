@@ -1,26 +1,28 @@
 /**
- * @description Text Input UI Component Styles
+ * @description Textarea UI Component Styles
  * @author ShadowCMS
  */
 
 import styled from "styled-components";
 import COLORS from "../../styles/globalColors";
 
-export const TextInputContainer = styled.div({
+export const TextareaContainer = styled.div({
   display: "flex",
   flexDirection: "column",
   width: "100%",
   gridGap: 4,
 });
 
-export const TextInputField = styled.input({
+export const TextareaField = styled.textarea({
   outline: "none",
   fontFamily: "Poppins, sans-serif",
   cusor: "pointer",
+  resize: "none",
   border: `1px solid ${COLORS.borders}`,
   padding: 10,
   fontSize: 13,
-  color: COLORS.foreground,
+  lineHeight: "20px",
+  color: "#444",
 
   "&:focus": {
     border: `1px solid ${COLORS.primary}`,
@@ -35,7 +37,7 @@ export const TextInputField = styled.input({
   },
 });
 
-export const TextInputDescription = styled.span({
+export const TextareaDescription = styled.span({
   fontSize: 12.5,
   fontFamily: "Poppins, sans-serif",
   color: "#666666",
@@ -43,7 +45,7 @@ export const TextInputDescription = styled.span({
   userSelect: "none",
 });
 
-export const TextInputLabel = styled.span({
+export const TextareaLabel = styled.span({
   fontSize: 13,
   fontWeight: 500,
   fontFamily: "Poppins, sans-serif",

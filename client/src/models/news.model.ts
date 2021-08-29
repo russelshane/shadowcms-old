@@ -62,5 +62,6 @@ export const NewsModel: Article = {
       },
     ],
     body: "",
+    corrections: "",
   },
 };
