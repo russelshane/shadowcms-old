@@ -48,7 +48,7 @@ export const EditorWrapper = styled.div({
 });
 
 export const EditorTop = styled.div({
-  width: "850px",
+  width: "890px",
   margin: "0 auto",
   display: "flex",
   alignItems: "center",

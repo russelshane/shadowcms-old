@@ -23,6 +23,7 @@ import {
   SidebarNavLabel,
   ProgressItem,
   ProgressLabel,
+  SidebarSeperator,
 } from "./styles";
 
 const EditorSidebar: React.FC<EditorSidebarProps> = ({ words, articleState, setBodyPanel }) => {
@@ -30,16 +31,10 @@ const EditorSidebar: React.FC<EditorSidebarProps> = ({ words, articleState, setB
   const lastUpdated = articleState?.lastUpdated;
   dayjs.extend(RelativeTime);
 
-  /* Interactive State */
-
   /* Return */
   return (
     <EditorSidebarContainer>
       <SidebarHeading>MAIN</SidebarHeading>
-      <SidebarNav onClick={() => setBodyPanel(false)}>
-        <ManuallyEnteredDataIcon />
-        <SidebarNavLabel>Metadata</SidebarNavLabel>
-      </SidebarNav>
       <SidebarNav onClick={() => setBodyPanel(true)}>
         <ManualIcon />
         <SidebarNavLabel>Body</SidebarNavLabel>
@@ -48,7 +43,13 @@ const EditorSidebar: React.FC<EditorSidebarProps> = ({ words, articleState, setB
       <SidebarLabel>
         {words} {words !== 1 ? "words" : "word"}
       </SidebarLabel>
-      <br />
+      <SidebarSeperator />
+      <SidebarNav onClick={() => setBodyPanel(false)}>
+        <ManuallyEnteredDataIcon />
+        <SidebarNavLabel>Metadata</SidebarNavLabel>
+      </SidebarNav>
+      <SidebarLabel style={{ color: "#777" }}>SEO, Publish, Editor's Note, etc.</SidebarLabel>
+      <SidebarSeperator />
       {/**
        * @description Article checklist/progress component
        */}
@@ -57,8 +58,17 @@ const EditorSidebar: React.FC<EditorSidebarProps> = ({ words, articleState, setB
        * SUMMARY progress/checklist
        */}
       <ProgressItem>
-        {!articleState?.id ? <HighPriorityIcon color="danger" /> : <TickIcon color="success" />}
-        <ProgressLabel>Document ID</ProgressLabel>
+        {!articleState?.id ? (
+          <React.Fragment>
+            <HighPriorityIcon color="danger" />
+            <ProgressLabel style={{ color: COLORS.danger }}>Document ID</ProgressLabel>
+          </React.Fragment>
+        ) : (
+          <React.Fragment>
+            <TickIcon color="success" />
+            <ProgressLabel style={{ color: COLORS.success }}>Document ID</ProgressLabel>
+          </React.Fragment>
+        )}
       </ProgressItem>
 
       {/**
@@ -70,13 +80,18 @@ const EditorSidebar: React.FC<EditorSidebarProps> = ({ words, articleState, setB
         ) : (
           <React.Fragment>
             {articleState.doc.header.headline.html.length < 10 ? (
-              <WarningSignIcon color="warning" />
+              <React.Fragment>
+                <WarningSignIcon color="warning" />
+                <ProgressLabel style={{ color: COLORS.warning }}>Headline</ProgressLabel>
+              </React.Fragment>
             ) : (
-              <TickIcon color="success" />
+              <React.Fragment>
+                <TickIcon color="success" />
+                <ProgressLabel style={{ color: COLORS.success }}>Headline</ProgressLabel>
+              </React.Fragment>
             )}
           </React.Fragment>
         )}
-        <ProgressLabel>Headline</ProgressLabel>
       </ProgressItem>
 
       {/**
@@ -84,17 +99,16 @@ const EditorSidebar: React.FC<EditorSidebarProps> = ({ words, articleState, setB
        */}
       <ProgressItem>
         {!articleState?.doc.header.summary.text ? (
-          <HighPriorityIcon color="danger" />
+          <React.Fragment>
+            <WarningSignIcon color="warning" />
+            <ProgressLabel style={{ color: COLORS.warning }}>Summary</ProgressLabel>
+          </React.Fragment>
         ) : (
           <React.Fragment>
-            {articleState.doc.header.summary.text.length < 10 ? (
-              <WarningSignIcon color="warning" />
-            ) : (
-              <TickIcon color="success" />
-            )}
+            <TickIcon color="success" />
+            <ProgressLabel style={{ color: COLORS.success }}>Summary</ProgressLabel>
           </React.Fragment>
         )}
-        <ProgressLabel>Summary</ProgressLabel>
       </ProgressItem>
 
       {/**
@@ -102,18 +116,16 @@ const EditorSidebar: React.FC<EditorSidebarProps> = ({ words, articleState, setB
        */}
       <ProgressItem>
         {!articleState?.doc.metadata.publish_url || !articleState.doc.metadata.publish_url ? (
-          <HighPriorityIcon color="danger" />
+          <React.Fragment>
+            <WarningSignIcon color="warning" />
+            <ProgressLabel style={{ color: COLORS.warning }}>Publish URL</ProgressLabel>
+          </React.Fragment>
         ) : (
           <React.Fragment>
-            {articleState.doc.metadata.publish_url.length ||
-            articleState.doc.metadata.publish_url.length < 10 ? (
-              <WarningSignIcon color="warning" />
-            ) : (
-              <TickIcon color="success" />
-            )}
+            <TickIcon color="success" />
+            <ProgressLabel style={{ color: COLORS.success }}>Publish URL</ProgressLabel>
           </React.Fragment>
         )}
-        <ProgressLabel>Publish URL</ProgressLabel>
       </ProgressItem>
 
       {/**
@@ -121,18 +133,26 @@ const EditorSidebar: React.FC<EditorSidebarProps> = ({ words, articleState, setB
        */}
       <ProgressItem>
         {!articleState?.doc.metadata.seo.title || !articleState.doc.metadata.seo.description ? (
-          <HighPriorityIcon color="danger" />
+          <React.Fragment>
+            <HighPriorityIcon color="danger" />
+            <ProgressLabel style={{ color: COLORS.danger }}>SEO</ProgressLabel>
+          </React.Fragment>
         ) : (
           <React.Fragment>
-            {articleState.doc.metadata.seo.title.length ||
+            {articleState.doc.metadata.seo.title.length &&
             articleState.doc.metadata.seo.description.length < 10 ? (
-              <WarningSignIcon color="warning" />
+              <React.Fragment>
+                <WarningSignIcon color="warning" />
+                <ProgressLabel style={{ color: COLORS.warning }}>SEO</ProgressLabel>
+              </React.Fragment>
             ) : (
-              <TickIcon color="success" />
+              <React.Fragment>
+                <TickIcon color="success" />
+                <ProgressLabel style={{ color: COLORS.success }}>SEO</ProgressLabel>
+              </React.Fragment>
             )}
           </React.Fragment>
         )}
-        <ProgressLabel>SEO</ProgressLabel>
       </ProgressItem>
 
       {/**
@@ -140,37 +160,43 @@ const EditorSidebar: React.FC<EditorSidebarProps> = ({ words, articleState, setB
        */}
       <ProgressItem>
         {!articleState?.doc.sections.parent.name || !articleState.doc.sections.name ? (
-          <HighPriorityIcon color="danger" />
+          <React.Fragment>
+            <HighPriorityIcon color="danger" />
+            <ProgressLabel style={{ color: COLORS.danger }}>Sections</ProgressLabel>
+          </React.Fragment>
         ) : (
           <React.Fragment>
             {articleState.doc.sections.parent.name.length ||
             articleState.doc.sections.name.length < 10 ? (
-              <WarningSignIcon color="warning" />
+              <React.Fragment>
+                <WarningSignIcon color="warning" />
+                <ProgressLabel style={{ color: COLORS.warning }}>Sections</ProgressLabel>
+              </React.Fragment>
             ) : (
-              <TickIcon color="success" />
+              <React.Fragment>
+                <TickIcon color="success" />
+                <ProgressLabel style={{ color: COLORS.success }}>Sections</ProgressLabel>
+              </React.Fragment>
             )}
           </React.Fragment>
         )}
-        <ProgressLabel>Sections</ProgressLabel>
       </ProgressItem>
 
       {/**
        * Topics progress/checklist
        */}
       <ProgressItem>
-        {!articleState?.doc.topics.map((val) => val.name) ? (
-          <HighPriorityIcon color="danger" />
+        {!articleState?.doc.topics.forEach((val) => val.name) ? (
+          <React.Fragment>
+            <HighPriorityIcon color="danger" />
+            <ProgressLabel style={{ color: COLORS.danger }}>Topics</ProgressLabel>
+          </React.Fragment>
         ) : (
           <React.Fragment>
-            {articleState.doc.topics.map((val) => val.name).length ||
-            articleState.doc.topics.map((val) => val.name).length < 10 ? (
-              <WarningSignIcon color="warning" />
-            ) : (
-              <TickIcon color="success" />
-            )}
+            <TickIcon color="success" />
+            <ProgressLabel style={{ color: COLORS.success }}>Topics</ProgressLabel>
           </React.Fragment>
         )}
-        <ProgressLabel>SBT Topics</ProgressLabel>
       </ProgressItem>
       <SidebarLabel
         style={{ color: COLORS.primary, cursor: "pointer" }}

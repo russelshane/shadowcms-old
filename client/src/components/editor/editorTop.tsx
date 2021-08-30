@@ -26,7 +26,7 @@ type ComposeProps = {
 const ShadowComposeTop: React.FC<ComposeProps> = ({ editor, isSaving }) => {
   return (
     <React.Fragment>
-      <Pane display="flex" alignItems="center" gridGap={20}>
+      <Pane display="flex" alignItems="center" gridGap={15}>
         <Heading size={200}>ARTICLE</Heading>
         {isSaving != null && (
           <React.Fragment>

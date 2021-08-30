@@ -17,8 +17,7 @@ function LoadIframelyEmbeds() {
     ifs.type = "text/javascript";
     ifs.async = true;
     ifs.src =
-      ("https:" == document.location.protocol ? "https:" : "http:") +
-      "//cdn.iframe.ly/embed.js";
+      ("https:" == document.location.protocol ? "https:" : "http:") + "//cdn.iframe.ly/embed.js";
     const s = document.getElementsByTagName("script")[0];
     (s as any).parentNode.insertBefore(ifs, s);
   }

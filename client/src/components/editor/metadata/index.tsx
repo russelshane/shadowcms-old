@@ -7,7 +7,7 @@ import React from "react";
 import TextInput from "../../../ui/textinput";
 import Textarea from "../../../ui/textarea";
 import SaveArticle from "../handlers/saveArticle";
-import { Heading } from "evergreen-ui";
+import { Heading, Pane, StatusIndicator } from "evergreen-ui";
 import { EditorMetadataProps } from "./types";
 import { EditorMetadataWrapper, MetadataContainer } from "./styles";
 
@@ -17,6 +17,7 @@ const EditorMetadata: React.FC<EditorMetadataProps> = ({
   dispatch,
   id,
   editor,
+  isSaving,
 }) => {
   return (
     <EditorMetadataWrapper className={`${!bodyPanel ? "show" : undefined}`}>
@@ -25,9 +26,23 @@ const EditorMetadata: React.FC<EditorMetadataProps> = ({
        * See the current headline, summary, publish URL, CMS slug,
        * bylines, custom publish date and, etc.
        */}
-      <Heading size={400} color="muted">
-        MAIN
-      </Heading>
+      <Pane display="flex" alignItems="center" gridGap={20}>
+        <Heading size={400}>METADATA</Heading>
+        {isSaving != null && (
+          <React.Fragment>
+            {!isSaving ? (
+              <StatusIndicator color="success" fontSize={13}>
+                Saved.
+              </StatusIndicator>
+            ) : (
+              <StatusIndicator color="warning" fontSize={13}>
+                Saving...
+              </StatusIndicator>
+            )}
+          </React.Fragment>
+        )}
+      </Pane>
+
       <MetadataContainer>
         <TextInput
           label="Headline"
@@ -73,6 +88,51 @@ const EditorMetadata: React.FC<EditorMetadataProps> = ({
       </MetadataContainer>
 
       {/**
+       * - Editor Search Engine Optimization Tab
+       * Authors and editors can edit the article's SEO title, description,
+       * image here. They can also add their own keywords.
+       */}
+      <Heading size={400} color="muted">
+        SEARCH ENGINE OPTIMIZATION (SEO)
+      </Heading>
+      <MetadataContainer>
+        <TextInput
+          label="SEO Title"
+          required
+          description="Try to make the headline similar to the main one but more keyword-rich."
+          value={articleState?.doc.metadata.seo.title as string}
+          onChange={(e) => {
+            dispatch({
+              type: "SET_SEO_TITLE",
+              payload: {
+                title: e.target.value,
+              },
+            });
+          }}
+          onBlur={() => {
+            SaveArticle({ dispatch, articleState, id, editor });
+          }}
+        />
+        <Textarea
+          label="SEO Description"
+          required
+          description="Similar to the summary but try to make it more clear, think about what readers would type on search engines."
+          value={articleState?.doc.metadata.seo.description as string}
+          onChange={(e) => {
+            dispatch({
+              type: "SET_SEO_DESCRIPTION",
+              payload: {
+                description: e.target.value,
+              },
+            });
+          }}
+          onBlur={() => {
+            SaveArticle({ dispatch, articleState, id, editor });
+          }}
+        />
+      </MetadataContainer>
+
+      {/**
        * - Editor Sections Tab
        * Reporters and editors will make sure that this article will
        * appear in the right places.
@@ -83,9 +143,9 @@ const EditorMetadata: React.FC<EditorMetadataProps> = ({
       <MetadataContainer></MetadataContainer>
 
       {/**
-       * - Editor Search Engine Optimization Tab
-       * Authors and editors can edit the article's SEO title, description,
-       * image here. They can also add their own keywords.
+       * - Editor Topics Tab
+       * Similar to the sections section but topics are also used for
+       * platform algorithms.
        */}
       <Heading size={400} color="muted">
         TOPICS
@@ -102,7 +162,7 @@ const EditorMetadata: React.FC<EditorMetadataProps> = ({
       <MetadataContainer>
         <Textarea
           label="Optional"
-          description="A way to provide a reporter with information about the author, as well as the company that the person is reporting on."
+          description="A newsroom editor can leave any notes here regarding the article that readers will find and read."
           value={articleState?.doc.editors_note as string}
           rows={4}
           onChange={(e) =>

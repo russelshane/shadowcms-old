@@ -35,7 +35,7 @@ const CreateButton: React.FC = () => {
         },
       });
 
-    history.push(`/doc/shadow_${newId}/new/editing`);
+    history.push(`/doc/shadow_${newId}/web/editing`);
   };
 
   return (

@@ -11,4 +11,5 @@ export type EditorMetadataProps = {
   bodyPanel?: boolean;
   id?: string;
   editor?: any;
+  isSaving?: boolean;
 };

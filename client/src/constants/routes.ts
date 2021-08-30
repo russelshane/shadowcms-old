@@ -12,7 +12,7 @@ const ROUTES = {
   NEWSROOM: "/newsroom",
   PUBLISHED_ARTICLES: "/monitoring/published",
   INCOMING_ARTICLES: "/monitoring/incoming",
-  COMPOSE: "/doc/:id/new/editing",
+  COMPOSE: "/doc/:id/web/editing",
 };
 
 export default ROUTES;

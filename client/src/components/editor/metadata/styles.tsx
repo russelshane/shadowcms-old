@@ -9,7 +9,7 @@ import COLORS from "../../../styles/globalColors";
 export const EditorMetadataWrapper = styled.div({
   margin: "0px auto 0 auto",
   width: "100%",
-  maxWidth: "850px",
+  maxWidth: "890px",
   minHeight: "100vh",
   display: "none",
 

@@ -11,7 +11,7 @@ export const EditorSidebarContainer = styled.div({
   minHeight: 400,
   padding: 0,
   marginTop: 30,
-  left: 25,
+  left: 80,
   float: "left",
   position: "absolute",
   display: "flex",
@@ -20,9 +20,18 @@ export const EditorSidebarContainer = styled.div({
 });
 
 export const SidebarNavLabel = styled.span({
-  fontSize: 16,
-  fontWeight: 500,
+  fontSize: 18,
+  fontWeight: 600,
   fontFamily: "Poppins, sans-serif",
+});
+
+export const SidebarSeperator = styled.span({
+  width: 35,
+  height: 1,
+  background: "#bbb",
+  margin: "12px 0",
+  userSelect: "none",
+  cursor: "default",
 });
 
 export const SidebarNav = styled.div({
@@ -31,11 +40,11 @@ export const SidebarNav = styled.div({
   gridGap: 8,
   cursor: "pointer",
   color: COLORS.foreground,
-  transition: "0.1s ease-in-out",
+  transition: "0.05s ease-in-out",
   userSelect: "none",
 
   "&:hover": {
-    color: COLORS.subtext,
+    opacity: 0.85,
   },
 });
 
