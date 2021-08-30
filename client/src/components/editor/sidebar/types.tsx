@@ -11,4 +11,6 @@ export type EditorSidebarProps = {
   words?: any;
   setBodyPanel?: any;
   bodyPanel?: boolean;
+  id?: string;
+  editor?: any;
 };

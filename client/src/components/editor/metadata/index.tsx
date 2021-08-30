@@ -6,11 +6,18 @@
 import React from "react";
 import TextInput from "../../../ui/textinput";
 import Textarea from "../../../ui/textarea";
+import SaveArticle from "../handlers/saveArticle";
 import { Heading } from "evergreen-ui";
 import { EditorMetadataProps } from "./types";
 import { EditorMetadataWrapper, MetadataContainer } from "./styles";
 
-const EditorMetadata: React.FC<EditorMetadataProps> = ({ bodyPanel, articleState, dispatch }) => {
+const EditorMetadata: React.FC<EditorMetadataProps> = ({
+  bodyPanel,
+  articleState,
+  dispatch,
+  id,
+  editor,
+}) => {
   return (
     <EditorMetadataWrapper className={`${!bodyPanel ? "show" : undefined}`}>
       {/**
@@ -51,6 +58,9 @@ const EditorMetadata: React.FC<EditorMetadataProps> = ({ bodyPanel, articleState
               },
             })
           }
+          onBlur={() => {
+            SaveArticle({ dispatch, articleState, id, editor });
+          }}
         />
         <TextInput
           label="Document ID / CMS Slug"
@@ -103,6 +113,9 @@ const EditorMetadata: React.FC<EditorMetadataProps> = ({ bodyPanel, articleState
               },
             })
           }
+          onBlur={() => {
+            SaveArticle({ dispatch, articleState, id, editor });
+          }}
         />
       </MetadataContainer>
 
@@ -128,6 +141,9 @@ const EditorMetadata: React.FC<EditorMetadataProps> = ({ bodyPanel, articleState
               },
             })
           }
+          onBlur={() => {
+            SaveArticle({ dispatch, articleState, id, editor });
+          }}
         />
       </MetadataContainer>
     </EditorMetadataWrapper>

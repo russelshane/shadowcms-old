@@ -99,8 +99,7 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, id }) => {
         },
       }),
     ],
-    content: `${articleState?.doc.body}`,
-    enablePasteRules: false,
+    content: articleState.doc.body as string,
   });
 
   /**
@@ -126,7 +125,7 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, id }) => {
    */
   useEffect(() => {
     useNewsArticle(id, dispatch);
-  }, [useNewsArticle]);
+  }, []);
 
   return (
     <React.Fragment>
@@ -147,7 +146,13 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, id }) => {
          * Article's  main components, edit the section, subsection, topics, seo,
          * tags, lede media, etc.
          */}
-        <EditorMetadata articleState={articleState} dispatch={dispatch} bodyPanel={bodyPanel} />
+        <EditorMetadata
+          articleState={articleState}
+          dispatch={dispatch}
+          bodyPanel={bodyPanel}
+          id={docId}
+          editor={editor}
+        />
         <EditorWrapper className={`${bodyPanel ? "show" : undefined}`}>
           {/**
            * - Editor Top Component

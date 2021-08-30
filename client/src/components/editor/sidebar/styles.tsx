@@ -55,3 +55,18 @@ export const SidebarLabel = styled.span({
   userSelect: "none",
   cursor: "default",
 });
+
+export const ProgressItem = styled.div({
+  alignItems: "center",
+  display: "flex",
+  gridGap: 10,
+});
+
+export const ProgressLabel = styled.span({
+  fontSize: 14,
+  fontFamily: "Poppins, sans-serif",
+  color: "#555",
+  userSelect: "none",
+  cursor: "default",
+  marginBottom: "-1.25px",
+});

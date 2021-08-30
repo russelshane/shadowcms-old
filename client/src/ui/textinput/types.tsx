@@ -8,6 +8,7 @@ export type TextInputProps = {
   label?: string;
   value?: any;
   onChange?: any;
+  onBlur?: any;
   required?: boolean;
   disabled?: boolean;
 };

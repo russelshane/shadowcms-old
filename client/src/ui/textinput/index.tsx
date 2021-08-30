@@ -13,6 +13,7 @@ const TextInput: React.FC<TextInputProps> = ({
   description,
   value,
   onChange,
+  onBlur,
   disabled,
   required,
 }) => {
@@ -22,7 +23,7 @@ const TextInput: React.FC<TextInputProps> = ({
         {label} {required ? <Text color="danger">*</Text> : ""}
       </TextInputLabel>
       <TextInputDescription>{description}</TextInputDescription>
-      <TextInputField value={value} onChange={onChange} disabled={disabled} />
+      <TextInputField value={value} onChange={onChange} disabled={disabled} onBlur={onBlur} />
     </TextInputContainer>
   );
 };

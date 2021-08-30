@@ -8,6 +8,7 @@ export type TextareaProps = {
   label?: string;
   value?: any;
   onChange?: any;
+  onBlur?: any;
   required?: boolean;
   disabled?: boolean;
   rows?: number;

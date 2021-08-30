@@ -9,4 +9,6 @@ export type EditorMetadataProps = {
   articleState?: Article;
   dispatch?: any;
   bodyPanel?: boolean;
+  id?: string;
+  editor?: any;
 };

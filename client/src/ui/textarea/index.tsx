@@ -14,6 +14,7 @@ const Textarea: React.FC<TextareaProps> = ({
   description,
   value,
   onChange,
+  onBlur,
   disabled,
   rows,
 }) => {
@@ -23,7 +24,13 @@ const Textarea: React.FC<TextareaProps> = ({
         {label} {required ? <Text color="danger">*</Text> : ""}
       </TextareaLabel>
       <TextareaDescription>{description}</TextareaDescription>
-      <TextareaField rows={rows} value={value} onChange={onChange} disabled={disabled} />
+      <TextareaField
+        rows={rows}
+        value={value}
+        onChange={onChange}
+        disabled={disabled}
+        onBlur={onBlur}
+      />
     </TextareaContainer>
   );
 };

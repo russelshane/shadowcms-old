@@ -19,6 +19,13 @@ function useNewsArticle(id, dispatch) {
         },
       });
 
+      dispatch({
+        type: "SET_ARTICLE_BODY",
+        payload: {
+          body: doc.data()?.doc.body,
+        },
+      });
+
       if (doc.data()?.doc?.interactiveState?.saving !== undefined) {
         dispatch({
           type: "SET_ARTICLE_SAVING",
