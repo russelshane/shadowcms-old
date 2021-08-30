@@ -81,26 +81,29 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, id }) => {
    *  features. Default extensions comes from another file, as well as the
    *  configurations for it.
    */
-  const editor = useEditor({
-    extensions: [
-      ...DefaultExtensions,
-      /**
-       * Using WebSockets for the article's body to be collaborative.
-       * Work in progress: headline, summary, bylines, labels, etc.
-       */
-      Collaboration.configure({
-        document: doc,
-      }),
-      CollaborationCursor.configure({
-        provider: provider,
-        user: {
-          name: user,
-          color: RandomColor(),
-        },
-      }),
-    ],
-    content: articleState.doc.body as string,
-  });
+  const editor = useEditor(
+    {
+      extensions: [
+        ...DefaultExtensions,
+        /**
+         * Using WebSockets for the article's body to be collaborative.
+         * Work in progress: headline, summary, bylines, labels, etc.
+         */
+        Collaboration.configure({
+          document: doc,
+        }),
+        CollaborationCursor.configure({
+          provider: provider,
+          user: {
+            name: user,
+            color: RandomColor(),
+          },
+        }),
+      ],
+      content: articleState.doc.body as string,
+    },
+    [],
+  );
 
   /**
    * Load initial scripts for handling editor functions such as
