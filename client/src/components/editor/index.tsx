@@ -34,6 +34,7 @@ import { EditorContent, useEditor } from "@tiptap/react";
 import { EditorProseMirror } from "./styles/prosemirror";
 import { MockUser } from "../../constants/mocks/user";
 import { NewsModel } from "../../models/news.model";
+import { Article } from "../../types/article";
 import {
   EditorHeadlineHolder,
   EditorHolder,
@@ -63,10 +64,10 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, id }) => {
   const [spellCheck, setSpellCheck] = useState(false);
   const [allowEmbeds, setAllowEmbeds] = useState(true);
   const [showLabel, setShowLabel] = useState(false);
-  const [articleState, dispatch] = useReducer(NewsReducer, NewsModel);
+  const [articleState, dispatch] = useReducer(NewsReducer, NewsModel as Article);
   const [wordCount, setWordCount] = useState<any>(0);
   const isSaving = articleState?.interactiveState?.saving;
-  const articleBody = articleState?.doc?.body;
+  const [articleBody, setArticleBody] = useState<any>(articleState?.doc?.body);
   const docId = id;
 
   /**
@@ -129,9 +130,15 @@ const Editor: React.FC<EditorProps> = ({ doc, provider, id }) => {
    */
   useEffect(() => {
     useNewsArticle(id, dispatch);
+
+    /**
+     * Temporary fix for article body not loading properly
+     * within the ProseMirror component.
+     */
     setTimeout(() => {
       useNewsArticle(id, dispatch);
-    }, 500);
+      setArticleBody(articleState?.doc?.body);
+    }, 250);
   }, []);
 
   return (
