@@ -190,20 +190,6 @@ function NewsReducer(state, action) {
         },
       };
 
-    case "SET_TOPIC":
-      return {
-        ...state,
-        doc: {
-          ...state.doc,
-          sections: {
-            ...state.doc.sections,
-            topic: {
-              name: action.payload.name,
-            },
-          },
-        },
-      };
-
     // Article's search engine optimization local state variables
     case "SET_SEO_TITLE":
       return {

@@ -3,8 +3,6 @@
  * @author ShadowCMS
  */
 
-import { Topic } from "./topic";
-
 export interface Article {
   id: string;
   lastUpdated: string;
@@ -53,7 +51,7 @@ export interface Article {
         description: string;
       };
     };
-    topics: Topic[];
+    topics: string[];
     body: string;
     corrections: string;
     editors_note: string;

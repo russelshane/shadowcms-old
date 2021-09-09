@@ -38,10 +38,10 @@ export const NewsModel: Article = {
       is_live: false,
       is_exclusive: false,
       seo: {
-        title: null,
-        description: null,
-        keywords: null,
-        image: null,
+        title: "",
+        description: "",
+        keywords: "",
+        image: "",
       },
     },
     sections: {

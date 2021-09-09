@@ -19,6 +19,7 @@ const EditorMetadata: React.FC<EditorMetadataProps> = ({
   editor,
   isSaving,
 }) => {
+  console.log(articleState?.doc.topics);
   return (
     <EditorMetadataWrapper className={`${!bodyPanel ? "show" : undefined}`}>
       {/**
@@ -130,6 +131,22 @@ const EditorMetadata: React.FC<EditorMetadataProps> = ({
             SaveArticle({ dispatch, articleState, id, editor });
           }}
         />
+        <TextInput
+          label="SEO Keywords"
+          description="Try to add some keywords for this article, this will help the story rank even further. Seperated by comma."
+          value={articleState?.doc.metadata.seo.keywords as string}
+          onChange={(e) => {
+            dispatch({
+              type: "SET_SEO_KEYWORDS",
+              payload: {
+                keywords: e.target.value,
+              },
+            });
+          }}
+          onBlur={() => {
+            SaveArticle({ dispatch, articleState, id, editor });
+          }}
+        />
       </MetadataContainer>
 
       {/**
@@ -150,7 +167,11 @@ const EditorMetadata: React.FC<EditorMetadataProps> = ({
       <Heading size={400} color="muted">
         TOPICS
       </Heading>
-      <MetadataContainer></MetadataContainer>
+      <MetadataContainer>
+        <button onClick={() => articleState?.doc.topics.push(...articleState.doc.topics, "Hello")}>
+          Test
+        </button>
+      </MetadataContainer>
 
       {/**
        * - Editor Editor's Notes Tab

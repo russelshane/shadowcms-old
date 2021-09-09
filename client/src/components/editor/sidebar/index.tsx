@@ -186,7 +186,7 @@ const EditorSidebar: React.FC<EditorSidebarProps> = ({ words, articleState, setB
        * Topics progress/checklist
        */}
       <ProgressItem>
-        {!articleState?.doc.topics.forEach((val) => val.name) ? (
+        {!articleState?.doc.topics.forEach((val) => val) ? (
           <React.Fragment>
             <HighPriorityIcon color="danger" />
             <ProgressLabel style={{ color: COLORS.danger }}>Topics</ProgressLabel>
