@@ -16,6 +16,8 @@
     "styled-components": "^5"
   },
   "dependencies": {
+    "@heroicons/react": "^1.0.4",
+    "@loadable/component": "^5.15.0",
     "dayjs": "^1.10.6",
     "is-url": "^1.2.4",
     "node-fetch": "^3.0.0",
@@ -29,6 +31,7 @@
   "devDependencies": {
     "@types/eslint": "^7.28.0",
     "@types/is-url": "^1.2.30",
+    "@types/loadable__component": "^5.13.4",
     "@types/node": "^16.9.0",
     "@types/node-fetch": "^3.0.3",
     "@types/prettier": "^2.3.2",

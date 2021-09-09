@@ -3,15 +3,32 @@
  * @author ShadowCMS
  */
 
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import GlobalStyles from "./styles/global-styles";
+import ROUTES from "./constants/system-routes";
+import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 
 const Application: React.FC = () => {
+  /**
+   * Using lazy/dynamic components for maximum speed during
+   * initial app loading time.
+   */
+  const Dashboard = lazy(() => import("./pages/dashboard"));
+
   return (
-    <div>
+    <Router>
       <GlobalStyles />
-      <h1>hey</h1>
-    </div>
+      <Suspense fallback={<h1>Loading...</h1>}>
+        <Switch>
+          <Route exact path={ROUTES.DASHBOARD} component={Dashboard} />
+          <Route
+            exact
+            path={ROUTES.DASHBOARD_LEGACY}
+            render={() => <Redirect to={ROUTES.DASHBOARD} />}
+          />
+        </Switch>
+      </Suspense>
+    </Router>
   );
 };
 
