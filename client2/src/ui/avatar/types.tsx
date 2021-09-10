@@ -3,8 +3,12 @@
  * @author ShadowCMS
  */
 
+import User from "../../types/user";
+
 type AvatarProps = {
-  image: string;
+  user: User;
+  onClick?: any;
+  withMenu?: boolean;
 };
 
 export default AvatarProps;

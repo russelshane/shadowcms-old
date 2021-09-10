@@ -14,4 +14,5 @@ export const HeaderContainer = styled.div({
   display: "flex",
   justifyContent: "space-between",
   alignItems: "center",
+  boxShadow: `2px 4px 4px ${COLORS.shadow}`,
 });

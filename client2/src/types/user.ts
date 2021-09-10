@@ -9,6 +9,7 @@ type User = {
   ein: string;
   email: string;
   updated_at: string;
+  image: string;
   joined: string;
 };
 
