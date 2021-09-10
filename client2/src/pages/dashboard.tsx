@@ -19,7 +19,7 @@ const Dashboard: React.FC<PageProps> = () => {
   const [sidebarActive, setSidebarActive] = useState(true);
 
   return (
-    <Layout title="Dashboard - ShadowCMS">
+    <Layout title="Dashboard - Shadow">
       <Header setSidebarActive={setSidebarActive} sidebarActive={sidebarActive} />
       <Sidebar active={sidebarActive} />
       <h1>Dashboard</h1>
