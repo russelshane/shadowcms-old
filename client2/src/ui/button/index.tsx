@@ -9,9 +9,9 @@ import Label from "../label";
 import { ButtonContainer } from "./style";
 import ButtonProps from "./types";
 
-const Button: React.FC<ButtonProps> = ({ children, onClick, variant, icon }) => {
+const Button: React.FC<ButtonProps> = ({ children, onClick, variant, icon, size }) => {
   return (
-    <ButtonContainer className={variant} onClick={onClick}>
+    <ButtonContainer className={`${variant} ${size}`} onClick={onClick}>
       {icon && (
         <DropdownIcon style={{ color: "#f8f8f8", width: 18, padding: 0 }}>{icon}</DropdownIcon>
       )}

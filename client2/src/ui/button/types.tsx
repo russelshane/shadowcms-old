@@ -10,6 +10,7 @@ type ButtonProps = {
   children?: ReactNode;
   icon?: any;
   onClick?: any;
+  size?: string;
 };
 
 export default ButtonProps;

@@ -25,6 +25,9 @@ type LabelProps = {
   border?: string;
   boxSizing?: string | number | any;
   boxShadow?: string;
+  letterSpacing?: string | number;
+  fontWeight?: string | number | any;
+  textAlign?: string | any;
 };
 
 export default LabelProps;

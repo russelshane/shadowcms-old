@@ -27,14 +27,19 @@ const Label: React.FC<LabelProps> = ({
   borderLeft,
   borderRight,
   borderTop,
+  letterSpacing,
+  fontWeight,
+  textAlign,
 }) => {
   return (
     <LabelContainer
       style={{
+        fontWeight: fontWeight,
         margin: margin,
         padding: padding,
         width: width,
         gridGap: gridGap,
+        textAlign: textAlign,
         display: display,
         flexDirection: flexDirection,
         justifyContent: justifyContent,
@@ -49,6 +54,7 @@ const Label: React.FC<LabelProps> = ({
         borderLeft: borderLeft,
         borderRight: borderRight,
         borderTop: borderTop,
+        letterSpacing: letterSpacing,
       }}
     >
       {children}

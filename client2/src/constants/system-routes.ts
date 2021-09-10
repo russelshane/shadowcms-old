@@ -43,6 +43,7 @@ const ROUTES = {
   LIB_HOME: "/lib",
   SECTIONS_LIB: "/lib/sections",
   TOPICS_LIB: "/lib/topics",
+  COOKING_LIB: "/lib/cooking",
 
   /* NEWSROOM */
   AUTHOR_PROFILE: "/newsroom/by/:ein",
@@ -54,6 +55,7 @@ const ROUTES = {
   DOCUMENTATION: "/shadow/docs",
   FAQ: "/shadow/faq",
   HELP: "/shadow/help",
+  LOGOUT: "/eject",
 };
 
 export default ROUTES;

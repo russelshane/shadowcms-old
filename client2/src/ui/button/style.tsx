@@ -17,7 +17,7 @@ export const ButtonContainer = styled.div({
   background: COLORS.primary,
   border: `1.5px solid ${COLORS.primary}`,
   color: COLORS.white,
-  borderRadius: 2,
+  borderRadius: 3,
 
   "&.ghost": {
     background: "none",
@@ -25,16 +25,27 @@ export const ButtonContainer = styled.div({
     color: COLORS.foreground,
   },
 
-  "&.outline": {
-    background: "transparent",
-    border: `1.5px solid ${COLORS.primary}`,
-    color: COLORS.primary,
-  },
-
   "&.primary": {
     background: COLORS.primary,
     border: `1.5px solid ${COLORS.primary}`,
     color: COLORS.white,
+  },
+
+  "&.danger": {
+    background: COLORS.danger,
+    border: `1.5px solid ${COLORS.danger}`,
+  },
+
+  "&.sm": {
+    padding: "5px 8px",
+  },
+
+  "&.md": {
+    padding: "8px 8px",
+  },
+
+  "&.lg": {
+    padding: "10px 12px",
   },
 
   "&:hover": {
