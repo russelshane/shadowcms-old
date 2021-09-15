@@ -1657,10 +1657,10 @@
     y-leveldb "^0.1.0"
     yjs "^13.5.0"
 
-"@hocuspocus/server@^1.0.0-alpha.63":
-  version "1.0.0-alpha.63"
-  resolved "https://registry.yarnpkg.com/@hocuspocus/server/-/server-1.0.0-alpha.63.tgz#8af661a0d86fbb9845848760174c7603bf0510e2"
-  integrity sha512-3gZU7QHjFjdMCEKj7sZv9ArOnm/pgbXwl4eQIrMkm9d1BF9C8mrXQapA9Llg+ILsJjAAdtSYe72pymZ9dhCBwA==
+"@hocuspocus/server@^1.0.0-alpha.63", "@hocuspocus/server@^1.0.0-alpha.69":
+  version "1.0.0-alpha.69"
+  resolved "https://registry.yarnpkg.com/@hocuspocus/server/-/server-1.0.0-alpha.69.tgz#6e0653c4c30ddb4847d02dd30959b2766b7e7262"
+  integrity sha512-n6fEFK6Q+jGP2KlmxhweMxgwZ32EROcz25RAzG9fArDii0gVBQc1NG5uHo3hLrkb7dKJMyDPq2Yf0nE+l3BRuA==
   dependencies:
     "@types/async-lock" "^1.1.2"
     "@types/uuid" "^8.3.0"
