@@ -36,6 +36,21 @@ export const ButtonContainer = styled.div({
     border: `1.5px solid ${COLORS.danger}`,
   },
 
+  "&.xs": {
+    padding: "4px 7px",
+    fontSize: "12px !important",
+
+    div: {
+      fontSize: "10px !important",
+      width: "14px !important",
+      height: "14px !important",
+    },
+
+    span: {
+      fontSize: "12px !important",
+    },
+  },
+
   "&.sm": {
     padding: "5px 8px",
   },

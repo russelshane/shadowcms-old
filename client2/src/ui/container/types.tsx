@@ -10,10 +10,12 @@ type ContainerProps = {
   width?: string | number;
   gridGap?: string | number;
   padding?: string | number;
+  maxWidth?: string | number | any;
   flexDirection?: any;
   alignItems?: string;
   justifyContent?: string;
   display?: string;
+  alignSelf?: string;
   children?: ReactNode;
 };
 

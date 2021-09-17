@@ -8,11 +8,11 @@ import SidebarProps from "./types";
 import navItems from "../../constants/nav-items";
 import Label from "../../ui/label";
 import Button from "../../ui/button";
+import Container from "../../ui/container";
 import { PencilIcon } from "@heroicons/react/solid";
 import { Link } from "react-router-dom";
 import { SidebarContainer, SidebarIcon, SidebarItem, SidebarSeperator } from "./style";
 import { LogoutIcon } from "@heroicons/react/outline";
-import Container from "../../ui/container";
 
 const Sidebar: React.FC<SidebarProps> = ({ active }) => {
   return (

@@ -9,6 +9,7 @@ import COLORS from "../../styles/global-colors";
 export const SidebarContainer = styled.div({
   margin: 0,
   left: "-300px",
+  top: 0,
   padding: 10,
   paddingTop: 80,
   width: 230,

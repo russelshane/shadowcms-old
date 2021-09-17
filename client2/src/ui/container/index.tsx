@@ -16,11 +16,15 @@ const Container: React.FC<ContainerProps> = ({
   flexDirection,
   justifyContent,
   alignItems,
+  maxWidth,
+  alignSelf,
   margin,
 }) => {
   return (
     <ContainerMain
       style={{
+        alignSelf: alignSelf,
+        maxWidth: maxWidth,
         margin: margin,
         padding: padding,
         width: width,
