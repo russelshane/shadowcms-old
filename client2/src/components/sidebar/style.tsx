@@ -7,6 +7,7 @@ import styled from "styled-components";
 import COLORS from "../../styles/global-colors";
 
 export const SidebarContainer = styled.div({
+  zIndex: 1,
   margin: 0,
   left: "-300px",
   top: 0,

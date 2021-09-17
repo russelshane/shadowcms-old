@@ -6,6 +6,7 @@
 import { EyeIcon, PencilIcon, PrinterIcon, ShareIcon } from "@heroicons/react/outline";
 import dayjs from "dayjs";
 import React from "react";
+import { Link } from "react-router-dom";
 import COLORS from "../../styles/global-colors";
 import Button from "../button";
 import Container from "../container";
@@ -51,15 +52,21 @@ const IncomingItem: React.FC<IncomingProps> = ({
       <Container padding="20px 0" flexDirection="column" gridGap="10px" alignSelf="flex-start">
         <Label>ACTIONS</Label>
         <Container gridGap="10px">
-          <Button size="xs" icon={<PencilIcon />}>
-            Edit
-          </Button>
-          <Button size="xs" icon={<PrinterIcon />}>
-            Print
-          </Button>
-          <Button size="xs" icon={<EyeIcon />}>
-            View
-          </Button>
+          <Link to={`/doc/${slug}/web/editing`}>
+            <Button size="xs" icon={<PencilIcon />}>
+              Edit
+            </Button>
+          </Link>
+          <Link to={`/doc/${slug}/print/editing`}>
+            <Button size="xs" icon={<PrinterIcon />}>
+              Print
+            </Button>
+          </Link>
+          <Link to={`/doc/${slug}/preview`}>
+            <Button size="xs" icon={<EyeIcon />}>
+              View
+            </Button>
+          </Link>
           <Button size="xs" icon={<ShareIcon />}>
             Share
           </Button>

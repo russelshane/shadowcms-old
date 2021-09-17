@@ -14,6 +14,7 @@ const Application: React.FC = () => {
    * initial app loading time.
    */
   const Dashboard = lazy(() => import("./pages/dashboard"));
+  const Editor = lazy(() => import("./pages/editor"));
 
   return (
     <Router>
@@ -21,6 +22,7 @@ const Application: React.FC = () => {
       <Suspense fallback={<h1>Loading...</h1>}>
         <Switch>
           <Route exact path={ROUTES.DASHBOARD} component={Dashboard} />
+          <Route exact path={ROUTES.ARTICLE_EDITING_WEB} component={Editor} />
           <Route
             exact
             path={ROUTES.DASHBOARD_LEGACY}
