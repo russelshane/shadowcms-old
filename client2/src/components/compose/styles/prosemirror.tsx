@@ -7,15 +7,15 @@ import styled from "styled-components";
 import COLORS from "../../../styles/global-colors";
 
 export const EditorProseMirror = styled.div({
-  padding: "80px",
+  padding: "90px",
   background: "#fff",
   width: "100%",
   minHeight: "80vh",
 
   p: {
     fontFamily: "Domine, Georgia, serif !important",
-    fontSize: "1.075rem",
-    lineHeight: "1.815rem",
+    fontSize: "1.125rem",
+    lineHeight: "1.8375rem",
     color: "#333",
     marginBlockEnd: "1.5em",
   },

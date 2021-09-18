@@ -20,12 +20,26 @@ import useNewsArticle from "../../handlers/useNewsArticle";
 import EditorBubbleMenu from "./compose-components/bubble-menu";
 import EditorFloatingMenu from "./compose-components/floating-menu";
 import EditorSidebar from "./compose-components/sidebar";
+import Placeholder from "@tiptap/extension-placeholder";
+import Document from "@tiptap/extension-document";
+import Paragraph from "@tiptap/extension-paragraph";
+import Text from "@tiptap/extension-text";
 import { useEditor, EditorContent } from "@tiptap/react";
 import { NewsModel } from "../../models/news-model";
 import { NewsArticle } from "../../types/news-article";
-import { EditorWrapper } from "./styles/main";
+import {
+  EditorHeadline,
+  EditorMain,
+  EditorSummary,
+  EditorTimestamp,
+  EditorTop,
+  EditorWrapper,
+} from "./styles/main";
 import { ComposeProps } from "./types";
 import { EditorProseMirror } from "./styles/prosemirror";
+import ShadowComposeTop from "./compose-components/top-bar";
+import ShadowComposeOptions from "./compose-components/options-bar";
+import dayjs from "dayjs";
 
 const Compose: React.FC<ComposeProps> = ({ id, provider, doc }) => {
   /**
@@ -34,14 +48,14 @@ const Compose: React.FC<ComposeProps> = ({ id, provider, doc }) => {
    */
   const [user] = useState<any>(`${RandomName.first()} ${RandomName.last()}`);
   const [articleState, dispatch] = useReducer(NewsReducer, NewsModel as NewsArticle);
-  const [allowEmbeds] = useState(true);
+  const [allowEmbeds, setAllowEmbeds] = useState(true);
   const [editorMenuActive, setEditorMenuActive] = useState<boolean>(false);
-  // const [bodyPanel, setBodyPanel] = useState<boolean>(true);
-  // const [spellCheck, setSpellCheck] = useState(false);
-  // const [showLabel, setShowLabel] = useState(false);
+  const [bodyPanel, setBodyPanel] = useState<boolean>(true);
+  const [spellCheck, setSpellCheck] = useState(false);
+  const [showLabel, setShowLabel] = useState(false);
   const [wordCount, setWordCount] = useState<any>(0);
   const [articleBody, setArticleBody] = useState<any>(articleState?.doc?.body);
-  // const isSaving = articleState?.interactiveState?.saving;
+  const isSaving = articleState?.interactiveState?.saving;
   // const docId = id;
 
   /**
@@ -57,6 +71,9 @@ const Compose: React.FC<ComposeProps> = ({ id, provider, doc }) => {
    *  features. Default extensions comes from another file, as well as the
    *  configurations for it.
    */
+  const ParagraphDocument = Document.extend({
+    content: "paragraph",
+  });
   const editor = useEditor(
     {
       extensions: [
@@ -80,6 +97,50 @@ const Compose: React.FC<ComposeProps> = ({ id, provider, doc }) => {
     },
     [],
   );
+
+  const headlineEditor = useEditor({
+    extensions: [
+      ParagraphDocument,
+      Paragraph,
+      Text,
+      Collaboration.configure({
+        document: doc,
+        field: "headline",
+      }),
+      CollaborationCursor.configure({
+        provider: provider,
+        user: {
+          name: user,
+          color: RandomColor(),
+        },
+      }),
+      Placeholder.configure({
+        placeholder: "Enter a headline...",
+      }),
+    ],
+  });
+
+  const summaryEditor = useEditor({
+    extensions: [
+      ParagraphDocument,
+      Paragraph,
+      Text,
+      Collaboration.configure({
+        document: doc,
+        field: "summary",
+      }),
+      CollaborationCursor.configure({
+        provider: provider,
+        user: {
+          name: user,
+          color: RandomColor(),
+        },
+      }),
+      Placeholder.configure({
+        placeholder: "Write a summary...",
+      }),
+    ],
+  });
 
   /**
    * Load initial scripts for handling editor functions such as
@@ -117,20 +178,72 @@ const Compose: React.FC<ComposeProps> = ({ id, provider, doc }) => {
 
   return (
     <Container margin="120px auto 0 auto">
-      <EditorSidebar articleState={articleState} dispatch={dispatch} words={wordCount} />
-      <EditorWrapper>
-        {editor && (
-          <EditorProseMirror>
-            <EditorContent editor={editor} autoCorrect="false" autoComplete="false" />
-            <EditorBubbleMenu editor={editor} />
-            <EditorFloatingMenu
-              editor={editor}
-              editorMenuActive={editorMenuActive}
-              setEditorMenuActive={setEditorMenuActive}
-              allowEmbeds={allowEmbeds}
-            />
-          </EditorProseMirror>
-        )}
+      <EditorSidebar
+        articleState={articleState}
+        dispatch={dispatch}
+        words={wordCount}
+        setBodyPanel={setBodyPanel}
+        bodyPanel={bodyPanel}
+      />
+      <EditorWrapper className={`${!bodyPanel && "hide"}`}>
+        {/**
+         * @description Short Article Options
+         */}
+        <ShadowComposeTop editor={editor} isSaving={isSaving} />
+        <EditorMain>
+          <ShadowComposeOptions
+            allowEmbeds={allowEmbeds}
+            setAllowEmbeds={setAllowEmbeds}
+            spellCheck={spellCheck}
+            setShowLabel={setShowLabel}
+            showLabel={showLabel}
+            setSpellCheck={setSpellCheck}
+          />
+
+          {/**
+           * @description Article Headlines, Labels, Summary, Bylines & Timestamp
+           */}
+          <EditorTop>
+            <EditorHeadline>
+              <EditorContent
+                editor={headlineEditor}
+                autoComplete="false"
+                autoCorrect="false"
+                spellCheck={spellCheck}
+              />
+            </EditorHeadline>
+            <EditorSummary>
+              <EditorContent
+                editor={summaryEditor}
+                autoComplete="false"
+                autoCorrect="false"
+                spellCheck={spellCheck}
+              />
+            </EditorSummary>
+            <EditorTimestamp>{dayjs().format("dddd, MMM Do")}</EditorTimestamp>
+          </EditorTop>
+
+          {/**
+           * @description Article Body / Contents
+           */}
+          {editor && (
+            <EditorProseMirror>
+              <EditorContent
+                editor={editor}
+                autoCorrect="false"
+                autoComplete="false"
+                spellCheck={spellCheck}
+              />
+              <EditorBubbleMenu editor={editor} />
+              <EditorFloatingMenu
+                editor={editor}
+                editorMenuActive={editorMenuActive}
+                setEditorMenuActive={setEditorMenuActive}
+                allowEmbeds={allowEmbeds}
+              />
+            </EditorProseMirror>
+          )}
+        </EditorMain>
       </EditorWrapper>
     </Container>
   );

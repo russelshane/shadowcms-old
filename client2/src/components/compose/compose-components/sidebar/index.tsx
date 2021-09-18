@@ -192,12 +192,12 @@ const EditorSidebar: React.FC<EditorSidebarProps> = ({ words, articleState, setB
         {!articleState?.doc.topic.name ? (
           <React.Fragment>
             <HighPriorityIcon color="danger" />
-            <ProgressLabel style={{ color: COLORS.danger }}>Topics</ProgressLabel>
+            <ProgressLabel style={{ color: COLORS.danger }}>Topic</ProgressLabel>
           </React.Fragment>
         ) : (
           <React.Fragment>
             <TickIcon color="success" />
-            <ProgressLabel style={{ color: COLORS.success }}>Topics</ProgressLabel>
+            <ProgressLabel style={{ color: COLORS.success }}>Topic</ProgressLabel>
           </React.Fragment>
         )}
       </ProgressItem>
