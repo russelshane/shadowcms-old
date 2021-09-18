@@ -51,7 +51,7 @@ const IncomingItem: React.FC<IncomingProps> = ({
       </Container>
       <Container padding="20px 0" flexDirection="column" gridGap="10px" alignSelf="flex-start">
         <Label>ACTIONS</Label>
-        <Container gridGap="10px">
+        <Container gridGap="10px" display="grid">
           <Link to={`/doc/${slug}/web/editing`}>
             <Button size="xs" icon={<PencilIcon />}>
               Edit

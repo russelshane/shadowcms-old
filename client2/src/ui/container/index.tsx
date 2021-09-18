@@ -19,6 +19,7 @@ const Container: React.FC<ContainerProps> = ({
   maxWidth,
   alignSelf,
   margin,
+  height,
 }) => {
   return (
     <ContainerMain
@@ -26,6 +27,7 @@ const Container: React.FC<ContainerProps> = ({
         alignSelf: alignSelf,
         maxWidth: maxWidth,
         margin: margin,
+        height: height,
         padding: padding,
         width: width,
         gridGap: gridGap,

@@ -8,8 +8,9 @@ import COLORS from "../../styles/global-colors";
 
 export const IncomingHeadline = styled.h2({
   fontSize: "21px",
-  letterSpacing: "0.25px",
-  fontFamily: "Gambetta, Georgia, sans-serif",
+  letterSpacing: "-0.25px",
+  fontWeight: 500,
+  fontFamily: "Bespoke Serif, Georgia, sans-serif",
   fontStyle: "italic",
   color: COLORS.default,
   cursor: "default",

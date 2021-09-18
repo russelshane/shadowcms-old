@@ -8,6 +8,7 @@ import { ReactNode } from "react";
 type ContainerProps = {
   margin?: any;
   width?: string | number;
+  height?: string | number;
   gridGap?: string | number;
   padding?: string | number;
   maxWidth?: string | number | any;

@@ -9,4 +9,5 @@ export type MasterProps = {
   isEditor?: boolean;
   children?: ReactNode;
   label?: string;
+  sidebarActive?: boolean;
 };
