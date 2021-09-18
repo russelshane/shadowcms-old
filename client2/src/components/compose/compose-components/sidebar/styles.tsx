@@ -11,7 +11,7 @@ export const EditorSidebarContainer = styled.div({
   minHeight: 400,
   padding: 0,
   marginTop: 30,
-  left: 80,
+  left: 70,
   float: "left",
   position: "absolute",
   display: "flex",

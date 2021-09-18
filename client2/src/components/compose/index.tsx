@@ -24,9 +24,15 @@ import Placeholder from "@tiptap/extension-placeholder";
 import Document from "@tiptap/extension-document";
 import Paragraph from "@tiptap/extension-paragraph";
 import Text from "@tiptap/extension-text";
+import ShadowComposeTop from "./compose-components/top-bar";
+import ShadowComposeOptions from "./compose-components/options-bar";
+import SaveArticle from "./handlers/save-article";
+import EditorMetadata from "./compose-components/metadata";
 import { useEditor, EditorContent } from "@tiptap/react";
 import { NewsModel } from "../../models/news-model";
 import { NewsArticle } from "../../types/news-article";
+import { ComposeProps } from "./types";
+import { EditorProseMirror } from "./styles/prosemirror";
 import {
   EditorHeadline,
   EditorMain,
@@ -35,11 +41,6 @@ import {
   EditorTop,
   EditorWrapper,
 } from "./styles/main";
-import { ComposeProps } from "./types";
-import { EditorProseMirror } from "./styles/prosemirror";
-import ShadowComposeTop from "./compose-components/top-bar";
-import ShadowComposeOptions from "./compose-components/options-bar";
-import dayjs from "dayjs";
 
 const Compose: React.FC<ComposeProps> = ({ id, provider, doc }) => {
   /**
@@ -56,7 +57,7 @@ const Compose: React.FC<ComposeProps> = ({ id, provider, doc }) => {
   const [wordCount, setWordCount] = useState<any>(0);
   const [articleBody, setArticleBody] = useState<any>(articleState?.doc?.body);
   const isSaving = articleState?.interactiveState?.saving;
-  // const docId = id;
+  const docId = id;
 
   /**
    * Initialize advanced formats plugin for dayjs, "Do"
@@ -118,6 +119,7 @@ const Compose: React.FC<ComposeProps> = ({ id, provider, doc }) => {
         placeholder: "Enter a headline...",
       }),
     ],
+    content: articleState?.doc?.header?.headline?.html,
   });
 
   const summaryEditor = useEditor({
@@ -140,6 +142,7 @@ const Compose: React.FC<ComposeProps> = ({ id, provider, doc }) => {
         placeholder: "Write a summary...",
       }),
     ],
+    content: articleState?.doc?.header?.summary?.html,
   });
 
   /**
@@ -176,6 +179,8 @@ const Compose: React.FC<ComposeProps> = ({ id, provider, doc }) => {
     }, 250);
   }, []);
 
+  console.log(articleState);
+
   return (
     <Container margin="120px auto 0 auto">
       <EditorSidebar
@@ -184,6 +189,19 @@ const Compose: React.FC<ComposeProps> = ({ id, provider, doc }) => {
         words={wordCount}
         setBodyPanel={setBodyPanel}
         bodyPanel={bodyPanel}
+      />
+      {/**
+       * - Editor Metadata Component
+       * Article's  main components, edit the section, subsection, topics, seo,
+       * tags, lede media, etc.
+       */}
+      <EditorMetadata
+        articleState={articleState}
+        dispatch={dispatch}
+        bodyPanel={bodyPanel}
+        id={docId}
+        editor={editor}
+        isSaving={isSaving}
       />
       <EditorWrapper className={`${!bodyPanel && "hide"}`}>
         {/**
@@ -210,6 +228,24 @@ const Compose: React.FC<ComposeProps> = ({ id, provider, doc }) => {
                 autoComplete="false"
                 autoCorrect="false"
                 spellCheck={spellCheck}
+                onInput={() => {
+                  const cleanHeadline = headlineEditor?.getHTML().replace(/<\/?[^>]+(>|$)/g, "");
+                  dispatch({
+                    type: "SET_HEADLINE",
+                    payload: {
+                      text: `${cleanHeadline}`,
+                    },
+                  });
+                  dispatch({
+                    type: "SET_HEADLINE_HTML",
+                    payload: {
+                      html: `${headlineEditor?.getHTML()}`,
+                    },
+                  });
+                }}
+                onBlur={() => {
+                  SaveArticle({ dispatch, articleState, id, editor });
+                }}
               />
             </EditorHeadline>
             <EditorSummary>
@@ -218,9 +254,23 @@ const Compose: React.FC<ComposeProps> = ({ id, provider, doc }) => {
                 autoComplete="false"
                 autoCorrect="false"
                 spellCheck={spellCheck}
+                onInput={() => {
+                  const cleanSummary = summaryEditor?.getHTML().replace(/<\/?[^>]+(>|$)/g, "");
+                  dispatch({
+                    type: "SET_SUMMARY",
+                    payload: {
+                      html: `${summaryEditor?.getHTML()}`,
+                      text: `${cleanSummary}`,
+                    },
+                  });
+                }}
+                onBlur={() => {
+                  console.log(summaryEditor?.getHTML());
+                  SaveArticle({ dispatch, articleState, id, editor });
+                }}
               />
             </EditorSummary>
-            <EditorTimestamp>{dayjs().format("dddd, MMM Do")}</EditorTimestamp>
+            <EditorTimestamp>{DayJS().format("dddd, MMM Do")}</EditorTimestamp>
           </EditorTop>
 
           {/**
@@ -233,6 +283,17 @@ const Compose: React.FC<ComposeProps> = ({ id, provider, doc }) => {
                 autoCorrect="false"
                 autoComplete="false"
                 spellCheck={spellCheck}
+                onInput={() => {
+                  dispatch({
+                    type: "SET_ARTICLE_BODY",
+                    payload: {
+                      html: `${editor?.getHTML()}`,
+                    },
+                  });
+                }}
+                onBlur={() => {
+                  SaveArticle({ dispatch, articleState, id, editor });
+                }}
               />
               <EditorBubbleMenu editor={editor} />
               <EditorFloatingMenu

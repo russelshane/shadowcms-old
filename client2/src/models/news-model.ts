@@ -16,6 +16,7 @@ export const NewsModel: NewsArticle = {
       },
       summary: {
         text: "",
+        html: "",
       },
       bylines: ["Times Independent"],
       lede_media: {

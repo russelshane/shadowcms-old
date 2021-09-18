@@ -76,6 +76,7 @@ function NewsReducer(state, action) {
             ...state.doc.header,
             summary: {
               text: action.payload.text,
+              html: action.payload.html,
             },
           },
         },

@@ -18,6 +18,7 @@ export interface NewsArticle {
       };
       summary: {
         text: string;
+        html: string;
       };
       bylines: string[];
       lede_media: {

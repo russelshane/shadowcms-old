@@ -9,7 +9,7 @@ import COLORS from "../../../styles/global-colors";
 export const EditorWrapper = styled.div({
   padding: 0,
   margin: "0 auto",
-  width: "900px",
+  width: "860px",
 
   "&.hide": {
     display: "none",
