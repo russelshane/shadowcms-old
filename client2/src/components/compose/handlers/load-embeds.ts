@@ -12,6 +12,10 @@ function LoadIframelyEmbeds() {
   const iframely = ((window as any).iframely = (window as any).iframely || {});
   if (iframely.load) {
     iframely.load();
+
+    setTimeout(() => {
+      iframely.load();
+    }, 1000);
   } else {
     const ifs = document.createElement("script");
     ifs.type = "text/javascript";

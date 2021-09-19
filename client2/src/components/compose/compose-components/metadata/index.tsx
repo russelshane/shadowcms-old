@@ -50,7 +50,7 @@ const EditorMetadata: React.FC<EditorMetadataProps> = ({
           required
           description="A formal headline that will appear on the main article page."
           disabled
-          value={articleState?.doc.header.headline.html as string}
+          value={articleState?.doc.header.headline.text as string}
           onChange={null}
         />
         <Textarea

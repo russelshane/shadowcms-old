@@ -14,6 +14,7 @@ const Layout = loadable(() => import("../ui/layout"));
 const Header = loadable(() => import("../components/header"));
 const Sidebar = loadable(() => import("../components/sidebar"));
 const Master = loadable(() => import("../components/master"));
+const Container = loadable(() => import("../ui/container"));
 
 const Monitoring: React.FC<PageProps> = () => {
   /**
@@ -29,62 +30,65 @@ const Monitoring: React.FC<PageProps> = () => {
       {/**
        * @description Articles currently in-progress
        */}
-      <Master label="IN-PROGRESS" sidebarActive={sidebarActive}>
-        {mockIncoming.map((val, index) => (
-          <IncomingItem
-            key={index}
-            slug={val.slug}
-            publish_url={val.publish_url}
-            timestamp={val.timestamp}
-            section_name={val.section_name}
-            headline={val.headline}
-            summary={val.summary}
-            status={val.status}
-            byline={val.byline}
-            thumb={val.thumb}
-          />
-        ))}
-      </Master>
+      <Container margin="90px 0 0 0" display="block">
+        <Master label="IN-PROGRESS" sidebarActive={sidebarActive}>
+          {mockIncoming.map((val, index) => (
+            <IncomingItem
+              key={index}
+              slug={val.slug}
+              publish_url={val.publish_url}
+              timestamp={val.timestamp}
+              section_name={val.section_name}
+              headline={val.headline}
+              summary={val.summary}
+              status={val.status}
+              byline={val.byline}
+              thumb={val.thumb}
+            />
+          ))}
+        </Master>
 
-      {/**
-       * @description Articles that need editing
-       */}
-      <Master label="NEEDS EDITING" sidebarActive={sidebarActive}>
-        {mockIncoming.map((val, index) => (
-          <IncomingItem
-            key={index}
-            slug={val.slug}
-            publish_url={val.publish_url}
-            timestamp={val.timestamp}
-            section_name={val.section_name}
-            headline={val.headline}
-            summary={val.summary}
-            status={val.status}
-            byline={val.byline}
-            thumb={val.thumb}
-          />
-        ))}
-      </Master>
+        {/**
+         * @description Articles that need editing
+         */}
+        <Master label="NEEDS EDITING" sidebarActive={sidebarActive}>
+          {mockIncoming.map((val, index) => (
+            <IncomingItem
+              key={index}
+              slug={val.slug}
+              publish_url={val.publish_url}
+              timestamp={val.timestamp}
+              section_name={val.section_name}
+              headline={val.headline}
+              summary={val.summary}
+              status={val.status}
+              byline={val.byline}
+              thumb={val.thumb}
+            />
+          ))}
+        </Master>
 
-      {/**
-       * @description Articles that need review
-       */}
-      <Master label="NEEDS REVIEW" sidebarActive={sidebarActive}>
-        {mockIncoming.map((val, index) => (
-          <IncomingItem
-            key={index}
-            slug={val.slug}
-            publish_url={val.publish_url}
-            timestamp={val.timestamp}
-            section_name={val.section_name}
-            headline={val.headline}
-            summary={val.summary}
-            status={val.status}
-            byline={val.byline}
-            thumb={val.thumb}
-          />
-        ))}
-      </Master>
+        {/**
+         * @description Articles that need review
+         */}
+
+        <Master label="NEEDS REVIEW" sidebarActive={sidebarActive}>
+          {mockIncoming.map((val, index) => (
+            <IncomingItem
+              key={index}
+              slug={val.slug}
+              publish_url={val.publish_url}
+              timestamp={val.timestamp}
+              section_name={val.section_name}
+              headline={val.headline}
+              summary={val.summary}
+              status={val.status}
+              byline={val.byline}
+              thumb={val.thumb}
+            />
+          ))}
+        </Master>
+      </Container>
     </Layout>
   );
 };

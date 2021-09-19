@@ -17,6 +17,7 @@ const DefaultExtensions = [
       levels: [2, 3],
     },
   }),
+  Embed,
   Placeholder.configure(PlaceholderConfig),
   Document,
   Paragraph,
@@ -25,7 +26,6 @@ const DefaultExtensions = [
   Blockquote,
   CodeBlock,
   Link,
-  Embed,
 ];
 
 export default DefaultExtensions;

@@ -14,7 +14,7 @@ export const EditorProseMirror = styled.div({
 
   p: {
     fontFamily: "Domine, Georgia, serif !important",
-    fontSize: "1.125rem",
+    fontSize: "1.065rem",
     lineHeight: "1.8375rem",
     color: "#333",
     marginBlockEnd: "1.5em",
