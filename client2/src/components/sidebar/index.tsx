@@ -4,28 +4,29 @@
  */
 
 import React from "react";
-import dayjs from "dayjs";
 import SidebarProps from "./types";
 import navItems from "../../constants/nav-items";
 import Label from "../../ui/label";
 import Button from "../../ui/button";
 import Container from "../../ui/container";
 import { PencilIcon } from "@heroicons/react/solid";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { SidebarContainer, SidebarIcon, SidebarItem, SidebarSeperator } from "./style";
 import { LogoutIcon } from "@heroicons/react/outline";
-import { useHistory } from "react-router-dom";
 import { customAlphabet } from "nanoid";
 import { firestore } from "../../services/firebase";
 import { NewsModel } from "../../models/news-model";
+import dayjs from "dayjs";
 
 const Sidebar: React.FC<SidebarProps> = ({ active }) => {
   const history = useHistory();
 
+  /**
+   * Function to create a new news article
+   */
   const nanoid = customAlphabet("0987654321", 12);
   const newId = nanoid();
-
-  const newDoc = async () => {
+  const createArticle = async () => {
     await firestore
       .collection("articles")
       .doc(`shadow_${newId}`)
@@ -42,11 +43,10 @@ const Sidebar: React.FC<SidebarProps> = ({ active }) => {
 
     history.push(`/doc/shadow_${newId}/web/editing`);
   };
-
   return (
     <SidebarContainer className={`${active && "active"}`}>
       <Container padding="0 10px" width="100%" display="block">
-        <Button icon={<PencilIcon />} size="md" onClick={newDoc}>
+        <Button icon={<PencilIcon />} size="md" onClick={createArticle}>
           Compose
         </Button>
       </Container>
