@@ -7,7 +7,7 @@ import { NewsHeader } from "./newsHeader";
 import { NewsMetadata } from "./newsMetadata";
 import { NewsMultimedia } from "./newsMultimedia";
 import { NewsSections } from "./newsSections";
-import { NewsTopics } from "./newsTopics";
+import { NewsTopic } from "./newsTopic";
 
 export type NewsDoc = {
   /* Header, headline, summary, bylines */
@@ -20,7 +20,7 @@ export type NewsDoc = {
   sections?: NewsSections;
 
   /* Topics of this article */
-  topics?: NewsTopics[];
+  topics?: NewsTopic;
 
   /* Lede multimedia / featured media */
   multimedia?: NewsMultimedia;

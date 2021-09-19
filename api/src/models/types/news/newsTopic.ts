@@ -3,7 +3,7 @@
  * @author ShadowCMS
  */
 
-export type NewsTopics = {
+export type NewsTopic = {
   title?: string;
   slug?: string;
   description?: string;

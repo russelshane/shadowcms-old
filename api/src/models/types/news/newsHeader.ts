@@ -3,11 +3,9 @@
  * @author ShadowCMS
  */
 
-import { WithTypeAndText } from "../withTypeAndText";
-
 export type NewsHeader = {
   header_type?: string;
-  headline?: WithTypeAndText;
-  summary?: WithTypeAndText;
+  headline?: any;
+  summary?: any;
   bylines?: string[];
 };
