@@ -12,7 +12,7 @@
   "author": "@shadowcms",
   "license": "MIT",
   "dependencies": {
-    "@hocuspocus/extension-rocksdb": "^1.0.0-alpha.65",
+    "@hocuspocus/extension-rocksdb": "^1.0.0-alpha.72",
     "@hocuspocus/server": "^1.0.0-alpha.63",
     "dotenv": "^10.0.0"
   },
