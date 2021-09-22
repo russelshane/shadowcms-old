@@ -18,6 +18,9 @@ const Application: React.FC = () => {
   const Dashboard = lazy(() => import("./pages/dashboard"));
   const Monitoring = lazy(() => import("./pages/monitoring"));
   const Editor = lazy(() => import("./pages/editor"));
+  const SectionsLibrary = lazy(() => import("./pages/lib/sections"));
+  const TopicsLibrary = lazy(() => import("./pages/lib/topics"));
+  const MediaLibrary = lazy(() => import("./pages/lib/multimedia"));
 
   return (
     <Router>
@@ -27,6 +30,9 @@ const Application: React.FC = () => {
           <Route exact path={ROUTES.DASHBOARD} component={Dashboard} />
           <Route exact path={ROUTES.ARTICLE_EDITING_WEB} component={Editor} />
           <Route exact path={ROUTES.MONITORING} component={Monitoring} />
+          <Route exact path={ROUTES.MEDIA_LIBRARY} component={MediaLibrary} />
+          <Route exact path={ROUTES.TOPICS_LIB} component={TopicsLibrary} />
+          <Route exact path={ROUTES.SECTIONS_LIB} component={SectionsLibrary} />
           <Route
             exact
             path={ROUTES.DASHBOARD_LEGACY}
