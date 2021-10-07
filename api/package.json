@@ -55,7 +55,7 @@
     "graphql": "^15.5.1",
     "http-status": "^1.5.0",
     "imagekit": "^3.2.0",
-    "ioredis": "^4.27.7",
+    "ioredis": "^4.27.10",
     "micro-memoize": "^4.0.9",
     "mongodb": "^4.1.0",
     "mongoose": "^5.13.7",
